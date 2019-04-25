@@ -22,9 +22,27 @@ Auth::routes();
 // routes for the user dashboard
 Route::prefix('home')->group(function() {
 
-    // route for dashboard
+    // route for transaction history
+    Route::get('/transactions', 'UserTransactionController@index')->name('user.transaction');
+
+    // route for user profile
+    Route::get('/profile', 'UserProfileController@index')->name('user.profile');
+
+    // route for user support
+    Route::get('/support', 'UserSupportController@index')->name('user.support');
+
+    // route for savings plan
+    Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings');
+
+    // route to implement search
+    Route::post('/search', 'UserSearchController@ajaxSearch');//index ajax search
+    Route::post('/search/post', 'UserSearchController@postSearch')->name('user.search.post');
+    Route::view('/search/school', 'user.school')->name('user.search.school');
+
+    // route for user dashboard
     Route::get('/', 'HomeController@index')->name('user.dashboard');
 });
+
 
 // routes for the school dashboard
 Route::prefix('school')->group(function() {
@@ -69,8 +87,7 @@ Route::prefix('school')->group(function() {
     Route::view('/pay-staff', 'school.pay-staff');
     Route::view('/pay-bills', 'school.pay-bills');
     
-    
-    // router for dashboard
+    // router for school dashboard
     Route::get('/', 'SchoolController@index')->name('school.dashboard');
 });
  
