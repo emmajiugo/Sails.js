@@ -17,25 +17,19 @@
                 </div><!-- .app-action-panel -->
 
                 <div class="app-actions-list scrollable-container">
-                  <!-- mail category list -->
-                  <div class="list-group">
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-exclamation-triangle"></i>General</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-folder"></i>Payment</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-exclamation-circle"></i>Offers</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-trash"></i>Secuirty</a>
-                  </div><!-- .list-group -->
-
-                  <hr class="m-0 m-b-md" style="border-color: #ddd;">
 
                   <div class="list-group">
                     <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-envelope"></i>me@gmail.com</a>
                     <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-phone"></i>1451 1251 444</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-eye"></i>Mon-Fri:9:00-15:00</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-eye"></i>Mon-Fri: 8:00 - 18:00</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-eye"></i>Sat-Sun: 10:00 - 15:00</a>
                   </div><!-- .list-group -->
 
                   <hr class="m-0 m-b-md" style="border-color: #ddd;">
                   <div class="list-group">
-                    <a href="javascript:void(0)" class="list-group-item"><i class="fa m-r-sm fa-edit"></i>Submit tickt</a>
+                    <a class="list-group-item" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+                      <i class="fa m-r-sm fa-edit"></i>Submit Ticket
+                    </a>
                   </div><!-- .list-group -->
                 </div><!-- .app-actions-list -->
               </div><!-- .app-action-panel -->
@@ -88,13 +82,27 @@
                 <div class="panel panel-default">
                   <div class="panel-heading" role="tab" id="heading-4">
                     <a class="accordion-toggle" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
-                      <h4 class="panel-title">How much shipping cost me?</h4>
+                      <h4 class="panel-title">I Didn't Find Any Help!</h4>
                       <i class="fa acc-switch"></i>
                     </a>
                   </div>
                   <div id="collapse-4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-4">
                     <div class="panel-body">
-                      <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                      <div class="col-md-8">
+                        <form action="">
+                          <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" name="subject" class="form-control" placeholder="Subject">
+                          </div>
+                          <div class="form-group">
+                            <label for="subject">Comment</label>
+                            <textarea name="comment" class="form-control" rows="4"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <input type="submit" class="btn btn-success" value="Reach Out">
+                          </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>

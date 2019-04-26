@@ -28,6 +28,9 @@ Route::prefix('home')->group(function() {
     // route for user profile
     Route::get('/profile', 'UserProfileController@index')->name('user.profile');
 
+    // route to invoice
+    Route::get('/invoice/{invoiceid}', 'UserInvoiceController@index')->name('user.invoice');
+
     // route for user support
     Route::get('/support', 'UserSupportController@index')->name('user.support');
 

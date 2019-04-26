@@ -82,7 +82,7 @@
       <div class="col-lg-6">
         <div class="users">
           <div class="card">
-            <h1 class="head">Unpaid Invoices</h1>
+            <h1 class="head">Latest Transactions</h1>
             <div class="user">
               <!-- <div class="uImg"><img src="img/act/5.jpg" alt=""></div> -->
               <div class="info">

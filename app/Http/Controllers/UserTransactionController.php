@@ -24,7 +24,8 @@ class UserTransactionController extends Controller
      */
     public function index()
     {
-        return view('user.transaction');
+        $invoiceid = 123456789;
+        return view('user.transaction')->with('invoiceid', $invoiceid);
     }
     
 }
