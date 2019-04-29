@@ -196,7 +196,7 @@ if ( Request::is('contact') ) {
 			</ul>
 		</div><!--widget-footer-->
 		<div class="copyright">
-			<p>&copy; Copyright 2019 Schoolpay. All Rights Reserved.</p>
+			<p>&copy; Copyright <script>document.write(new Date().getFullYear());</script> Schoolpay. Product of Seamaco Technologies. All Rights Reserved.</p>
 		</div><!--copyright-->
 	</div>
 </footer>

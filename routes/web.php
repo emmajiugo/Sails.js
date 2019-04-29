@@ -28,9 +28,6 @@ Route::prefix('home')->group(function() {
     // route for user profile
     Route::get('/profile', 'UserProfileController@index')->name('user.profile');
 
-    // route to invoice
-    Route::get('/invoice/{invoiceid}', 'UserInvoiceController@index')->name('user.invoice');
-
     // route for user support
     Route::get('/support', 'UserSupportController@index')->name('user.support');
 
@@ -41,6 +38,18 @@ Route::prefix('home')->group(function() {
     Route::post('/search', 'UserSearchController@ajaxSearch');//index ajax search
     Route::post('/search/post', 'UserSearchController@postSearch')->name('user.search.post');
     Route::view('/search/school', 'user.school')->name('user.search.school');
+    Route::post('/search/post-school', 'IndexSearchController@postSchool')->name('user.school.post');
+    Route::view('/search/school-continue', 'pages.data-collect')->name('user.school.data');
+
+    // route to invoice
+    Route::get('/invoice/{invoiceid}', 'UserInvoiceController@index')->name('user.invoice');
+    Route::post('/school/post-invoice', 'IndexSearchController@postForInvoice');//
+    Route::post('/school/index-invoice', 'IndexSearchController@postIndexInvoice');//
+    Route::view('/school/invoice', 'pages.invoice');//
+
+    Route::post('/invoice/pay', 'IndexSearchController@paidInvoice');//
+    Route::view('/invoice/failed', 'pages.payment.failed');//
+    Route::get('/invoice/success/{trxid}', 'IndexSearchController@successPayment');//
 
     // route for user dashboard
     Route::get('/', 'HomeController@index')->name('user.dashboard');
@@ -74,7 +83,7 @@ Route::prefix('school')->group(function() {
 
     // transaction history & report
     Route::get('/history', 'TransactionController@index');
-    Route::view('/report', 'school.report');
+    Route::view('/report', 'school.report')->middleware('auth:school');
 
     // bank details
     Route::resource('/bank_details', 'BankDetailsController');
@@ -87,8 +96,8 @@ Route::prefix('school')->group(function() {
     Route::resource('/settings', 'SettingsController');
 
     // unfinished section
-    Route::view('/pay-staff', 'school.pay-staff');
-    Route::view('/pay-bills', 'school.pay-bills');
+    Route::view('/pay-staff', 'school.pay-staff')->middleware('auth:school');;
+    Route::view('/pay-bills', 'school.pay-bills')->middleware('auth:school');;
     
     // router for school dashboard
     Route::get('/', 'SchoolController@index')->name('school.dashboard');

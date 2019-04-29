@@ -1,85 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Schoolpay - Dashboard</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="shortcut icon" href="{{asset('dashboard/assets/images/favicon.png')}}">
+  <!-- start linking  -->
+  <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{asset('user_assets/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{asset('user_assets/css/app.css') }}">
 
-    <!--Morris Chart CSS -->
-    <link rel="stylesheet" href="{{asset('dashboard/assets/plugins/morris/morris.css')}}">
+  <!-- icon -->
+  <link rel="icon" href="{{asset('user_assets/img/log.png') }}">
 
-    <!-- Sweet Alert -->
-    <link href="{{asset('dashboard/assets/plugins/sweet-alert2/sweetalert2.min.css')}}" rel="stylesheet">
-
-    <!-- DataTables -->
-    <link href="{{asset('dashboard/assets/plugins/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('dashboard/assets/plugins/datatables/buttons.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('dashboard/assets/plugins/datatables/responsive.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('dashboard/assets/plugins/datatables/scroller.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('dashboard/assets/plugins/datatables/dataTables.colVis.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('dashboard/assets/plugins/datatables/dataTables.bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{asset('dashboard/assets/plugins/datatables/fixedColumns.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
-
-    <!-- Bootstrap core CSS -->
-    <link href="{{asset('dashboard/assets/css/bootstrap.min.css')}}" rel="stylesheet">
-    <!-- Icons CSS -->
-    <link href="{{asset('dashboard/assets/css/icons.css')}}" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="{{asset('dashboard/assets/css/style.css')}}" rel="stylesheet">
+  <!-- end linking -->
+  <title>Schoolpay - Dashboard</title>
 
 </head>
-
-
 <body>
-
-    <div id="page-wrapper">
-        <!-- navbar -->
-        @include('inc.dashnav')
-        <!-- body content -->
-        @yield('content')
-
+<!-- start admin -->
+<section id="admin">
+  <!-- start sidebar -->
+  <div class="sidebar">
+    <!-- start with head -->
+    <div class="head">
+      <div class="logo">
+        <img src="{{ asset('user_assets/img/logo-admin.png') }}" alt="Logo">
+      </div>
+      <br><br>
+      <!-- <a href="#" class="btn btn-danger">Add New School</a> -->
     </div>
-    <!-- End #page-wrapper -->
+    <!-- end with head -->
 
+    <!-- start the list -->
+    <!-- navbar -->
+    @if(Auth::guard('web')->check())
+      @include('inc.nav-user')
+    @elseif(Auth::guard('school')->check())
+      @include('inc.nav-school')
+    @endif
+    <!-- end the list -->
+  </div>
+  <!-- end sidebar -->
 
+  <!-- start content -->
+  <div class="content">
+    <!-- start content head -->
+    <div class="head">
+      <!-- head top -->
+      <div class="top">
+        <div class="left">
+          <button id="on" class="btn btn-info"><i class="fa fa-bars"></i></button>
+          <button id="off" class="btn btn-info hide"><i class="fa fa-align-left"></i></button>
+          <button class="btn btn-info hidden-xs-down"><i class="fa fa-expand-arrows-alt"></i></button>
+          <!-- <button class="btn btn-info hidden-xs-down"><i class="fa fa-home"></i>Back Home</button> -->
+        </div>
+        <div class="right">
+          <!-- <button class="btn btn-info hidden-xs-down"><i class="fa fa-bell"></i></button> -->
+          <!-- <button class="btn btn-info hidden-xs-down"><i class="fa fa-envelope"></i></button> -->
+          <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::guard('web')->check() ? Auth::user()->fullname : Auth::user()->schoolname }} </button>
+            <div class="dropdown-menu" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">Profile</a>
+                <!-- <a class="dropdown-item" href="#">sitting</a> -->
+                <a class="dropdown-item" href="{{ route('logout') }}" 
+                    onclick="event.preventDefault(); 
+                    document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+           </div>
+          </div>
+        </div>
+      </div>
+      <!-- end head top -->
+      <!-- start head bottom -->
+      <div class="bottom">
+        <div class="left">
+          <h1>dashboard</h1>
+        </div>
+        <!-- <div class="right">
+          <h1>dashboard /</h1>
+          <a href="#">page name</a>
+        </div> -->
+      </div>
+      <!-- end head bottom -->
+    </div>
+    <!-- end content head -->
 
-    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="{{asset('dashboard/assets/js/jquery-2.1.4.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/js/bootstrap.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/js/jquery.slimscroll.min.js')}}"></script>
-    <!-- js for flip -->
-    <script src="{{asset('dashboard/assets/js/jquery.flip.js')}}"></script>
-    <!-- custom js -->
-    <script src="{{asset('dashboard/assets/js/customjs.js')}}"></script>
+    <!-- include flash messages -->
+    @include('inc.messages')
+    
+    @yield('content')
 
-    <!--Morris Chart-->
-    <script src="{{asset('dashboard/assets/plugins/morris/morris.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/raphael/raphael-min.js')}}"></script>
+  </div>
+  <!-- end content -->
+</section>
+<!-- end admin -->
 
-    <!-- Dashboard init -->
-    <script src="{{asset('dashboard/assets/pages/jquery.dashboard.js')}}"></script>
-
-    <!-- Sweet-Alert  -->
-    <script src="{{asset('dashboard/assets/plugins/sweet-alert2/sweetalert2.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/pages/jquery.sweet-alert.init.js')}}"></script>
-
-    <!-- Datatable js -->
-    <script src="{{asset('dashboard/assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/dataTables.bootstrap.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/buttons.bootstrap.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/jszip.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/pdfmake.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/vfs_fonts.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/buttons.html5.min.js')}}"></script>
-    <script src="{{asset('dashboard/assets/plugins/datatables/buttons.print.min.js')}}"></script>
-    <!-- init -->
-    <script src="{{asset('dashboard/assets/pages/jquery.datatables.init.js')}}"></script>
-
-    <!-- App Js -->
-    <script src="{{asset('dashboard/assets/js/jquery.app.js')}}"></script>
+<!-- start screpting -->
+<script src="{{asset('user_assets/js/jquery.min.js') }}"></script>
+<script src="{{asset('user_assets/js/tether.min.js') }}"></script>
+<script src="{{asset('user_assets/js/bootstrap.min.js') }}"></script>
+<script src="{{asset('user_assets/js/highcharts.js') }}"></script>
+<script src="{{asset('user_assets/js/chart.js') }}"></script>
+<script src="{{asset('user_assets/js/app.js') }}"></script>
+<!-- end screpting -->
 
 </body>
 </html>

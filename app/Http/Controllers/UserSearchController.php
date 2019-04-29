@@ -12,6 +12,16 @@ use App\Invoice;
 
 class UserSearchController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     //ajax search method
     public function ajaxSearch(Request $request)
     {
@@ -39,7 +49,7 @@ class UserSearchController extends Controller
     {
         // check for empty search
         if ($request->schoolname == '') {
-            return "Working Fine";
+            // return "Working Fine";
             return back()->with('error', 'Field is empty.');
         }
 
@@ -55,10 +65,13 @@ class UserSearchController extends Controller
     //post school to fill in details for invoice
     public function postSchool(Request $request)
     {
+        //test
+        return redirect(route('user.school.data'));
+
         // return $request->all();
         //get setup for the option chosen
         $feesetup = Feesetup::where([
-            'user_id' => $request->userid,
+            'school_id' => $request->schoolid,
             'section' => $request->section,
             'session' => $request->session,
             'term' => $request->term,
@@ -73,14 +86,14 @@ class UserSearchController extends Controller
             //get the sum of the feesbreakdown for the particular setup
             $feesum = $feesetup->feesbreakdown->sum('amount');
 
-            return redirect('/search/school-continue')->with(['data' => $request->all(), 'feesum' => $feesum, 'feesetupid' => $feesetupid]);
+            return redirect(route('user.school.data'))->with(['data' => $request->all(), 'feesum' => $feesum, 'feesetupid' => $feesetupid]);
         } else {
             //get user
             $user = School::where('id', $request->userid)->get();
             //get session
             $sessiondetails = Session::all();
 
-            return redirect('/search/school')->with(['schools' => $user, 'sessiondetails' => $sessiondetails, 'no_record' => 'No record found for the search index. Contact the school to setup the fee structure for the search index.']);
+            return redirect(route('user.search.school'))->with(['schools' => $user, 'sessiondetails' => $sessiondetails, 'no_record' => 'No record found for the search index. Contact the school to setup the fee structure for the search index.']);
         }
 
     }
