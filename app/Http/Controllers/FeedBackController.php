@@ -54,7 +54,7 @@ class FeedBackController extends Controller
 
         Mail::send('emails.feedback', $data, function($message) {
             $message->from('no-reply@schoolpay.ng');
-            $message->to('hello@schoolpay.ng');
+            $message->to('hello@schoolpay.ng'); //hello@schoolpay.ng
             $message->subject('FEEDBACK NOTE');
         });
 

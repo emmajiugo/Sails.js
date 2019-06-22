@@ -1,9 +1,9 @@
 /*
 Theme Name:     EngineHosting
-Theme URI:      
+Theme URI:
 Author:         fruitfulcode
 Author URI:     https://fruitfulcode.com/
-Description:    
+Description:
 Version:        1.0
 License:        GNU General Public License v2 or later
 License URI:    http://www.gnu.org/licenses/gpl-2.0.html
@@ -657,6 +657,8 @@ header .button-header .custom-btn:hover {
   box-shadow: 1px 1px 22px rgba(157, 184, 209, 0.19);
   border-radius: 7px;
   background-color: #fff;
+  min-height: 420px;
+  margin-bottom: 25px;
 }
 .why-choose .inside a {
   color: #39335b;
@@ -664,34 +666,6 @@ header .button-header .custom-btn:hover {
   margin-bottom: 12px;
   letter-spacing: 2px;
   font-family: "HelveticaNeue-Bold", serif;
-}
-.why-choose .inside a.read-more {
-  margin-bottom: 0;
-  color: #2687f1;
-  font-size: 16px;
-  display: inline-block;
-  position: relative;
-  letter-spacing: 1px;
-  font-family: "HelveticaNeue-Medium", serif;
-}
-.why-choose .inside a.read-more:before {
-  content: "";
-  width: 0;
-  height: 2px;
-  bottom: -4px;
-  left: 50%;
-  opacity: 0;
-  margin-left: -7px;
-  -ms-transform: translateX(-50%);
-      transform: translateX(-50%);
-  position: absolute;
-  background-color: #2687f1;
-  display: inline-block;
-  transition: 0.2s linear;
-}
-.why-choose .inside a.read-more:hover:before {
-  width: 85%;
-  opacity: 1;
 }
 .why-choose .inside > img {
   height: 76px;
@@ -1275,7 +1249,7 @@ footer {
 /* 02. Widget Footer
    ==================================== */
 .widget-footer {
-  width: 19%;
+  width: 25%;
   float: left;
   display: inline-block;
   margin-bottom: 115px;

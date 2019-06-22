@@ -13,14 +13,14 @@
 						<div class="inside left">
 							<div class="images"><img src="{{ asset('frontend/assets/images/phone.png') }}" alt="phone"></div>
 							<h4>Have questions? Call Us.</h4>
-							<a href="#">+1 888 231 1211</a>
+							<a href="#">+(234)-7031056082</a>
 						</div><!--inside-->
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 animated bounceInRight">
 						<div class="inside right">
 							<div class="images"><img src="{{ asset('frontend/assets/images/mail.svg') }}" alt="mail"></div>
 							<h4>Email Us</h4>
-							<a href="#">hello@enginehosting.com</a>
+							<a href="#">hello@schoolpay.africa</a>
 						</div><!--inside-->
 					</div>
 				</div>
@@ -29,7 +29,7 @@
 						<div class="inside left">
 							<div class="images"><img src="{{ asset('frontend/assets/images/address.svg') }}" alt="address"></div>
 							<h4>Address</h4>
-							<span>514 S. Magnolia St.<br>Orlando, FL 32806</span>
+							<span>403 Rd, 4th Avenue<br>Festac Town<br>Lagos, Nigeria</span>
 						</div><!--inside-->
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-12 animated bounceInRight">
@@ -68,5 +68,5 @@
 		</form>
 	</div>
     <!--===================== End of Form Contact ========================-->
-    
+
 @endsection

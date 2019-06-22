@@ -14,11 +14,12 @@
                         <i class="mdi mdi-information"></i>
                         <strong>Heads up!</strong> We have done our best to give you a seamless product, but we feel like there is something you want us to do, add or modify. Feel free to express your mind and tell us how we should improve. You can write as many times as possible.
                         <br><br>
-                        <em><b>NB:</b> Please use the <a href="/home/Support-Ticket">Support Ticket</a> if you want us to assist you with a problem or inquiry. We do not reply the feedback section.</em>
+                        <em><b>NB:</b> Please use the <a href="/school/support-ticket">Support Ticket</a> if you want us to assist you with a problem or inquiry. We do not reply the feedback section.</em>
                     </div>
 
                     <!-- feedback form -->
-                    <form action="{{ action('FeedBackController@postFeedback') }}" method='POST'>
+                    <form action="{{ route('school.feedback.submit') }}" method='POST'>
+                        @csrf
                         <div class="form-group">
                             <label for="subject">Subject</label>
                             <input type="text" class="form-control" placeholder="Enter Subject" name="subject">

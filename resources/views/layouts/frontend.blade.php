@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>EngineHosting</title>
+	<title>Schoolpay - Tuition made easy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.5">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
 	<!-- Framework Css -->
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/lib/bootstrap.min.css') }}">
 	<!-- Font Awesome / Icon Fonts -->
@@ -19,21 +19,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/style.css') }}">
 	<!-- Responsive Theme -->
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/responsive.css') }}">
-    
+
 </head>
 
-<body class="
-<?php
-// set the class based on routes
-if ( Request::is('contact') ) {
-    echo 'contact';
-} elseif ( Request::is('pricing') ) {
-    echo 'service-page';
-} elseif ( Request::is('login') || Request::is('school/login') || Request::is('register') || Request::is('school/register') ) {
-    echo 'login-page';
-}
-?>
-"> <!---body open tag -->
+<body class="{{ Request::is('contact') ? 'contact' : '' }}"> <!---body open tag -->
 
 <div class="wrapper">
 
@@ -42,7 +31,7 @@ if ( Request::is('contact') ) {
 	<div class="container">
 		<div class="row">
 			<div class="col-md-2">
-				<div class="logo"><a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo.svg') }}" alt="logo"></a></div>
+				<div class="logo"><a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo-light.png') }}" alt="logo"></a></div>
 			</div>
 			<div class="col-md-10">
 				<ul class="menu">
@@ -50,7 +39,7 @@ if ( Request::is('contact') ) {
 					<li><a href="{{ url('/#How-It-Works') }}">How It Works</a></li>
 					<li><a href="{{ route('pricing') }}">Pricing</a></li>
                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
-                    
+
                     @if(Auth::guard('web')->check())
                         <li class="children button-header">
                             <a href="{{ route('user.dashboard') }}" class="btn btn-success"> User Dashboard</a>
@@ -75,7 +64,7 @@ if ( Request::is('contact') ) {
                             </ul><!--sub-menu-->
                         </li>
                     @endif
-                    
+
 				</ul>
 			</div>
 			<!-- <div class="col-md-3">
@@ -89,14 +78,14 @@ if ( Request::is('contact') ) {
 	<div class="mobile-block">
 		<div class="logo-mobile">
             <a href="{{ route('index') }}">
-                <img src="{{ asset('frontend/assets/images/logo.svg') }}" alt="logo">
+                <img src="{{ asset('frontend/assets/images/logo-light.png') }}" alt="logo">
             </a>
         </div>
 		<a href="#" class="mobile-menu-btn"><span></span></a>
 		<div class="mobile-menu">
 			<div class="inside">
 				<div class="logo">
-					<a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo.svg') }}" alt="logo"></a>
+					<a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo-light.png') }}" alt="logo"></a>
 				</div><!--logo-->
 				<ul class="menu panel-group" id="accordion" aria-multiselectable="true">
                     <li><a href="{{ route('index') }}">Home</a></li>
@@ -127,30 +116,21 @@ if ( Request::is('contact') ) {
 	</div>
 </header>
 <!--===================== End of Header ========================-->
-    
+
 <!-- body content -->
 @yield('content')
 
-<div class="pre-footer"><img src="{{ asset('frontend/assets/images/line-prefoter.svg') }}" alt="bg-prefooter"></div> 
+<div class="pre-footer"><img src="{{ asset('frontend/assets/images/line-prefoter.svg') }}" alt="bg-prefooter"></div>
 <!--===================== Search Domain ========================-->
 <div class="search-domain animatedParent">
 	<div class="container animated fadeInUpShort">
 		<div class="row">
-			<div class="col-md-4 col-xs-12">
-				<h3>Search Your Domain</h3>
+			<div class="col-md-6 col-xs-12">
+				<h3>Download our mobile apps</h3>
 			</div>
-			<div class="col-md-8 col-xs-12">
-				<form>
-					<div class="form-group">
-						<input type="text" placeholder="Domain Name">
-						<select>
-							<option value=".com">.com</option>
-							<option value=".ua">.ua</option>
-							<option value=".nu">.nu</option>
-						</select>
-					</div>
-					<button class="custom-btn green">Search</button>
-				</form>
+			<div class="col-md-6 col-xs-12">
+                <img src="{{ asset('frontend/assets/images/brand/brand.png') }}" alt="android-app">
+                <img src="{{ asset('frontend/assets/images/brand/brand.png') }}" alt="iphone-app">
 			</div>
 		</div>
 	</div>
@@ -160,10 +140,6 @@ if ( Request::is('contact') ) {
 <!--===================== Footer ========================-->
 <footer>
 	<div class="container">
-		<div class="widget-footer">
-			<h4>About</h4>
-			<p>Schoolpay is your seamless payment system for your school and students</p>
-		</div><!--widget-footer -->
 		<div class="widget-footer">
 			<h4>Company</h4>
 			<ul>
@@ -182,12 +158,12 @@ if ( Request::is('contact') ) {
 		<div class="widget-footer">
 			<h4>Contact Us</h4>
 			<ul>
-				<li><a href="#">+123-333-123</a></li>
-				<li><a href="#">support@enginehosting.com</a></li>
+				<li><a href="#">+(234)-7031056082</a></li>
+				<li><a href="#">hello@schoolpay.africa</a></li>
 			</ul>
 		</div><!--widget-footer-->
 		<div class="widget-footer last">
-			<a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo.svg') }}" alt="logo"></a>
+			<a href="{{ route('index') }}"><img src="{{ asset('frontend/assets/images/logo-light.png') }}" alt="logo"></a>
 			<p>Social Media</p>
 			<ul class="social-icon">
 				<li><a href="#"><i class="fa fa-facebook"></i></a></li>
