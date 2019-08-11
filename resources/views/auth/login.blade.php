@@ -4,21 +4,22 @@
 
 <!--===================== Login Bg ========================-->
 <div class="login-bg animatedParent">
-    @if(session('success'))
-        <div class="col-sm-12">
-            <div class="alert alert-success alert-dismissible fade in" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{session('success')}}
-            </div>
-        </div>
-    @endif
     
     <form method="POST" action="{{ route('login') }}" class="animated growIn">
         @csrf
 
         <h2>Login</h2>
+
+        @if(session('success'))
+            <div class="col-sm-12">
+                <div class="alert alert-success alert-dismissible fade in" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{session('success')}}
+                </div>
+            </div>
+        @endif
 
         <div class="form-group">
             <input id="email" type="email" placeholder="Email Address" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>

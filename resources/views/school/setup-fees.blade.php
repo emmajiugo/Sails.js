@@ -7,12 +7,7 @@
       <!-- start content here -->
 
         <!-- check if the user is verified -->
-        @if($verify_status == 0)
-            <div class="alert alert-warning" role="alert">
-                <i class="mdi mdi-information"></i>
-                <strong>Notice!</strong> Your school is yet to be verified and cannot be visible to the public. If verification has exceeded 48hrs, please contact us at <b>hello@schoolpay.ng</b> or <b>07031056082</b>
-            </div>
-        @endif
+        @include('inc.verify')
 
         <!-- setup fees modal -->
         <button class="btn btn-primary right" data-toggle="modal" data-target="#feetypeModal">Set Fees Collected</button>
@@ -73,7 +68,38 @@
             <script>
                 function setup(section) {
                     //assign to the textbox
-                    document.getElementById('section').value = section;
+                    // document.getElementById('section').value = section;
+                    $('#section').val(section);
+
+                    if (section == "SECONDARY") {
+                        // document.getElementById('secondary-checkboxes').style.display = "block";
+                        // document.getElementById('primary-checkboxes').style.display = "none";
+                        // document.getElementById('nursery-checkboxes').style.display = "none";
+                        // document.getElementById('creche-checkboxes').style.display = "none";
+
+                        $('#secondary-checkboxes').show();
+                        $('#primary-checkboxes').hide();
+                        $('#nursery-checkboxes').hide();
+                        $('#creche-checkboxes').hide();
+                    }
+                    if (section == "PRIMARY") {
+                        $('#secondary-checkboxes').hide();
+                        $('#primary-checkboxes').show();
+                        $('#nursery-checkboxes').hide();
+                        $('#creche-checkboxes').hide();
+                    }
+                    if (section == "NURSERY") {
+                        $('#secondary-checkboxes').hide();
+                        $('#primary-checkboxes').hide();
+                        $('#nursery-checkboxes').show();
+                        $('#creche-checkboxes').hide();
+                    }
+                    if (section == "CRECHE") {
+                        $('#secondary-checkboxes').hide();
+                        $('#primary-checkboxes').hide();
+                        $('#nursery-checkboxes').hide();
+                        $('#creche-checkboxes').show();
+                    }
                 }
             </script>
 
@@ -87,6 +113,7 @@
                         </div>
 
                         <form action='/school/setup-fees' method='POST' >
+                            @csrf
                             <div class="modal-body">
                                 <div class="form-group">
                                     Set the type of fees you collect. <b>Eg: School Fees, PTA Levy, Lesson Fees.</b> You can add as many as possible.
@@ -130,7 +157,8 @@
                             <h4 class="modal-title">Fee Setup</h4>
                         </div>
                         
-                        <form action='/school/setup-fees' method='POST' >
+                        <form action='/school/setup-fees' method='POST'>
+                            @csrf
                             <div class="modal-body">
                                 <input type="hidden" name="formtype" value="setup fees">
 
@@ -175,28 +203,29 @@
                                         <small style="color:red">Close the modal and set your fees with the button at the right hand of the page.</small>
                                     @endif                                            
                                 </div>
+                                
+                                <div id='TextBoxesGroup'>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <label for="Fee Description" class="control-label">Fee Description</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="Amount" class="control-label">Amount</label>
+                                        </div>
+                                    </div>
 
-                                <div class="row" id='TextBoxesGroup'>
-                                    <div class="col-md-8">
-                                        <label for="Fee Description" class="control-label">Fee Description</label>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="Amount" class="control-label">Amount</label>
-                                    </div>
-                                </div>
+                                    <div class="row" id="TextBoxDiv1">
+                                                                                
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" name="description[]" placeholder="Eg: Tuition Payment, PTA Levy, Sports levy etc" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" name="amount[]" placeholder="3000" required>
+                                        </div>
 
-                                <div class="row" id="TextBoxDiv1">
-                                    <!-- <div class="form-group"> -->
-                                                                            
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" name="description[]" placeholder="Eg: Tuition Payment, PTA Levy, Sports levy etc" required>
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" name="amount[]" placeholder="3000" required>
-                                    </div>
-                                    <!-- </div> -->
+                                    <br>
                                 </div>
-                                <!-- </div> -->
 
                                 <div class="form-group">
                                     <br>
@@ -207,7 +236,8 @@
                                 <div class="form-group">
                                     <label class="control-label">Fees applicable to:</label><br>
                                     <small>(select the classes this fee structure is applicable to)</small>
-                                    <div class="row">
+                                    <!-- Secondary Checkboxed -->
+                                    <div class="row" id="secondary-checkboxes">
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-dark">
                                                 <input name="classes[]" type="checkbox" value="SS 1">
@@ -236,6 +266,65 @@
                                                 <label for="jss3">JSS 3</label>
                                             </div>
                                         </div>
+                                    </div>
+                                    <!-- Primary Checkboxed -->
+                                    <div class="row" id="primary-checkboxes">
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="PRIMARY 1">
+                                                <label for="pri1">PRIMARY 1</label>
+                                            </div>
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox"  value="PRIMARY 2">
+                                                <label for="pri2">PRIMARY 2</label>
+                                            </div>
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="PRIMARY 3">
+                                                <label for="pri3">PRIMARY 3</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="PRIMARY 4">
+                                                <label for="pri4">PRIMARY 4</label>
+                                            </div>
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="PRIMARY 5">
+                                                <label for="pri5">PRIMARY 5</label>
+                                            </div>
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="PRIMARY 6">
+                                                <label for="pri6">PRIMARY 6</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Nursery Checkboxed -->
+                                    <div class="row" id="nursery-checkboxes">
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="NURSERY 1">
+                                                <label for="pri1">NURSERY 1</label>
+                                            </div>
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox"  value="NURSERY 2">
+                                                <label for="pri2">NURSERY 2</label>
+                                            </div>
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="NURSERY 3">
+                                                <label for="pri3">NURSERY 3</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                    </div>
+                                    <!-- Creche Checkboxed -->
+                                    <div class="row" id="creche-checkboxes">
+                                        <div class="col-md-6">
+                                            <div class="checkbox checkbox-dark">
+                                                <input name="classes[]" type="checkbox" value="CRECHE" checked>
+                                                <label for="pri1">CRECHE <small>(this has been selected for you)</small></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
                                     </div>
                                 </div>
 

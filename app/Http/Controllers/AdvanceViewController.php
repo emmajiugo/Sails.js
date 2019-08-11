@@ -20,9 +20,9 @@ class AdvanceViewController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:school');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -31,10 +31,10 @@ class AdvanceViewController extends Controller
     public function index()
     {
         //get user_id & user
-        $userid = auth()->user()->id;
-        $feesetup = Feesetup::orderBy('class', 'desc')->where('user_id', $userid)->get();
-        
-        return view('dashboard.advance-view')->with('feesetup', $feesetup);
+        $schoolid = auth()->user()->id;
+        $feesetup = Feesetup::orderBy('class', 'desc')->where('school_id', $schoolid)->get();
+
+        return view('school.advance-view')->with('feesetup', $feesetup);
     }
 
     /**

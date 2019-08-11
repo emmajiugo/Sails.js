@@ -1,0 +1,11 @@
+/* custom css for the admin */
+.card-front,
+.card-back {
+    min-height:500px;
+    background-color:#f8f8f8;
+    padding: 10px;
+}
+
+.settings-button {
+    color: blueviolet !important;
+}

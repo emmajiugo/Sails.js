@@ -30,7 +30,7 @@ class FeedBackController extends Controller
         return view('school.feedback');
     }
 
-    
+
     /**
      * send email from contact form
      */
@@ -53,12 +53,16 @@ class FeedBackController extends Controller
         );
 
         Mail::send('emails.feedback', $data, function($message) {
+            // feedback email
+            $feedback_email = env('SCHOOLPAY_FEEDBACK_EMAIL', 'emmajiugo@gmail.com');
+
             $message->from('no-reply@schoolpay.ng');
-            $message->to('hello@schoolpay.ng'); //hello@schoolpay.ng
+            $message->to( $feedback_email ); //hello@schoolpay.ng
             $message->subject('FEEDBACK NOTE');
+
         });
 
         return redirect(route('school.feedback'))->with('success', 'Feedback sent successfully.');
     }
-    
+
 }

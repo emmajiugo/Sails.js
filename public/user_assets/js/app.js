@@ -1,5 +1,6 @@
-$(function(){
-  // starting the container function
+$(function() {
+    
+  // starting the container function for user dashboard
   "use strict";
   console.log('loaded');
   // start functions
@@ -108,58 +109,4 @@ $(function(){
   };
   // end display video
 
-  /*-------------------------------
-		AJAX INDEX SEARCH
-	-------------------------------- */
-	$('#schoolname').keyup(function() {
-		var query = $(this).val();
-		if (query != '') {
-			var _token = $('input[name= "_token"]').val();
-
-			$.ajax ({
-				url: "home/search",
-				method: "POST",
-				data: {query:query, _token:_token},
-				success:function(data) {
-					// console.log(data);
-					$('#schoolList').fadeIn();
-					$('#schoolList').html(data);
-				}
-			})
-		}
-	});
-
-	$(document).on('click', '#list li', function() {
-		$('#schoolname').val($(this).text());
-		$('#schoolList').fadeOut();
-  });
-  // end of Ajax
-
-  /*-------------------------------
-	AJAX PAID STATUS FUNCTION
--------------------------------- */
-function ajaxPaid(invoiceid, trxref) {
-	//ajax
-	$.ajaxSetup({
-		headers: {
-			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		}
-	});
-	$.ajax({
-		type: 'POST',
-		url: '/invoice/pay',
-		data: { invoiceid:invoiceid, trxref:trxref },
-		success: function (data) {
-			// console.log(data);
-			if (data == 400) {
-				window.location = '/invoice/failed'
-			} else {
-				window.location = '/invoice/success/' + data
-			}
-		}
-	});
-}
-// end of Ajax paid status
-
-  // end container function
 });

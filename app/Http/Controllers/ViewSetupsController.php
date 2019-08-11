@@ -22,7 +22,7 @@ class ViewSetupsController extends Controller
     {
         $this->middleware('auth:school');
     }
-    
+
     /**
      * Display a listing of the resource.
      * The section (ie secondary, primary, nursery or creche is being passed also)
@@ -52,7 +52,7 @@ class ViewSetupsController extends Controller
             'fees' => $fees,
             'section' => $section
         );
-        
+
         return view('school.view-setup')->with($data);
     }
 
@@ -91,7 +91,7 @@ class ViewSetupsController extends Controller
             'feetype_id' => $feename
         ])->first();
 
-        if (count($feesetup) > 0) {
+        if ($feesetup) {
             //get the breakdown for that fee section
             $feesetupid = $feesetup->id;
             $feebreakdown = Feesbreakdown::where('feesetup_id', $feesetupid)->get();
@@ -175,7 +175,7 @@ class ViewSetupsController extends Controller
             $descriptiontitle = $desc;
             $amountvalue = $amounts[$key];
 
-            //insert into fee_breadown tbl from the method in SetupFeesController 
+            //insert into fee_breadown tbl from the method in SetupFeesController
             app('App\Http\Controllers\SetupFeesController')->insertFeeBreakdown($feesetupid, $descriptiontitle, $amountvalue);
         }
 
@@ -199,7 +199,7 @@ class ViewSetupsController extends Controller
     //get the sessions from the session tbl
     public function getSessionDetails()
     {
-        
+
         $session = Session::all();
         return $session;
     }

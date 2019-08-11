@@ -10,11 +10,14 @@
   <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('user_assets/css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{asset('user_assets/css/app.css') }}">
+  <link rel="stylesheet" href="{{asset('user_assets/css/custom.css') }}">
 
   <!-- icon -->
-  <link rel="icon" href="{{asset('user_assets/img/log.png') }}">
+  <link rel="icon" href="{{asset('user_assets/img/logo.png') }}">
 
-  <!-- end linking -->
+  <!-- jquery script -->
+  <script src="{{asset('user_assets/js/jquery.min.js') }}"></script>
+
   <title>Schoolpay - Dashboard</title>
 
 </head>
@@ -64,8 +67,8 @@
             <div class="dropdown-menu" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">Profile</a>
                 <!-- <a class="dropdown-item" href="#">sitting</a> -->
-                <a class="dropdown-item" href="{{ route('logout') }}" 
-                    onclick="event.preventDefault(); 
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
                     Logout
                 </a>
@@ -90,7 +93,7 @@
 
     <!-- include flash messages -->
     @include('inc.messages')
-    
+
     @yield('content')
 
   </div>
@@ -98,14 +101,22 @@
 </section>
 <!-- end admin -->
 
-<!-- start screpting -->
-<script src="{{asset('user_assets/js/jquery.min.js') }}"></script>
+<!-- start scripting -->
+<!-- code for the Flip feature -->
+<!-- <script src="{{asset('user_assets/js/jquery.min.js') }}"></script> -->
+<script src="{{asset('user_assets/js/jquery.flip.js') }}"></script>
+
+<!-- chart scripts -->
 <script src="{{asset('user_assets/js/tether.min.js') }}"></script>
 <script src="{{asset('user_assets/js/bootstrap.min.js') }}"></script>
 <script src="{{asset('user_assets/js/highcharts.js') }}"></script>
 <script src="{{asset('user_assets/js/chart.js') }}"></script>
+
+<!-- theme js code -->
 <script src="{{asset('user_assets/js/app.js') }}"></script>
-<!-- end screpting -->
+{{-- custom js code --}}
+<script src="{{asset('user_assets/js/customjs.js') }}"></script>
+<!-- end scripting -->
 
 </body>
 </html>

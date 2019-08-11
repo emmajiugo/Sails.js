@@ -9,83 +9,63 @@
         <section class="app-content">
 
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-color panel-dark" style="min-height: 500px;">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#supportModal">Request Support</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-sm-12">                                        
-                                    @if(count($tickets) > 0)
-                                        <div class="text-center">
-                                            {{$tickets->links()}}
-                                        </div>
-                                        <div class="timeline">
-                                            <article class="timeline-item alt">
-                                                <div class="text-right">
-                                                    <div class="time-show first">
-                                                        <a href="#" class="btn btn-custom">Conversations</a>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                            @foreach ($tickets as $ticket)
-                                                <article class="timeline-item alt">
-                                                    <div class="timeline-desk">
-                                                        <div class="panel">
-                                                            <div class="timeline-box">
-                                                                <span class="arrow-alt"></span>
-                                                                <span class="timeline-icon"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>
-                                                                <h4 class="">{{date("jS F, Y", strtotime($ticket->created_at))}}</h4>
-                                                                <p class="timeline-date text-muted"><small>{{date("h:i A", strtotime($ticket->created_at))}}</small></p>
-                                                                <p><b>{{strtoupper($ticket->subject)}}</b></p>
-                                                                <p>{{$ticket->body}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </article>
-                                                @foreach ($ticket->supportreply as $reply)
-                                                    <article class="timeline-item ">
-                                                        <div class="timeline-desk">
-                                                            <div class="panel">
-                                                                <div class="timeline-box">
-                                                                    <span class="arrow"></span>
-                                                                    <span class="timeline-icon bg-success"><i class="mdi mdi-checkbox-blank-circle-outline"></i></span>
-                                                                    <h4 class="text-success">{{date("jS F, Y", strtotime($reply->created_at))}}</h4>
-                                                                    <p class="timeline-date text-muted"><small>{{date("h:i A", strtotime($reply->created_at))}}</small></p>
-                                                                    <p>{{$reply->body}}</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </article>
-                                                @endforeach
-                                            @endforeach
-                                        </div>
-                                        <div class="text-center">
-                                            {{$tickets->links()}}
-                                        </div>
-                                    @else
-                                        <div class="col-md-12">
-                                            <div class="alert alert-icon alert-info" role="alert">
-                                                <i class="mdi mdi-information"></i>
-                                                <strong>Heads up!</strong> No support ticket created yet.
-                                            </div>
-
-                                            <div class="text-center">
-                                                <br><br>
-                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#supportModal">Request Support</button>
-                                            </div>
-                                        </div>
-                                    @endif                                        
-                                </div>
-                            </div>
-                            <!-- end row -->
+                <div class="col-lg-12" style="min-height:500px">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#supportModal">Request Support</button>
+                            <br><br>
                         </div>
                     </div>
+
+                    <div class="row">
+                        @if(count($tickets) > 0)
+                            <div class="col-sm-12 support-tickets-list table-responsive">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ticket Subject</th>
+                                            <th>Date & Time Created</th>
+                                            <th>Replies</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($tickets as $ticket)
+
+                                            <tr>
+                                                <td>{{strtoupper($ticket->subject)}}</td>
+                                                <td>{{date("jS F, Y", strtotime($ticket->created_at))}} {{date("h:i A", strtotime($ticket->created_at))}}</td>
+                                                <td><span class="badge badge-success"> 0 </span></td>
+                                                <td><a href="#" class="btn btn-sm btn-primary" role="button">View</a></td>
+                                            </tr>
+
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-12 text-center">
+                                <br>
+                                {{$tickets->links()}}
+                            </div>
+                        @else
+                            <div class="col-md-12 text-center">
+                                {{-- <img src="{{asset('user_assets/img/support.png') }}" class="img-responsive" height="100" width="auto" alt="Support Ticket"> --}}
+                                <br><br>
+                                <div class="alert alert-icon alert-info" role="alert">
+                                    <i class="mdi mdi-information"></i>
+                                    <strong>Heads up!</strong> No support ticket created yet.
+                                </div>
+
+                                <div class="text-center">
+                                    <br><br>
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#supportModal">Request Support</button>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                    <!-- end row -->
                 </div>
             </div>
             <!-- end row -->
@@ -122,15 +102,15 @@
                                 </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
-                            <button type="submit" class="btn btn-primary">Send</button> 
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
                             </form>
                         </div>
                     </div>
 
                 </div>
             </div>
-            
+
         </section>
       </div>
     </div>
