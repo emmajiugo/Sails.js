@@ -29,7 +29,7 @@ class SupportTicketController extends Controller
 
         //get support ticket
         // $tickets = $user->supportticket->paginate(1);
-        $tickets = SupportTicket::where('school_id', $schoolid)->orderBy('created_at', 'DESC')->paginate(1);
+        $tickets = SupportTicket::where('school_id', $schoolid)->orderBy('created_at', 'DESC')->paginate(10);
 
         return view('school.support-ticket')->with(['tickets' => $tickets]);
     }
