@@ -7,7 +7,7 @@
 
   <!-- start linking  -->
   <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900" rel="stylesheet">
-  <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+  <link href="https://use.fontawesome.com/releases/v5.11.1/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('user_assets/css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{asset('user_assets/css/app.css') }}">
   <link rel="stylesheet" href="{{asset('user_assets/css/custom.css') }}">
@@ -32,7 +32,10 @@
         <img src="{{ asset('user_assets/img/logo-admin.png') }}" alt="Logo">
       </div>
       <br><br>
-      <!-- <a href="#" class="btn btn-danger">Add New School</a> -->
+
+      @if(Auth::guard('school')->check())
+        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#switchModal">Switch/Add School</a>
+      @endif
     </div>
     <!-- end with head -->
 
@@ -63,9 +66,22 @@
           <!-- <button class="btn btn-info hidden-xs-down"><i class="fa fa-bell"></i></button> -->
           <!-- <button class="btn btn-info hidden-xs-down"><i class="fa fa-envelope"></i></button> -->
           <div class="dropdown">
-            <button class="btn btn-info dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::guard('web')->check() ? Auth::user()->fullname : Auth::user()->schoolname }} </button>
+            <button class="btn btn-info dropdown-toggle" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @if(Auth::guard('web')->check())
+                    {{ Auth::user()->fullname }}
+                @else
+                    @php
+                        $schoolDetail = App\SchoolDetail::where([
+                            ['school_id', '=',  Auth::id()],
+                            ['is_used', '=', 1],
+                        ])->first();
+                    @endphp
+                    {{ ($schoolDetail) ? $schoolDetail->schoolname : ""}}
+                @endif
+                {{-- {{ Auth::guard('web')->check() ? Auth::user()->fullname : Auth::user()->schoolname }} --}}
+            </button>
             <div class="dropdown-menu" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Profile</a>
+                <a class="dropdown-item" href="{{ Auth::guard('web')->check() ? '/home/profile' : '/school/settings' }}">Profile</a>
                 <!-- <a class="dropdown-item" href="#">sitting</a> -->
                 <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
@@ -95,6 +111,11 @@
     @include('inc.messages')
 
     @yield('content')
+
+    @if((!Auth::guard('web')->check() && Request::is('school/pay-staff') == "") &&
+        (!Auth::guard('web')->check() && Request::is('school/report') == ""))
+        @include('school.modal')
+    @endif
 
   </div>
   <!-- end content -->

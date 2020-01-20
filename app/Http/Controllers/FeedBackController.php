@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
-use App\School;
+use App\Traits\SchoolBase;
+use App\Traits\PaymentGateway;
 
 class FeedBackController extends Controller
 {
+    use SchoolBase; use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -26,8 +29,19 @@ class FeedBackController extends Controller
      */
     public function index()
     {
-        //return contact view
-        return view('school.feedback');
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
+
+        if($school) {
+            // get schools tied to the account & banks list
+            $schools = $this->getSchoolsForTheAccount($id);
+            $banknames = $this->getListOfBanks();
+
+            //return contact view
+            return view('school.feedback')->with(['schools' => $schools, 'banknames' => $banknames]);
+        } else {
+            return redirect(route('school.dashboard'));
+        }
     }
 
 
@@ -36,20 +50,19 @@ class FeedBackController extends Controller
      */
     public function postFeedback(Request $request)
     {
-        //get the shool logged in
-        $schoolid = auth()->user()->id;
-        $school = School::find($schoolid);
-
         //validate the inputs
         $this->validate($request, [
             'subject' => 'required',
             'bodymessage' => 'required'
         ]);
 
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
+
         $data = array(
             'subject' => $request->input('subject'),
             'bodymessage' => $request->input('bodymessage'),
-            'school' => $school->schoolname,
+            'school' => strtoupper($school->schoolname),
         );
 
         Mail::send('emails.feedback', $data, function($message) {
@@ -63,6 +76,7 @@ class FeedBackController extends Controller
         });
 
         return redirect(route('school.feedback'))->with('success', 'Feedback sent successfully.');
+
     }
 
 }

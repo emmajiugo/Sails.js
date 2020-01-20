@@ -5,7 +5,7 @@
     <!--===================== Signup Bg ========================-->
     <div class="sign-up animatedParent">
 
-        <p class="text-center">All fields are required and must be filled. <br> 
+        <p class="text-center">All fields are required and must be filled. <br>
         Already a member? <a href="{{ route('login') }}">Login Here</a></p>
 
         <form method="POST" action="{{ route('register') }}">

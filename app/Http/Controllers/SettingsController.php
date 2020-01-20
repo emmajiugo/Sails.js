@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-//Bring in Models
-use App\School;
+use App\Traits\SchoolBase;
+use App\Traits\PaymentGateway;
+
 use App\Feetype;
 
 class SettingsController extends Controller
 {
+    use SchoolBase; use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -29,16 +32,25 @@ class SettingsController extends Controller
     public function index()
     {
         //get school details
-        $schoolid = auth()->user()->id;
-        $school = School::find($schoolid);
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
 
-        //get fees collected
-        $fees = Feetype::where([
-            ['school_id', '=', $schoolid],
-            ['del_status', '=', 0],
-        ])->get();
+        if($school) {
+            // get schools tied to the account & banks list
+            $schools = $this->getSchoolsForTheAccount($id);
+            $banknames = $this->getListOfBanks();
 
-        return view('school.settings')->with(['school' => $school, 'fees' => $fees]);
+            //get fees collected
+            $fees = Feetype::where([
+                ['school_detail_id', '=', $id],
+                ['del_status', '=', 0],
+            ])->get();
+
+            return view('school.settings')->with(['school' => $school, 'fees' => $fees, 'schools' => $schools, 'banknames' => $banknames]);
+
+        } else {
+            return redirect(route('school.dashboard'));
+        }
     }
 
     /**
@@ -114,16 +126,5 @@ class SettingsController extends Controller
 
             return back()->with('success', 'Record Deleted');
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

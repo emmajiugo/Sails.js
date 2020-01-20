@@ -15,7 +15,7 @@ class CreateSupportTicketsTable extends Migration
     {
         Schema::create('support_tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('school_id');
+            $table->string('school_detail_id');
             $table->string('tickettype');
             $table->string('subject');
             $table->text('body');

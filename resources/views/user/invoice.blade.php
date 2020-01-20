@@ -1,4 +1,4 @@
-@extends('layouts.dash2')
+@extends('layouts.dash')
 
 @section('content')
 
@@ -10,74 +10,63 @@
       		<div class="container-fluid">
       			<div class="panel panel-default">
       				<div class="panel-heading bg-white">
-      					<h4 class="panel-title">Invoice Info</h4>
+                        <h4 class="panel-title">Invoice Details
+
+                            <a href="{{ route('user.invoice') }}" class="btn btn-link float-right">|<< Back</a>
+
+                        </h4>
       				</div>
 
       				<div class="panel-body">
       					<div class="row">
       						<div class="col-sm-8 col-xs-6">
-      							<h4 class="fw-600">Google Inc,</h4>
-      							<p><a href="#">www.google.com</a></p>
-      							<p>1 Infinite Loop<br>95014 Cuperino, CA<br>United States</p>
-      							<p>Telephone: 800-692-7753<br>Fax: 800-692-7753</p>
-
-      							<h4 class="m-t-lg fw-600">Invoice To:</h4>
-      							<p>John Smith</p>
-      							<p>Normand axis LTD<br>3 Goodman street</p>
+      							<h4 class="fw-600">{{ $school->schoolname }}</h4>
+      							<p>{{ $school->schooladdress }}</p>
+                                  <p>School Contact Email: {{ $school->schoolemail }}</p>
+                                  <p>School Contact Phone: {{ $school->schoolphone }}</p>
       						</div>
       						<div class="col-sm-4 col-xs-6">
-      							<h4 class="fw-600 text-right">INVOICE #49021</h4>
-      							<p class="text-right">Date: January 25, 2017<br>Due Date: May 12, 2017</p>
+                                <h4 class="fw-600 text-right">INVOICE #{{ $invoice->invoice_reference }}</h4>
+                                <p style="text-align:right">{!! $invoice->status=='UNPAID' ? '<button class="btn btn-danger btn-sm">'.$invoice->status.'</button>':'<button class="btn btn-success btn-sm">'.$invoice->status.'</button>' !!}</p>
+      							<p class="text-right">Date Created: {{ $invoice->created_at }}<br>Date of Payment: {{ $invoice->updated_at }}</p>
 
-      							<h4 class="m-t-lg fw-600 text-right details">Payment Details:</h4>
+      							<h4 class="m-t-lg fw-600 text-right details">Student Details:</h4>
       							<div class="clearfix">
-      								<p class="pull-left">Total Due:</p>
-      								<p class="pull-right">$1205</p>
+      								<p class="pull-left"><b>Student Name:</b></p>
+      								<p class="pull-right"><b>{{ $invoice->studentname }}</b></p>
       							</div>
       							<div class="clearfix">
-      								<p class="pull-left">Bank Name:</p>
-      								<p class="pull-right">Profit Bank Europe</p>
+      								<p class="pull-left"><b>Student Class:</b></p>
+      								<p class="pull-right"><b>{{ $invoice->class }}</b></p>
       							</div>
       							<div class="clearfix">
-      								<p class="pull-left">Country:</p>
-      								<p class="pull-right">United Kingdom</p>
+      								<p class="pull-left"><b>Term:</b></p>
+      								<p class="pull-right"><b>{{ $invoice->term }}</b></p>
       							</div>
       							<div class="clearfix">
-      								<p class="pull-left">City:</p>
-      								<p class="pull-right">London E18BF</p>
-      							</div>
-      							<div class="clearfix">
-      								<p class="pull-left">Address:</p>
-      								<p class="pull-right">3 Goodman Street</p>
-      							</div>
-      							<div class="clearfix">
-      								<p class="pull-left">IBAN:</p>
-      								<p class="pull-right">KFH37784028476740</p>
-      							</div>
-      							<div class="clearfix">
-      								<p class="pull-left">SWIFT Code:</p>
-      								<p class="pull-right">BPT4E</p>
+      								<p class="pull-left"><b>Session:</b></p>
+      								<p class="pull-right"><b>{{ $invoice->session }}</b></p>
       							</div>
       						</div>
       					</div>
 
       					<div class="table-responsive m-h-lg">
       						<table class="table">
-      							<tr><th>#</th><th>Description</th><th>Quantity</th><th>Unit Cost</th><th>Total</th></tr>
-      							<tr><td>#</td><td>Description</td><td>23</td><td>$100</td><td>$2300</td></tr>
-      							<tr><td>#</td><td>Description</td><td>40</td><td>$410</td><td>$1235</td></tr>
-      							<tr><td>#</td><td>Description</td><td>35</td><td>$250</td><td>$1540</td></tr>
+                                <tr><th>#</th><th>Description</th><th>Amount</th></tr>
+                                @foreach ($feesbreakdown as $item)
+                                    <tr><td>#</td><td>{{ $item->description }}</td><td>&#8358;{{ $item->amount }}</td></tr>
+                                @endforeach
       						</table>
       					</div>
 
       					<div class="row">
-      						<div class="col-sm-3 col-sm-push-9">
-      							<p>Sub-Total amount: $4800</p>
-      							<p>VAT: $35</p>
-      							<p>Grand Total: <span class="text-primary">$4800</span></p>
+      						<div class="col-sm-6 col-sm-push-6">
+      							<p>Sub-Total: &#8358;{{ $feesum }}</p>
+      							<p>Fee: &#8358;{{ $transaction_fee }}</p>
+      							<p>Grand Total: <span class="text-primary">&#8358;{{ $feesum + $transaction_fee }}</span></p>
       							<div class="m-t-lg">
-      								<button type="button" class="btn btn-md btn-primary m-r-lg">Send Invoice</button>
-      								<button type="button" class="btn btn-md btn-secondary">Print</button>
+      								<button type="button" class="btn btn-md btn-primary m-r-lg">Pay Now</button>
+      								<a href="{{ route('user.dashboard') }}" class="btn btn-md btn-secondary">Add Another Student</a>
       							</div>
       						</div>
       					</div>

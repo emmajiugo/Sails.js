@@ -7,11 +7,11 @@ $('#schoolname').keyup(function() {
         var _token = $('input[name= "_token"]').val();
 
         $.ajax ({
-            url: "home/search",
+            url: "home/ajax-search",
             method: "POST",
             data: {query:query, _token:_token},
             success:function(data) {
-                // console.log(data);
+                console.log(data);
                 $('#schoolList').fadeIn();
                 $('#schoolList').html(data);
             }
@@ -93,7 +93,7 @@ $("#addModal").on('shown.bs.modal', function () {
             .attr("id", 'TextBoxDiv' + counter);
 
         newTextBoxDiv.after().html(
-            '<div id="TextBoxDiv' + counter + '"><div class="col-md-8"><div class= "form-group"><input type="text" class="form-control" name="description[]" placeholder="Eg: Tuition Payment, PTA Levy etc"></div></div><div class="col-md-4"><div class="form-group"><input type="text" class="form-control" name="amount[]" placeholder="3000"></div></div></div>'
+            '<div id="TextBoxDiv' + counter + '"><div class="col-md-8"><div class="form-group"><input type="text" class="form-control" name="description[]" placeholder="Eg: Tuition Payment, PTA Levy etc"></div></div><div class="col-md-4"><div class="form-group"><input type="text" class="form-control" name="amount[]" placeholder="3000"></div></div></div>'
         );
 
         newTextBoxDiv.appendTo("#TextBoxesGroup");
@@ -120,7 +120,7 @@ $("#feetypeModal").on('shown.bs.modal', function () {
             .attr("id", 'TextBoxDivx' + counter);
 
         newTextBoxDiv.after().html(
-            '<div id="TextBoxDivx' + counter + '"><div class= "form-group"><input type="text" class="form-control" name="feetype[]" placeholder="Eg: School Fees"></div></div>'
+            '<div id="TextBoxDivx' + counter + '"><div class="form-group"><input type="text" class="form-control" name="feetype[]" placeholder="Eg: School Fees"></div></div>'
         );
 
         newTextBoxDiv.appendTo("#TextBoxesGroupx");
@@ -153,14 +153,15 @@ $('#acctno').keyup(function () {
     var acctno = $(this).val();
     var bankcode = $('#bank').val();
 
-    // var data = {'Account Number' : acctno, 'Bank Code' : bankcode};
+    var data = {'Account Number' : acctno, 'Bank Code' : bankcode};
+    console.log(data)
 
     if (acctno != '' && bankcode != '') {
         if ((acctno.toString().length) == 10) {
         var _token = $('input[name= "_token"]').val();
 
         $.ajax({
-            url: "/paystack/get_acctname",
+            url: "/gateway/get_acctname",
             method: "POST",
             data: { acctno: acctno, bankcode: bankcode, _token: _token },
             beforeSend: function () {

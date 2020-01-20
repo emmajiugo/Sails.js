@@ -4,11 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Traits\SchoolBase;
+use App\Traits\PaymentGateway;
+
 use App\School;
+use App\SchoolDetail;
 use App\Invoice;
 
 class SchoolController extends Controller
 {
+    use SchoolBase; use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -26,58 +32,37 @@ class SchoolController extends Controller
      */
     public function index()
     {
-        //get school_id & school
-        $schoolid = auth()->user()->id;
-        $school = School::find($schoolid);
+        //define arrays
+        $invoices = []; $bankdetail = []; $totalAmount = []; $banknames= []; $verifyStatus = []; $schools = [];
 
-        //get the verification status
-        $verifyStatus = $school->verifystatus;
-
-        //get bank detail
-        $bankdetail = $school->bankdetail;
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
 
         //get list of banks from API
-        $banknames = $this->getBanks();
+        $banknames = $this->getListOfBanks();
 
-        //get total amount remitted for the school
-        $totalAmount = Invoice::where([
-            ['school_id', '=', $schoolid],
-            ['status', '=', 'PAID'],
-        ])->sum('amount');
+        // get all school details if there is one
+        if ($school) {
 
-        //get the latest payments for the school
-        $invoices = Invoice::where([
-            ['school_id', '=', $schoolid],
-            ['status', '=', 'PAID'],
-        ])->orderBy('updated_at', 'DESC')->take(8)->get();
+            // return schools tied to this account
+            $schools = $this->getSchoolsForTheAccount($id);
 
-        return view('school.index')->with(['payments' => $invoices, 'bank' => $bankdetail, 'amount' => $totalAmount, 'banknames' => $banknames, 'verify_status' => $verifyStatus]);
-    }
+            //get the verification status
+            $verifyStatus = $school->verifystatus;
 
-    //get banks
-    public function getBanks()
-    {
-        //curl verification
-        $result = array();
-        //url to pull banks
-        $url = 'https://api.paystack.co/bank';
+            //get total amount remitted for the school
+            $totalAmount = Invoice::where([
+                ['school_detail_id', '=', $school->id],
+                ['status', '=', 'PAID'],
+            ])->sum('amount');
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt(
-        $ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer sk_test_f6eb701b8147f37248dbd8c0a5e467ab66a551c0']
-        );
-        $request = curl_exec($ch);
-        curl_close($ch);
-
-        if ($request) {
-            $result = json_decode($request, true);
-            if($result['data']){
-                //something came in
-                return $result['data'];
-            }
+            //get the latest payments for the school
+            $invoices = Invoice::where([
+                ['school_detail_id', '=', $school->id],
+                ['status', '=', 'PAID'],
+            ])->orderBy('updated_at', 'DESC')->take(8)->get();
         }
+
+        return view('school.index')->with(['school_detail' => $school, 'schools' => $schools, 'payments' => $invoices, 'bank' => $bankdetail, 'amount' => $totalAmount, 'banknames' => $banknames, 'verify_status' => $verifyStatus]);
     }
 }

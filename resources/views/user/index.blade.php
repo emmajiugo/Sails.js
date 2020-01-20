@@ -2,26 +2,6 @@
 
 @section('content')
 
-<!-- <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">User Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in as a <strong>User</strong>!
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
   <!-- start with the real content -->
   <div id="real">
     <div class="row">
@@ -53,7 +33,7 @@
               <form action="{{ route('user.search.post') }}" method="POST" autocomplete="off">
                 @csrf
                 <div class="input-group">
-                  <input type="text" class="form-control" list="schoolList" id="schoolname" name="schoolname" placeholder="Search school by name">
+                  <input type="text" class="form-control" list="schoolList" id="schoolname" name="schoolname" placeholder="Search school by name" autofocus>
                   <div class="input-group-btn">
                     <button class="btn btn-primary" type="submit">
                       Search
@@ -69,8 +49,8 @@
             <br>
 
             <div class="user">
-              
-              <button type="button" class="btn mw-md btn-success btn-block" data-toggle="modal" data-target="#invoiceModal">I Have Unpaid Invoice</button>
+
+              <a href="button" class="btn mw-md btn-success btn-block" data-toggle="modal" data-target="#invoiceModal">I Have Unpaid Invoice</a>
 
             </div>
 

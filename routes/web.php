@@ -22,9 +22,6 @@ Auth::routes();
 // routes for the user dashboard
 Route::prefix('home')->group(function() {
 
-    // route for transaction history
-    Route::get('/transactions', 'UserTransactionController@index')->name('user.transaction');
-
     // route for user profile
     Route::get('/profile', 'UserProfileController@index')->name('user.profile');
 
@@ -35,21 +32,14 @@ Route::prefix('home')->group(function() {
     Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings');
 
     // route to implement search
-    Route::post('/search', 'UserSearchController@ajaxSearch');//index ajax search
-    Route::post('/search/post', 'UserSearchController@postSearch')->name('user.search.post');
-    Route::view('/search/school', 'user.school')->name('user.search.school');
-    Route::post('/search/post-school', 'IndexSearchController@postSchool')->name('user.school.post');
-    Route::view('/search/school-continue', 'pages.data-collect')->name('user.school.data');
+    Route::post('/ajax-search', 'UserSearchController@ajaxSearch');//index ajax search
+    Route::post('/search', 'UserSearchController@postSearch')->name('user.search.post');
+    Route::post('/search/school', 'UserSearchController@postSchool')->name('user.school.post');
+    Route::post('/search/school-continue', 'UserSearchController@postForInvoice')->name('user.invoice.post');
 
     // route to invoice
-    Route::get('/invoice/{invoiceid}', 'UserInvoiceController@index')->name('user.invoice');
-    Route::post('/school/post-invoice', 'IndexSearchController@postForInvoice');//
-    Route::post('/school/index-invoice', 'IndexSearchController@postIndexInvoice');//
-    Route::view('/school/invoice', 'pages.invoice');//
-
-    Route::post('/invoice/pay', 'IndexSearchController@paidInvoice');//
-    Route::view('/invoice/failed', 'pages.payment.failed');//
-    Route::get('/invoice/success/{trxid}', 'IndexSearchController@successPayment');//
+    Route::get('/invoices', 'InvoiceController@index')->name('user.invoice');
+    Route::get('/invoice/{reference}', 'InvoiceController@getInvoice')->name('user.invoice.id');
 
     // route for user dashboard
     Route::get('/', 'HomeController@index')->name('user.dashboard');
@@ -63,6 +53,10 @@ Route::prefix('school')->group(function() {
     Route::post('/login', 'Auth\SchoolLoginController@login')->name('school.login.submit');
     Route::get('/register', 'Auth\SchoolRegisterController@showRegisterForm')->name('school.register');
     Route::post('/register', 'Auth\SchoolRegisterController@register')->name('school.register.submit');
+
+    // create a new account
+    Route::post('/create', 'SchoolDetailsController@create')->name('school.account.create');
+    Route::post('/switch-account', 'SchoolDetailsController@switch')->name('school.account.switch');
 
     // fee structure
     Route::resource('/setup-fees', 'SetupFeesController');
@@ -85,10 +79,6 @@ Route::prefix('school')->group(function() {
     Route::get('/history', 'TransactionController@index');
     Route::view('/report', 'school.report')->middleware('auth:school');
 
-    // bank details
-    Route::resource('/bank_details', 'BankDetailsController');
-    Route::post('/paystack/get_acctname', 'BankDetailsController@getAcctName');
-
     // support ticket
     Route::resource('/support-ticket', 'SupportTicketController');
 
@@ -96,10 +86,12 @@ Route::prefix('school')->group(function() {
     Route::resource('/settings', 'SettingsController');
 
     // unfinished section
-    Route::view('/pay-staff', 'school.pay-staff')->middleware('auth:school');;
-    Route::view('/pay-bills', 'school.pay-bills')->middleware('auth:school');;
-    
+    Route::view('/pay-staff', 'school.pay-staff')->middleware('auth:school');
+
     // router for school dashboard
     Route::get('/', 'SchoolController@index')->name('school.dashboard');
 });
- 
+
+
+// bank details
+Route::post('/gateway/get_acctname', 'BankDetailsController@getAcctName');

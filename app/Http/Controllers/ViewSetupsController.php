@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Traits\SchoolBase;
+use App\Traits\PaymentGateway;
+
 //Bring in Models
 use App\School;
 use App\Session;
@@ -13,6 +16,8 @@ use App\Feesbreakdown;
 
 class ViewSetupsController extends Controller
 {
+    use SchoolBase; use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -33,27 +38,37 @@ class ViewSetupsController extends Controller
     {
 
         //get school_id & user
-        $schoolid = auth()->user()->id;
-        $school = School::find($schoolid);
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
 
-        //get all academic sessions
-        $sessiondetails = $this->getSessionDetails();
+        if($school) {
+            // get schools tied to the account & banks list
+            $schools = $this->getSchoolsForTheAccount($id);
+            $banknames = $this->getListOfBanks();
 
-        //get fees collected by the user
-        // $fees = $user->feetype;
-        $fees = Feetype::where([
-            ['school_id', '=', $schoolid],
-            ['del_status', '=', 0],
-        ])->get();
+            //get all academic sessions
+            $sessiondetails = $this->getSessionDetails();
 
-        //set in array
-        $data = array(
-            'sessiondetails' => $sessiondetails,
-            'fees' => $fees,
-            'section' => $section
-        );
+            //get fees collected by the user
+            // $fees = $user->feetype;
+            $fees = Feetype::where([
+                ['school_detail_id', '=', $school->id],
+                ['del_status', '=', 0],
+            ])->get();
 
-        return view('school.view-setup')->with($data);
+            //set in array
+            $data = array(
+                'schools' => $schools,
+                'banknames' => $banknames,
+                'sessiondetails' => $sessiondetails,
+                'fees' => $fees,
+                'section' => $section
+            );
+
+            return view('school.view-setup')->with($data);
+        } else {
+            return redirect(route('school.dashboard'));
+        }
     }
 
     /**
@@ -72,7 +87,8 @@ class ViewSetupsController extends Controller
         ]);
 
         //get school_id
-        $schoolid = auth()->user()->id;
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
 
         //initialize input
         $sectionname = $request->input('section');
@@ -83,7 +99,7 @@ class ViewSetupsController extends Controller
 
         //query
         $feesetup = Feesetup::where([
-            'school_id' => $schoolid,
+            'school_detail_id' => $school->id,
             'section' => $sectionname,
             'session' => $sessioname,
             'term' => $termname,
@@ -176,7 +192,7 @@ class ViewSetupsController extends Controller
             $amountvalue = $amounts[$key];
 
             //insert into fee_breadown tbl from the method in SetupFeesController
-            app('App\Http\Controllers\SetupFeesController')->insertFeeBreakdown($feesetupid, $descriptiontitle, $amountvalue);
+            $this->insertFeeBreakdownTrait($feesetupid, $descriptiontitle, $amountvalue);
         }
 
         return redirect()->back()->with('success', 'Record added successfully.');

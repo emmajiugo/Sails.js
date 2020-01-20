@@ -1,4 +1,4 @@
-@extends('layouts.dash2')
+@extends('layouts.dash')
 
 @section('content')
 
@@ -10,15 +10,10 @@
         <div class="wrap card">
         	<section class="app-content">
 
-                <?php
-                    $feesum = session()->get('feesum');//total sum of the fee
-                    $data = session()->get('data');//retrieve as an array
-                    $feesetupid = session()->get('feesetupid');//feesetup id
-                ?>
                 @isset($data)
                     <div class="card">
                         <div class="card-body">
-                            <form action="/school/post-invoice" method="POST">
+                            <form action="{{ route('user.invoice.post') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-5 order-md-last">
@@ -33,13 +28,17 @@
                                     </div>
                                     <div class="col-lg-7">
                                         <!-- hidden inputs -->
-                                        <input type="hidden" name="section" value="{{$data['section']}}"> 
-                                        <input type="hidden" name="userid" value="{{$data['userid']}}">
+                                        <input type="hidden" name="section" value="{{$data['section']}}">
+                                        <input type="hidden" name="schoolid" value="{{$data['schoolid']}}">
                                         <input type="hidden" name="feesetupid" value="{{$feesetupid}}">
                                         <input type="hidden" name="amount" value="{{$feesum}}">
                                         <div class="form-group">
-                                            <label for="student-name">Student Name:</label>
-                                            <input type="text" class="form-control" name="studentname" placeholder="Enter full name">
+                                            <label for="session">Academic Session:</label>
+                                            <input type="text" class="form-control" name="session" value="{{$data['session']}}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="term">Academic Term:</label>
+                                            <input type="text" class="form-control" name="term" value="{{$data['term']}}" readonly>
                                         </div>
                                         <div class="form-group">
                                             <label for="class">Student Class:</label>
@@ -48,16 +47,25 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="session">Academic Session:</label>
-                                            <input type="text" class="form-control" name="session" value="{{$data['session']}}" readonly>
+                                            <label for="class">School Name:</label>
+                                            <input type="text" class="form-control" name="schoolname" value="{{$school['schoolname']}}" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class">School Address:</label>
+                                            <textarea class="form-control" readonly>{{$school['schoolname']}}</textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <hr>
+                                    </div>
+                                    <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="term">Academic Term:</label>
-                                            <input type="text" class="form-control" name="term" value="{{$data['term']}}" readonly>
+                                            <label for="student-name">Enter Student Name:</label>
+                                            <input type="text" class="form-control" name="studentname" placeholder="Enter full name">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
@@ -66,19 +74,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <h4>Parent or Guardian's Information</h4>
-                                        <div class="form-group">
-                                            <label for="payers-name">Name of Payer</label>
-                                            <input type="text" class="form-control" name="payername" placeholder="Enter full name">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="payers-email">Email of Payer</label>
-                                            <input type="email" class="form-control" name="payeremail" placeholder="john.doe@gmail.com">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="parent-phone">Phone of Payer</label>
-                                            <input type="text" class="form-control" name="payerphone" placeholder="07033224455">
-                                        </div>
                                         <div class="form-group">
                                             <input type="submit" class="btn btn-success" value="Continue ">
                                         </div>

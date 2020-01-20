@@ -18,7 +18,7 @@ class School extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password', 'schoolname', 'schooladdr', 'schoolphone', 'schoolemail', 'registeredby', 'registrarstatus',
+        'email', 'password',
     ];
 
     /**
@@ -30,27 +30,7 @@ class School extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function bankdetail() {
-        return $this->hasOne('App\BankDetail');
-    }
-
-    public function feesetup() {
-        return $this->hasMany('App\Feesetup');
-    }
-
-    public function feetype() {
-        return $this->hasMany('App\Feetype');
-    }
-
-    public function paymenthistory() {
-        return $this->hasMany('App\PaymentHistory');
-    }
-
-    public function supportticket() {
-        return $this->hasMany('App\SupportTicket');
-    }
-
-    public function invoice() {
-        return $this->hasMany('App\Invoice');
+    public function schooldetails() {
+        return $this->hasMany('App\SchoolDetail');
     }
 }

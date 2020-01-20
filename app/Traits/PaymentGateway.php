@@ -1,23 +1,15 @@
 <?php
+namespace App\Traits;
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-class BankDetailsController extends Controller
+trait PaymentGateway
 {
 
-    //get account name  from paystack
-    public function getAcctName(Request $request)
+    public function getListOfBanks()
     {
-        //get data passed
-        $bankcode = $request->bankcode;
-        $acctno = $request->acctno;
-
         //curl verification
         $result = array();
         //url to pull banks
-        $url = 'https://api.paystack.co/bank/resolve?account_number='.$acctno.'&bank_code='.$bankcode;
+        $url = 'https://api.paystack.co/bank';
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -29,12 +21,16 @@ class BankDetailsController extends Controller
         $request = curl_exec($ch);
         curl_close($ch);
 
-        if ($request) {
+        if ($request != null) {
             $result = json_decode($request, true);
             if($result['data']){
                 //something came in
                 return $result['data'];
             }
+        } else {
+            return array();
         }
     }
 }
+
+

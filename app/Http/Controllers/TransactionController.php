@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Traits\SchoolBase;
+use App\Traits\PaymentGateway;
+
 use App\School;
 use App\Invoice;
 
 class TransactionController extends Controller
 {
+    use SchoolBase; use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -27,15 +32,25 @@ class TransactionController extends Controller
     public function index()
     {
         //get user_id & user
-        $schoolid = auth()->user()->id;
-        //$user = User::find($userid);
+        $id = auth()->user()->id;
+        $school = $this->getSchoolInUsed($id);
 
-        //get the latest payments for the user
-        $invoices = Invoice::where([
-            ['school_id', '=', $schoolid],
-            ['status', '=', 'PAID'],
-        ])->orderBy('updated_at', 'DESC')->get();
+        if($school) {
+            // get schools tied to the account & banks list
+            $schools = $this->getSchoolsForTheAccount($id);
+            $banknames = $this->getListOfBanks();
 
-        return view('school.history')->with(['invoices' => $invoices]);
+            //get the latest payments for the user
+            $invoices = Invoice::where([
+                ['school_details_id', '=', $id],
+                ['status', '=', 'PAID'],
+            ])->orderBy('updated_at', 'DESC')->get();
+
+            return view('school.history')->with(['invoices' => $invoices, 'schools' => $schools, 'banknames' => $banknames]);
+        } else {
+            return redirect(route('school.dashboard'));
+        }
+
+
     }
 }

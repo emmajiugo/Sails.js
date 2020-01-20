@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddGovtDocToBankDetails extends Migration
+class AddApiTokenToUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddGovtDocToBankDetails extends Migration
      */
     public function up()
     {
-        //
-        Schema::table('bank_details', function($table) {
-            $table->string('govt_doc');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('api_token');
         });
     }
 
@@ -26,9 +25,8 @@ class AddGovtDocToBankDetails extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('bank_details', function($table) {
-            $table->dropColumn('govt_doc');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('api_token');
         });
     }
 }

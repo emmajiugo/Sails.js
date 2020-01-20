@@ -15,7 +15,7 @@ class CreateFeetypesTable extends Migration
     {
         Schema::create('feetypes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('school_id');
+            $table->integer('school_detail_id');
             $table->string('feename');
             $table->timestamps();
         });

@@ -15,7 +15,7 @@ class CreatePaymentHistoriesTable extends Migration
     {
         Schema::create('payment_histories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('school_id');
+            $table->string('school_detail_id');
             $table->string('trx_id');
             $table->string('studentname');
             $table->string('studentclass');

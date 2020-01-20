@@ -52,7 +52,7 @@
 
                   <hr class="m-0 m-b-md" style="border-color: #ddd;">
                   <div class="list-group">
-                    <a href="{{ url('school/support-ticket') }}" class="list-group-item"><i class="fa m-r-sm fa-edit"></i>Submit Ticket</a>
+                    {{-- <a href="{{ url('school/support-ticket') }}" class="list-group-item"><i class="fa m-r-sm fa-edit"></i>Submit Ticket</a> --}}
                   </div><!-- .list-group -->
                 </div><!-- .app-actions-list -->
               </div><!-- .app-action-panel -->
@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="">School Address</label>
-                                            <textarea class="form-control" name="schooladdr" rows="3">{{$school->schooladdr}}</textarea>
+                                            <textarea class="form-control" name="schooladdr" rows="3">{{$school->schooladdress}}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="">School Contact Phone</label>

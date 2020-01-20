@@ -22,48 +22,48 @@
                     <div class="card">
                         <div class="text-center">
                             <h2 class="m-t-0">SECONDARY SECTION</h2>
-                            <a href="/school/view-setup/secondary" class="btn btn-sm btn-info">View Fees</a> 
+                            <a href="/school/view-setup/secondary" class="btn btn-sm btn-info">View Fees</a>
                             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#setupModal" onclick="setup('SECONDARY')">Setup Fees</button>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <!-- end col -->
 
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="text-center">
                             <h2 class="m-t-0">PRIMARY SECTION</h2>
-                            <a href="/school/view-setup/primary" class="btn btn-sm btn-info">View Fees</a> 
+                            <a href="/school/view-setup/primary" class="btn btn-sm btn-info">View Fees</a>
                             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#setupModal" onclick="setup('PRIMARY')">Setup Fees</button>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <!-- end col -->
 
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="text-center">
                             <h2 class="m-t-0">NURSERY SECTION</h2>
-                            <a href="/school/view-setup/nursery" class="btn btn-sm btn-info">View Fees</a> 
+                            <a href="/school/view-setup/nursery" class="btn btn-sm btn-info">View Fees</a>
                             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#setupModal" onclick="setup('NURSERY')">Setup Fees</button>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <!-- end col -->
 
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="text-center">
                             <h2 class="m-t-0">CRECHE SECTION</h2>
-                            <a href="/school/view-setup/creche" class="btn btn-sm btn-info">View Fees</a> 
+                            <a href="/school/view-setup/creche" class="btn btn-sm btn-info">View Fees</a>
                             <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#setupModal" onclick="setup('CRECHE')">Setup Fees</button>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <!-- end col -->
-            </div> 
+            </div>
             <!-- end row -->
-            
+
             <!-- pass the section to the modal -->
             <script>
                 function setup(section) {
@@ -72,10 +72,6 @@
                     $('#section').val(section);
 
                     if (section == "SECONDARY") {
-                        // document.getElementById('secondary-checkboxes').style.display = "block";
-                        // document.getElementById('primary-checkboxes').style.display = "none";
-                        // document.getElementById('nursery-checkboxes').style.display = "none";
-                        // document.getElementById('creche-checkboxes').style.display = "none";
 
                         $('#secondary-checkboxes').show();
                         $('#primary-checkboxes').hide();
@@ -120,7 +116,7 @@
                                     <br><br>
                                 </div>
 
-                                <div class="form-group">                            
+                                <div class="form-group">
                                     <input type="hidden" name="formtype" value="fees collected">
                                 </div>
 
@@ -133,7 +129,7 @@
                                 </div>
 
                                 <div class="right">
-                                    <span id="addButtonx" class="btn btn-sm btn-success">+</span> 
+                                    <span id="addButtonx" class="btn btn-sm btn-success">+</span>
                                     <span id="removeButtonx" class="btn btn-sm btn-danger">-</span>
                                 </div>
                             </div>
@@ -141,9 +137,9 @@
                                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
                             </div>
-                        
+
                         </form>
-                        
+
                     </div>
                 </div>
             </div>
@@ -156,7 +152,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h4 class="modal-title">Fee Setup</h4>
                         </div>
-                        
+
                         <form action='/school/setup-fees' method='POST'>
                             @csrf
                             <div class="modal-body">
@@ -201,9 +197,9 @@
                                     @else
                                         <input type="text" class="form-control" name="feename" placeholder="No Fees Set." readonly>
                                         <small style="color:red">Close the modal and set your fees with the button at the right hand of the page.</small>
-                                    @endif                                            
+                                    @endif
                                 </div>
-                                
+
                                 <div id='TextBoxesGroup'>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -215,7 +211,7 @@
                                     </div>
 
                                     <div class="row" id="TextBoxDiv1">
-                                                                                
+
                                         <div class="col-md-8">
                                             <input type="text" class="form-control" name="description[]" placeholder="Eg: Tuition Payment, PTA Levy, Sports levy etc" required>
                                         </div>
@@ -229,7 +225,7 @@
 
                                 <div class="form-group">
                                     <br>
-                                    <span id="addButton" class="btn btn-sm btn-success">+</span> 
+                                    <span id="addButton" class="btn btn-sm btn-success">+</span>
                                     <span id="removeButton" class="btn btn-sm btn-danger">-</span>
                                 </div>
 
@@ -332,7 +328,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>                            
+                                <button type="submit" class="btn btn-info waves-effect waves-light">Save</button>
                             </div>
                         </form>
                     </div>

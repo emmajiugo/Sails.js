@@ -1,4 +1,4 @@
-@extends('layouts.dash2')
+@extends('layouts.dash')
 
 @section('content')
 
@@ -21,59 +21,38 @@
 							<div class="table-responsive">
 								<table class="table table-hover">
 									<tr>
-										<th>#</th>
-										<th>Tabel heading</th>
-										<th>Tabel heading</th>
-										<th>Tabel heading</th>
-										<th>Tabel heading</th>
-										<th>Tabel heading</th>
-										<th>Tabel heading</th>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td><a href="{{ route('user.invoice', ['invoiceid' => $invoiceid]) }}" class="btn btn-info btn-sm">Open Invoice</a></td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td><a href="{{ route('user.invoice', ['invoiceid' => $invoiceid]) }}" class="btn btn-info btn-sm">Open Invoice</a></td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td><a href="{{ route('user.invoice', ['invoiceid' => $invoiceid]) }}" class="btn btn-info btn-sm">Open Invoice</a></td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td><a href="{{ route('user.invoice', ['invoiceid' => $invoiceid]) }}" class="btn btn-info btn-sm">Open Invoice</a></td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td>Table cell</td>
-										<td><a href="{{ route('user.invoice', ['invoiceid' => $invoiceid]) }}" class="btn btn-info btn-sm">Open Invoice</a></td>
-									</tr>
+                                        <th>#</th>
+                                        <th>Invoice ID</th>
+										<th>Student Name</th>
+										<th>Class</th>
+										<th>Term</th>
+										<th>Amount</th>
+										<th>Status</th>
+										<th></th>
+                                    </tr>
+
+                                    @isset($invoices)
+                                        @foreach ($invoices as $invoice)
+                                            <tr>
+                                                <td>#</td>
+                                                <td>{{ $invoice->invoice_reference }}</td>
+                                                <td>{{ $invoice->studentname }}</td>
+                                                <td>{{ $invoice->class }}</td>
+                                                <td>{{ $invoice->term }}</td>
+                                                <td>&#8358;{{ number_format($invoice->amount) }}</td>
+                                                <td>
+                                                    {!! $invoice->status=='UNPAID' ? '<button class="btn btn-danger btn-sm">'.$invoice->status.'</button>':'<button class="btn btn-success btn-sm">'.$invoice->status.'</button>' !!}
+                                                </td>
+                                                <td><a href="{{ route('user.invoice.id', ['reference' => $invoice->invoice_reference]) }}" class="btn btn-info btn-sm">Open Invoice</a></td>
+                                            </tr>
+                                        @endforeach
+
+                                    @else
+
+                                        <p>You have not created an invoice yet! Proceed <a href="{{ route('user.dashboard') }}">here</a> to start the process.</p>
+
+                                    @endisset
+
 								</table>
 							</div>
 						</div><!-- .widget -->

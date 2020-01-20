@@ -1,4 +1,4 @@
-@extends('layouts.dash2')
+@extends('layouts.dash')
 
 @section('content')
 
@@ -18,22 +18,22 @@
 										<ul class="nav nav-tabs" role="tablist">
 											<li role="presentation" class="active">Edit Profile</li>
 										</ul><!-- .nav-tabs -->
-										
+
 										<br>
 
 										<form action="" method="post">
 
 											<div class="form-group">
 												<label for="email">Email</label>
-												<input type="text" class="form-control" name="email" value="e@x.com" readonly>
+												<input type="text" class="form-control" name="email" value="{{ $user->email }}" readonly>
 											</div>
 											<div class="form-group">
 												<label for="fullname">Full Name</label>
-												<input type="text" class="form-control" name="fullname" value="Johnny Debby">
+												<input type="text" class="form-control" name="fullname" value="{{ $user->fullname }}">
 											</div>
 											<div class="form-group">
 												<label for="phone">Phone Number</label>
-												<input type="text" class="form-control" name="phone" value="07031056082">
+												<input type="text" class="form-control" name="phone" value="{{ $user->phone }}">
 											</div>
 
 											<br><hr><br>

@@ -5,7 +5,7 @@
     <!--===================== Signup Bg ========================-->
     <div class="sign-up animatedParent">
 
-        <p class="text-center">Signup to enjoy our wonderful services. All fields are required and must be filled. <br> 
+        <p class="text-center">Signup to enjoy our wonderful services. All fields are required and must be filled. <br>
         Already a member? <a href="{{ route('school.login') }}">Login Here</a></p>
 
         <form method="POST" action="{{ route('school.register.submit') }}">
@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 <input id="email" type="email" placeholder="Login Email *" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-                
+
                 <span style="color: green">
                     This email will be used to login to the platform.
                 </span>
@@ -40,9 +40,8 @@
             <div class="form-group">
                 <input id="password-confirm" type="password" placeholder="Confirm Password *" name="password_confirmation" required>
             </div>
-            <hr>
 
-            <h5><u>School Details</u></h5>
+            {{-- <h5><u>School Details</u></h5>
             <br>
 
             <div class="form-group">
@@ -105,15 +104,7 @@
                     <option value="Headmaster/Principal"> Headmaster or Principal</option>
                     <option value="Account Officer"> School Account Officer</option>
                 </select>
-            </div>
-
-            <!-- <div class="form-group row">
-                <div class="col-md-12">
-                    <input type="radio" name="registrarstatus" value="Owner/Proprietor" checked> Proprietor/Owner <br>
-                    <input type="radio" name="registrarstatus" value="Headmaster/Principal"> Headmaster/Principal <br>
-                    <input type="radio" name="registrarstatus" value="Account Officer"> School Account Officer
-                </div>
-            </div> -->
+            </div> --}}
 
             <div class="form-group">
                 <button type="submit">

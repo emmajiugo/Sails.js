@@ -15,7 +15,7 @@ class CreateFeesetupsTable extends Migration
     {
         Schema::create('feesetups', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('school_id');
+            $table->integer('school_detail_id');
             $table->string('section');
             $table->string('session');
             $table->string('term');

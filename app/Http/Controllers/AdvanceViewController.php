@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Traits\SchoolBase;
+use App\Traits\PaymentGateway;
 
 //Bring in Models
 use App\User;
@@ -13,6 +15,8 @@ use App\Feesbreakdown;
 
 class AdvanceViewController extends Controller
 {
+    use SchoolBase; use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -31,10 +35,15 @@ class AdvanceViewController extends Controller
     public function index()
     {
         //get user_id & user
-        $schoolid = auth()->user()->id;
-        $feesetup = Feesetup::orderBy('class', 'desc')->where('school_id', $schoolid)->get();
+        $id = auth()->user()->id;
+        $feesetup = Feesetup::orderBy('class', 'desc')->where('school_detail_id', $id)->get();
 
-        return view('school.advance-view')->with('feesetup', $feesetup);
+        // return schools tied to this account
+        $schools = $this->getSchoolsForTheAccount($id);
+        // get list of banks
+        $banknames = $this->getListOfBanks();
+
+        return view('school.advance-view')->with(['feesetup'=>$feesetup, 'schools'=>$schools, 'banknames' => $banknames]);
     }
 
     /**
