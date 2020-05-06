@@ -24,8 +24,8 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Ticket Subject</th>
-                                            <th>Date & Time Created</th>
+                                            <th>Support Ticket</th>
+                                            <th>Date</th>
                                             <th>Replies</th>
                                             <th></th>
                                         </tr>
@@ -35,19 +35,21 @@
                                         @foreach ($tickets as $ticket)
 
                                             <tr>
-                                                <td>{{strtoupper($ticket->subject)}}</td>
-                                                <td>{{date("jS F, Y", strtotime($ticket->created_at))}} {{date("h:i A", strtotime($ticket->created_at))}}</td>
-                                                <td><span class="badge badge-success"> 0 </span></td>
-                                                <td><a href="#" class="btn btn-sm btn-primary" role="button">View</a></td>
+                                                <td>{{ strtoupper($ticket->subject) }}</td>
+                                                <td><small>{{ date("jS F, Y h:i A", strtotime($ticket->created_at)) }}</small></td>
+                                                <td><span class="badge badge-success"> {{ count($ticket->supportreplies) }} </span></td>
+                                                <td>
+                                                    <a href="{{ route('school.ticket.show', $ticket->msg_hash) }}" class="btn btn-sm btn-primary">View</a>
+                                                </td>
                                             </tr>
 
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-sm-12 text-center">
-                                <br>
-                                {{$tickets->links()}}
+                            <div class="col-md-2 offset-md-5 text-center">
+                                <br><br>
+                                {{ $tickets->links() }}
                             </div>
                         @else
                             <div class="col-md-12 text-center">
@@ -66,22 +68,23 @@
                         @endif
                     </div>
                     <!-- end row -->
+
                 </div>
             </div>
             <!-- end row -->
 
             <!-- Modal -->
             <div id="supportModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Support Message</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ action('SupportTicketController@store') }}" method="post">
+                            <form action="{{ route('school.support.post') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="">Subject</label>
@@ -92,7 +95,7 @@
                                     <select name="department" class="form-control">
                                         <option value="">-- select department --</option>
                                         <option value="Inquiry">INQUIRY</option>
-                                        <option value="Financial">FINANACIAL</option>
+                                        <option value="Financial">FINANCIAL</option>
                                         <option value="Support">SUPPORT</option>
                                     </select>
                                 </div>

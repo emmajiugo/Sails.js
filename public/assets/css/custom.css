@@ -1,0 +1,87 @@
+/**
+CUSTOM CSS
+*/
+
+.login-btn,
+.signup-btn {
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+.login-btn {
+    background-color: #ff5c97;
+}
+.signup-btn {
+    background-color: #402c83;
+}
+.space-10 {
+    height: 10px;
+}
+.space-20 {
+    height: 20px;
+}
+.space-30 {
+    height: 30px;
+}
+.space-60 {
+    height: 60px;
+}
+.space-90 {
+    height: 90px;
+}
+.space-120 {
+    height: 120px;
+}
+.horizontal-line {
+    background-color: #ff5c97;
+    height: 5px;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+.fa-check-square {
+    color: #ff5c97;
+    padding-right: 10px;
+    font-weight: 600;
+}
+.fa-check-circle {
+    color: #402c83;
+    padding-right: 10px;
+    font-weight: 600;
+}
+.text {
+    color: #fff;
+}
+.parents {
+    background-color: #402c83;
+    min-height: 420px;
+}
+.schools {
+    background-color: #ff5c97;
+    min-height: 420px;
+}
+.generating-cap-table {
+    border-collapse: separate;
+    border-spacing: 0 1em;
+}
+
+/* LOGIN & REGISTER */
+.login,
+.register {
+    background: #f8d8e4;
+    padding: 90px 70px;
+    border-radius: 5px;
+}
+label {
+    color: #402c83;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+
+@media screen and (max-width: 600px) {
+    .login,
+    .register {
+        padding: 50px 25px;
+    }
+}

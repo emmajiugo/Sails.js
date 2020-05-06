@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Traits\PaymentGateway;
 
 use App\Invoice;
 use App\SchoolDetail;
@@ -10,6 +11,8 @@ use App\Feesbreakdown;
 
 class InvoiceController extends Controller
 {
+    use PaymentGateway;
+
     /**
      * Create a new controller instance.
      *
@@ -59,91 +62,52 @@ class InvoiceController extends Controller
 
     }
 
-    //change the unpaid to paid
-    public function paidInvoice(Request $request)
+    //direct user to payment checkout form
+    public function invoicePayment(Request $request)
     {
-        // echo json_encode($request->all());
+        $this->validate($request, [
+            "grand_total" => "required",
+            "invoice_reference" => "required",
+            "school" => "required",
+            "user_name" => "required",
+            "user_phone" => "required"
+        ]);
 
-        $invoiceid = $request->invoiceid;
-        $trxref = $request->trxref;
+        $email = auth()->user()->email;
+
+        //send to payment gateway to charge
+        $paymentLink = $this->flutterwaveCheckoutForm($request, $email);
+
+        return redirect($paymentLink['data']['link']);
+    }
+
+    /**
+     * Verify payment and give value
+     *
+     * @return status
+     */
+    public function invoiceStatus(Request $request)
+    {
+        $txref = $request->txref;
+        $flwref = $request->flwref;
 
         //verify the transaction using transaction ref passed
-        $status = $this->verifyTransaction($trxref);
+        $status = $this->flutterwaveVerifyTransaction($txref);
+        return $status;
 
-        if($status['status'] == 'success'){
+        if($status['data']['status'] == 'successful' && $status['data']['chargecode'] == '00'){
             // the transaction was successful, you can deliver value
             //update
-            $invoice = Invoice::where('trx_id', $invoiceid)->first();
+            $invoice = Invoice::where('invoice_reference', $txref)->first();
             $invoice->status = 'PAID';
-            $invoice->trxref = $trxref;
+            $invoice->payment_reference = $flwref;
             $invoice->save();
 
-            //return the invoice id
+            //return to invoice page
             echo $invoiceid;
 
-            /*
-            @ also remember that if this was a card transaction, you can store the
-            @ card authorization to enable you charge the customer subsequently.
-            @ The card authorization is in:
-            @ $result['data']['authorization']['authorization_code'];
-            @ PS: Store the authorization with this email address used for this transaction.
-            @ The authorization will only work with this particular email.
-            @ If the user changes his email on your system, it will be unusable
-            */
-
         }else{
-            // the transaction was not successful, do not deliver value'
-            // print_r($result);  //uncomment this line to inspect the result, to check why it failed.
-            // echo "Transaction was not successful: Last gateway response was: ".$result['data']['gateway_response'];
-            echo 400; //Invalid request
-        }
-
-    }
-
-    //get successful payment page
-    public function successPayment($trxid)
-    {
-        return view('pages.payment.success')->with('trxid', $trxid);
-    }
-
-    //verify the transaction via cURL
-    public function verifyTransaction($trxref)
-    {
-        //curl verification
-        $result = array();
-        //The parameter after verify/ is the transaction reference to be verified
-        $url = 'https://api.paystack.co/transaction/verify/'.$trxref;
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt(
-        $ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer sk_test_f6eb701b8147f37248dbd8c0a5e467ab66a551c0']
-        );
-        $request = curl_exec($ch);
-        curl_close($ch);
-
-        if ($request) {
-            $result = json_decode($request, true);
-            // print_r($result);
-            if($result){
-                if($result['data']){
-                    //something came in
-                    return $result['data'];
-                }else{
-                    return $result['message'];
-                }
-
-            }else{
-                //print_r($result);
-                die("Something went wrong while trying to convert the request variable to json. Uncomment the print_r command to see what is in the result variable.");
-
-            }
-        }else{
-            //var_dump($request);
-            die("Something went wrong while executing curl. Uncomment the var_dump line above this line to see what the issue is. Please check your CURL command to make sure everything is ok");
-
+            //Invalid request, return with an error
         }
 
     }

@@ -31,6 +31,64 @@ trait PaymentGateway
             return array();
         }
     }
+
+    public function flutterwaveCheckoutForm(object $data, $email)
+    {
+        $publicKey = env('FLUTTERWAVE_PUBLIC_KEY');
+
+        $url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay";
+
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('POST', $url, [
+            'headers' => [
+                'Content-Type'  => 'application/json'
+            ],
+            'json' => [
+                "PBFPubKey" => $publicKey,
+                "currency" => "NGN",
+                "payment_options" => "card",
+                "txref" => ($data->invoice_reference + time()),
+                "amount" => $data->grand_total,
+                "redirect_url" => request()->root()."/home/callback",
+                "customer_email" => $email,
+                "customer_phone" => $data->user_phone,
+                "customer_firstname" => $data->user_name,
+                "custom_title" => $data->school,
+            ]
+        ]);
+        $response = $res->getBody();
+
+        return json_decode($response, true);
+    }
+
+    public function flutterwaveVerifyTransaction($txref)
+    {
+        $secretKey = env('FLUTTERWAVE_SECRET_KEY');
+
+        $url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify";
+
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('POST', $url, [
+            'headers' => [
+                'Content-Type'  => 'application/json'
+            ],
+            'json' => [
+                "SECKEY" => $secretKey,
+                "txref" => $txref,
+            ]
+        ]);
+        $response = $res->getBody();
+
+        return json_decode($response, true);
+    }
+
+    // $client = new \GuzzleHttp\Client();
+    // $res = $client->request('GET', $url, ['headers' => [
+    //     'Authorization' => strtoupper($hashValue),
+    //     'email'         => $email
+    // ]]);
+    // $statusCode = $res->getStatusCode();
+    // $response = $res->getBody();
 }
 
 

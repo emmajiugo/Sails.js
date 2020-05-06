@@ -1,62 +1,92 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
 
 @section('content')
 
-<!--===================== Login Bg ========================-->
-<div class="login-bg animatedParent">
-    
-    <form method="POST" action="{{ route('login') }}" class="animated growIn">
-        @csrf
-
-        <h2>Login</h2>
-
-        @if(session('success'))
-            <div class="col-sm-12">
-                <div class="alert alert-success alert-dismissible fade in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{session('success')}}
+<!-- Slider Area Start-->
+<div class="services-area">
+    <div class="container">
+        <!-- Section-tittle -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-8">
+                <div class="section-tittle text-center mb-80">
+                    <h2>Login</h2>
+                    <span>Parents & Guardians</span>
                 </div>
             </div>
-        @endif
-
-        <div class="form-group">
-            <input id="email" type="email" placeholder="Email Address" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-
-            @if ($errors->has('email'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-            @endif
         </div>
-
-        <div class="form-group">
-            <input id="password" type="password" placeholder="Password" class="{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-            @if ($errors->has('password'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-            @endif
-        </div>
-
-        <div class="form-group">
-            <button type="submit">
-                {{ __('Login') }}
-            </button>
-
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}">
-                    {{ __('Forgot Your Password?') }}
-                </a>
-            @endif
-        </div>
-    </form>
-
-    <h3 class="text-center create">Dont have account? <a href="{{ route('register') }}">Create Account</a></h3>
-
+    </div>
 </div>
-<!--===================== End of Login Bg ========================-->
+<!-- Slider Area End-->
+
+<!--================Form Area =================-->
+<section class="blog_area section-paddingr">
+    <div class="container">
+        <div class="row">
+            <div class="offset-lg-3 col-lg-6">
+
+                @if(session('success'))
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{session('success')}}
+                    </div>
+                    <div class="space-20"></div>
+                @endif
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p>Dont have account? <a href="{{ route('register') }}" style="color:#402c83">Create Account</a></p>
+                    </div>
+                </div>
+
+                <div class="login">
+
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="">Email or Phone:</label>
+                            <input id="email_phone" type="text" placeholder="Email or Phone" class="single-input {{ $errors->has('email_phone') ? ' is-invalid' : '' }}" name="email_phone" value="{{ old('email_phone') }}" required autofocus>
+
+                            @if ($errors->has('email_phone'))
+                                <p class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('email_phone') }}</strong>
+                                </p>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Password:</label>
+                            <input id="password" type="password" placeholder="Password" class="single-input {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                            @if ($errors->has('password'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+
+                        <div class="space-20"></div>
+
+                        <div class="form-group">
+                            <button type="submit" class="genric-btn info radius float-right">
+                                {{ __('Login') }}
+                            </button>
+
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" style="color:#402c83">
+                                    {{ __('Forgot Your Password?') }}
+                                </a>
+                            @endif
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Form Area =================-->
 
 @endsection

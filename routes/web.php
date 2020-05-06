@@ -24,12 +24,18 @@ Route::prefix('home')->group(function() {
 
     // route for user profile
     Route::get('/profile', 'UserProfileController@index')->name('user.profile');
+    Route::post('/profile', 'UserProfileController@update')->name('user.profile.post');
 
     // route for user support
-    Route::get('/support', 'UserSupportController@index')->name('user.support');
+    Route::resource('/support', 'UserSupportController')->names([
+        'index' => 'user.support',
+        'store' => 'user.support.post',
+        'show'  => 'user.ticket.show',
+    ]);
+    Route::post('support-reply/{id}', 'UserSupportController@supportReplyPost')->name('user.reply.post');
 
     // route for savings plan
-    Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings');
+    // Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings'); [coming soon]
 
     // route to implement search
     Route::post('/ajax-search', 'UserSearchController@ajaxSearch');//index ajax search
@@ -40,6 +46,8 @@ Route::prefix('home')->group(function() {
     // route to invoice
     Route::get('/invoices', 'InvoiceController@index')->name('user.invoice');
     Route::get('/invoice/{reference}', 'InvoiceController@getInvoice')->name('user.invoice.id');
+    Route::post('/invoice', 'InvoiceController@invoicePayment')->name('user.invoice.payment');
+    Route::post('/callback', 'InvoiceController@invoiceStatus');
 
     // route for user dashboard
     Route::get('/', 'HomeController@index')->name('user.dashboard');
@@ -59,7 +67,9 @@ Route::prefix('school')->group(function() {
     Route::post('/switch-account', 'SchoolDetailsController@switch')->name('school.account.switch');
 
     // fee structure
-    Route::resource('/setup-fees', 'SetupFeesController');
+    Route::resource('/setup-fees', 'SetupFeesController')->names([
+        'index'=>'school.setup.fees'
+    ]);
 
     // view setup fees
     Route::get('/view-setup/{section}', 'ViewSetupsController@index');
@@ -69,29 +79,40 @@ Route::prefix('school')->group(function() {
     Route::delete('/view-setup/{id}', 'ViewSetupsController@destroy')->name('setup.delete');
 
     // advance view
-    Route::resource('/advance-view', 'AdvanceViewController');
+    Route::resource('/advance-view', 'AdvanceViewController')->names([
+        'index' => 'school.advance.view'
+    ]);
 
     // feedback
     Route::get('/feedback', 'FeedBackController@index')->name('school.feedback');
     Route::post('/feedback', 'FeedBackController@postFeedback')->name('school.feedback.submit');
 
     // transaction history & report
-    Route::get('/history', 'TransactionController@index');
+    Route::get('/history', 'TransactionController@index')->name('school.transaction.history');
     Route::view('/report', 'school.report')->middleware('auth:school');
 
     // support ticket
-    Route::resource('/support-ticket', 'SupportTicketController');
+    Route::resource('/support-ticket', 'SupportTicketController')->names([
+        'index' => 'school.support.ticket',
+        'store' => 'school.support.post',
+        'show'  => 'school.ticket.show',
+    ]);
+    Route::post('support-reply/{id}', 'SupportTicketController@supportReplyPost')->name('school.reply.post');
 
     // settings
-    Route::resource('/settings', 'SettingsController');
-
-    // unfinished section
-    Route::view('/pay-staff', 'school.pay-staff')->middleware('auth:school');
+    Route::resource('/settings', 'SettingsController')->names([
+        'index' => 'school.settings'
+    ]);
 
     // router for school dashboard
     Route::get('/', 'SchoolController@index')->name('school.dashboard');
 });
 
 
-// bank details
+// get account name from bank details, used for ajax call
 Route::post('/gateway/get_acctname', 'BankDetailsController@getAcctName');
+
+// webhook
+Route::prefix('webhooks')->group(function () {
+    Route::post('flutterwave/handle', 'Webhook/FlutterwaveWebhookProcessor@handle');
+});

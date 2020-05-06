@@ -158,25 +158,25 @@ $('#acctno').keyup(function () {
 
     if (acctno != '' && bankcode != '') {
         if ((acctno.toString().length) == 10) {
-        var _token = $('input[name= "_token"]').val();
+            var _token = $('input[name= "_token"]').val();
 
-        $.ajax({
-            url: "/gateway/get_acctname",
-            method: "POST",
-            data: { acctno: acctno, bankcode: bankcode, _token: _token },
-            beforeSend: function () {
-                // $('#loader').html('');
-                // var gif = "<img width='auto' height='50' src=\"{{asset('dashboard/assets/images/loader1.gif')}}\" >";
-                // $('#loader').html(gif);
-                $('#loader').show();
-            },
-            success: function (data) {
-                // console.log(data);
-                $('#acctname').val('');
-                $('#acctname').val(data.account_name);
-                $('#loader').hide();
-            }
-        })
+            $.ajax({
+                url: "/gateway/get_acctname",
+                method: "POST",
+                data: { acctno: acctno, bankcode: bankcode, _token: _token },
+                beforeSend: function () {
+                    // $('#loader').html('');
+                    // var gif = "<img width='auto' height='50' src=\"{{asset('dashboard/assets/images/loader1.gif')}}\" >";
+                    // $('#loader').html(gif);
+                    $('#loader').show();
+                },
+                success: function (data) {
+                    // console.log(data);
+                    $('#acctname').val('');
+                    $('#acctname').val(data.account_name);
+                    $('#loader').hide();
+                }
+            })
         }
     }
 });

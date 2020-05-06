@@ -1,72 +1,86 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
 
 @section('content')
 
-    <!--===================== Bg Form ========================-->
-	<div class="bg-form">
-		<div class="container">
-			<h2 class="text-center">Contact Us</h2>
-			<p class="text-center">We’re here to help.</p>
-			<div class="info-block-contact animatedParent">
-				<div class="row">
-					<div class="col-md-6 col-sm-6 col-xs-12 animated bounceInLeft">
-						<div class="inside left">
-							<div class="images"><img src="{{ asset('frontend/assets/images/phone.png') }}" alt="phone"></div>
-							<h4>Have questions? Call Us.</h4>
-							<a href="#">+(234)-7031056082</a>
-						</div><!--inside-->
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 animated bounceInRight">
-						<div class="inside right">
-							<div class="images"><img src="{{ asset('frontend/assets/images/mail.svg') }}" alt="mail"></div>
-							<h4>Email Us</h4>
-							<a href="#">hello@schoolpay.africa</a>
-						</div><!--inside-->
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 col-sm-6 col-xs-12 animated bounceInLeft">
-						<div class="inside left">
-							<div class="images"><img src="{{ asset('frontend/assets/images/address.svg') }}" alt="address"></div>
-							<h4>Address</h4>
-							<span>403 Rd, 4th Avenue<br>Festac Town<br>Lagos, Nigeria</span>
-						</div><!--inside-->
-					</div>
-					<div class="col-md-6 col-sm-6 col-xs-12 animated bounceInRight">
-						<div class="inside right">
-							<div class="images"><img src="{{ asset('frontend/assets/images/like.svg') }}" alt="like"></div>
-							<h4>Follow Us</h4>
-							<ul class="social-icon">
-								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-								<li><a href="#"><i class="fa fa-instagram"></i></a></li>
-								<li><a href="#"><i class="fa fa-youtube"></i></a></li>
-							</ul>
-						</div><!--inside-->
-					</div>
-				</div>
-			</div><!--info-block-contact-->
-		</div>
-	</div>
-	<!--===================== End of Bg Form ========================-->
-	<!--===================== Form Contact ========================-->
-	<div class="form-contact animatedParent">
-		<h3>Send Message</h3>
-		<form class="animated growIn">
-			<div class="form-group">
-				<input type="text" placeholder="Your Name">
-			</div>
-			<div class="form-group">
-				<input type="text" placeholder="Email">
-			</div>
-			<div class="form-group">
-				<label for="message">Message:</label>
-				<textarea id="message" name="Message"></textarea>
-			</div>
-			<div class="form-group text-right">
-				<button>Send</button>
-			</div>
-		</form>
-	</div>
-    <!--===================== End of Form Contact ========================-->
+    <!-- Slider Area Start-->
+    <div class="services-area">
+        <div class="container">
+            <!-- Section-tittle -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-tittle text-center mb-80">
+                        <h2>Contact Us​</h2>
+                        <span>24/7 Support Guaranteed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Slider Area End-->
+
+    <!-- ================ contact section start ================= -->
+    <section class="contact-section">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="contact-title">Get in Touch</h2>
+                </div>
+                <div class="col-lg-7">
+                    <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="name" id="name" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" placeholder="Enter your name">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control valid" name="email" id="email" type="email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input class="form-control" name="subject" id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 offset-lg-1">
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-home"></i></span>
+                        <div class="media-body">
+                            <h3>Buttonwood, California.</h3>
+                            <p>Rosemead, CA 91770</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                        <div class="media-body">
+                            <h3>+1 253 565 2365</h3>
+                            <p>Mon to Fri 9am to 6pm</p>
+                        </div>
+                    </div>
+                    <div class="media contact-info">
+                        <span class="contact-info__icon"><i class="ti-email"></i></span>
+                        <div class="media-body">
+                            <h3>support@colorlib.com</h3>
+                            <p>Send us your query anytime!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================ contact section end ================= -->
 
 @endsection

@@ -1,6 +1,7 @@
 @import url(old.css);
 body {
-  padding: 0; }
+  padding: 0;
+}
 
 ::selection {
   background-color: #7b01e9;

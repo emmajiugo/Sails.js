@@ -60,18 +60,18 @@ class FeedBackController extends Controller
         $school = $this->getSchoolInUsed($id);
 
         $data = array(
+            'school' => strtoupper($school->schoolname),
             'subject' => $request->input('subject'),
             'bodymessage' => $request->input('bodymessage'),
-            'school' => strtoupper($school->schoolname),
         );
 
-        Mail::send('emails.feedback', $data, function($message) {
+        Mail::send('emails.feedback', $data, function($message) use ($data) {
             // feedback email
-            $feedback_email = env('SCHOOLPAY_FEEDBACK_EMAIL', 'emmajiugo@gmail.com');
+            $feedback_email = env('FEEDBACK_EMAIL');
 
-            $message->from('no-reply@schoolpay.ng');
-            $message->to( $feedback_email ); //hello@schoolpay.ng
-            $message->subject('FEEDBACK NOTE');
+            $message->from('no-reply@skooleo.com');
+            $message->to( $feedback_email );
+            $message->subject($data['subject']);
 
         });
 

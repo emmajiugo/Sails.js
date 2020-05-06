@@ -9,6 +9,8 @@ use App\Traits\SchoolBase;
 use App\Traits\PaymentGateway;
 
 use App\Feetype;
+use App\School;
+use App\SchoolDetail;
 
 class SettingsController extends Controller
 {
@@ -72,13 +74,13 @@ class SettingsController extends Controller
             ]);
 
             //update
-            $school = User::find($id);
-            $school->schooladdr = $request->schooladdr;
+            $school = SchoolDetail::find($id);
+            $school->schooladdress = $request->schooladdr;
             $school->schoolphone = $request->schoolphone;
             $school->schoolemail = $request->schoolemail;
             $school->save();
 
-            return back()->with('success', 'Updated successfully');
+            return back()->with('success', 'User profile updated successfully.');
         }
 
         //update for changing password
@@ -94,11 +96,11 @@ class SettingsController extends Controller
             } else {
 
                 //update
-                $school = User::find($id);
+                $school = School::find(auth()->user()->id);
                 $school->password = Hash::make($request->newpassword);
                 $school->save();
 
-                return back()->with('success', 'Updated successfully');
+                return back()->with('success', 'Password updated successfully.');
             }
         }
 
@@ -114,7 +116,7 @@ class SettingsController extends Controller
             $fee->feename = $request->feename;
             $fee->save();
 
-            return back()->with('success', 'Updated successfully');
+            return back()->with('success', 'Fees updated successfully');
         }
 
         //update to change del_status column to 1

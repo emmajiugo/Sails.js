@@ -8,16 +8,17 @@
 		<div class="wrap">
 			<section class="app-content">
 				<div class="row">
-					<div class="col-md-12">
-						<h4 class="m-b-lg">Transaction History</h4>
-					</div><!-- END column -->
 
 					<div class="col-md-12">
 						<div class="widget p-lg">
-							<h4 class="m-b-lg">Responsive tables</h4>
-							<p class="m-b-lg docs">
-								Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive</code> to make them scroll horizontally on small devices (under 768px). When viewing on anything larger than 768px wide, you will not see any difference in these tables.
-							</p>
+							<h4 class="m-b-lg">
+                                Invoice
+                                <button class="btn btn-warning float-right"><i class="fa fa-credit-card"></i> Pay All</button>
+                            </h4>
+							<span class="m-b-lg docs">
+								All payments are shown here. You can always create an invoice and pay later. To pay for all <code>UNPAID</code> invoice, click the <code>Pay All</code> button above. To view invoice details, click on <code>Open Invoice</code>.
+                            </span>
+                            <br><br>
 							<div class="table-responsive">
 								<table class="table table-hover">
 									<tr>

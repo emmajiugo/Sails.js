@@ -20,22 +20,22 @@
                   <!-- mail category list -->
                   <div class="list-group">
                     <a class="list-group-item" href="#" id="edit-profile-button" onclick="showSettings('edit-profile')">
-                        <i class="m-r-sm fa fa-exclamation-triangle"></i>
+                        <i class="m-r-sm fa fa-user-edit"></i>
                         Edit Profile
                     </a>
 
                     <a class="list-group-item" href="#" id="change-password-button" onclick="showSettings('change-password')">
-                        <i class="m-r-sm fa fa-folder"></i>
+                        <i class="m-r-sm fa fa-unlock-alt"></i>
                         Change Password
                     </a>
 
                     <a class="list-group-item" href="#" id="fees-collected-button" onclick="showSettings('fees-collected')">
-                        <i class="m-r-sm fa fa-exclamation-circle"></i>
+                        <i class="m-r-sm fa fa-clipboard"></i>
                         Fees Collected
                     </a>
 
                     <a class="list-group-item" href="#" id="how-it-works-button" onclick="showSettings('how-it-works')">
-                        <i class="m-r-sm fa fa-exclamation-circle"></i>
+                        <i class="m-r-sm fa fa-puzzle-piece"></i>
                         How it works!
                     </a>
 
@@ -44,15 +44,14 @@
                   <hr class="m-0 m-b-md" style="border-color: #ddd;">
 
                   <div class="list-group">
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-envelope"></i>hello@schoolpay.africa</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-phone"></i>(+234) 07031056082</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-eye"></i>Mon-Fri: 8am - 5pm</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-eye"></i>Sat-Sun: 10am - 3pm</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-envelope"></i>hello@skooleo.com</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-phone-alt"></i>(+234) 07031056082</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-calendar-alt"></i>Mon-Fri: 8am - 5pm</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-calendar-alt"></i>Sat-Sun: 10am - 3pm</a>
                 </div><!-- .list-group -->
 
                   <hr class="m-0 m-b-md" style="border-color: #ddd;">
                   <div class="list-group">
-                    {{-- <a href="{{ url('school/support-ticket') }}" class="list-group-item"><i class="fa m-r-sm fa-edit"></i>Submit Ticket</a> --}}
                   </div><!-- .list-group -->
                 </div><!-- .app-actions-list -->
               </div><!-- .app-action-panel -->
@@ -62,21 +61,20 @@
                 <div class="panel-group card">
                     <div class="panel panel-default" id="edit-profile">
                         <div class="panel-heading" role="tab">
-                            {{-- <a class="accordion-toggle" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1"> --}}
                             <h4 class="panel-title">Edit Profile</h4>
                             <i class="fa acc-switch"></i>
-                            {{-- </a> --}}
                         </div>
                         <div>
                             <div class="panel-body">
                                 <div class="col-md-10">
                                     <form action="{{ action('SettingsController@update', ['id' => $school->id]) }}" method='POST'>
+                                        @csrf
                                         <input type="hidden" name="_method" value="PUT">
                                         <input type="hidden" name="input" value="profile"><!-- to separate coming inputs in the controller -->
                                         <div class="form-group">
                                             <label for="">School Name</label>
                                             <input type="text" class="form-control" name="schoolname" value="{{$school->schoolname}}" readonly>
-                                            <small style="color:blueviolet">You can't edit this from here. To edit, send us an email to <b>hello@schoolpay.ng</b></small>
+                                            <small style="color:blueviolet">You can't edit this from here. To edit, send us an email to <b>hello@skooleo.com</b></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="">School Address</label>
@@ -110,25 +108,24 @@
 
                     <div class="panel panel-default" id="change-password">
                         <div class="panel-heading">
-                            {{-- <a class="accordion-toggle" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2"> --}}
                             <h4 class="panel-title">Change Password</h4>
                             <i class="fa acc-switch"></i>
-                            {{-- </a> --}}
                         </div>
                         <div>
                             <div class="panel-body">
                                 <div class="col-md-10">
                                     <form action="{{ action('SettingsController@update', ['id' => $school->id]) }}" method='POST'>
+                                        @csrf
                                         <input type="hidden" name="_method" value="PUT">
                                         <input type="hidden" name="input" value="password"><!-- to separate coming inputs in the controller -->
                                         <p>Enter a new password. Minimum of 6 characters.</p>
                                         <div class="form-group">
                                             <label for="">New Password</label>
-                                            <input type="text" class="form-control" name="newpassword">
+                                            <input type="password" class="form-control" name="newpassword">
                                         </div>
                                         <div class="form-group">
                                             <label for="">Confirm New Password</label>
-                                            <input type="text" class="form-control" name="cnewpassword">
+                                            <input type="password" class="form-control" name="cnewpassword">
                                         </div>
                                         <div class="form-group">
                                             <input type="submit" class="btn btn-success" value="Update Password">
@@ -141,15 +138,13 @@
 
                     <div class="panel panel-default" id="fees-collected">
                         <div class="panel-heading">
-                            {{-- <a class="accordion-toggle" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3"> --}}
                             <h4 class="panel-title">Fees Collected</h4>
                             <i class="fa acc-switch"></i>
-                            {{-- </a> --}}
                         </div>
                         <div>
                             <div class="panel-body">
                                 <div class="col-md-10">
-                                    <p>List of fees collected by your school. To add to the list below, <a href="/school/setup-fees">click here</a> and click on <b>Set Fees Collected</b> button at  the right hand of the page.</p>
+                                    <p>List of fees collected by your school. To add to the list below, <a href="{{ route('school.setup.fees') }}">click here</a> and click on <b>Set Fees Collected</b> button at  the right hand of the page.</p>
 
                                     @if (count($fees) > 0)
                                         <table class="table table-bordered table-striped">
@@ -165,6 +160,7 @@
                                                         <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#editModal{{$fee->id}}"><i class="fa fa-edit"></i></button>
                                                         <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delModal{{$fee->id}}"><i class="fa fa-trash"></i></button>
                                                     </td>
+
                                                     <!-- Edit Modal -->
                                                     <div id="editModal{{$fee->id}}" class="modal fade" role="dialog">
                                                         <div class="modal-dialog modal-md">
@@ -174,7 +170,9 @@
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
+
                                                                     <form action="{{ action('SettingsController@update', ['id' => $fee->id]) }}" method='POST'>
+                                                                        @csrf
                                                                         <input type="hidden" name="_method" value="PUT">
                                                                         <input type="hidden" name="input" value="fees"><!-- to separate coming inputs in the controller -->
                                                                         <div class="form-group">
@@ -189,7 +187,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- Dele Modal -->
+
+                                                    <!-- Delete Modal -->
                                                     <div id="delModal{{$fee->id}}" class="modal fade" role="dialog">
                                                         <div class="modal-dialog modal-md">
                                                             <!-- Modal content-->
@@ -202,7 +201,9 @@
                                                                         <i class="mdi mdi-information"></i>
                                                                         <strong>Warning!</strong> Are sure you want to delete this record?
                                                                     </div>
-                                                                    <form action="{{ action('SettingsController@update', ['id' => $fee->id]) }}"" method='POST'>
+
+                                                                    <form action="{{ action('SettingsController@update', ['id' => $fee->id]) }}" method="POST">
+                                                                        @csrf
                                                                         <input type="hidden" name="_method" value="PUT">
                                                                         <input type="hidden" name="input" value="delete"><!-- to separate coming inputs in the controller -->
                                                                         <div class="form-group">
@@ -220,7 +221,7 @@
                                     @else
                                         <div class="alert alert-warning" role="alert">
                                             <i class="mdi mdi-information"></i>
-                                            <strong>Notice!</strong> No fee set yet. To set the fees, <a href="/school/setup-fees">click here</a> and click on <b>Set Fees Collected</b> button at  the right hand of the page.
+                                            <strong>Notice!</strong> No fee set yet. To set the fees, <a href="{{ route('school.setup.fees') }}">click here</a> and click on <b>Set Fees Collected</b> button at  the right hand of the page.
                                         </div>
                                     @endif
                                 </div>
@@ -230,14 +231,38 @@
 
                     <div class="panel panel-default" id="how-it-works">
                         <div class="panel-heading">
-                            {{-- <a class="accordion-toggle" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4"> --}}
                             <h4 class="panel-title">How it works!</h4>
                             <i class="fa acc-switch"></i>
-                            {{-- </a> --}}
                         </div>
                         <div>
-                            <div class="panel-body">
-                                <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+                            <div class="panel-body how-it-works">
+                                <p>Watch our little demo of the Skooleo platform <a href="#">here</a></p>
+                                <table>
+                                    <tr>
+                                        <td><i class="far fa-check-circle"></i></td>
+                                        <td class="text">Register or Login your school account.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="far fa-check-circle"></i></td>
+                                        <td class="text">Verification process before making your school visible to parents.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="far fa-check-circle"></i></td>
+                                        <td class="text">Set up your payment plans for each sections and classes.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="far fa-check-circle"></i></td>
+                                        <td class="text">Start receiving payments from students and parents.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="far fa-check-circle"></i></td>
+                                        <td class="text">Withdraw anytime to your bank account.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="far fa-check-circle"></i></td>
+                                        <td class="text">Available transactions report on your dashboard.</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
