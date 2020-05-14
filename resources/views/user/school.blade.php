@@ -10,9 +10,9 @@
         <div class="wrap card">
         	<section class="app-content">
 
-                @isset($schools)
-                    @if(count($schools) > 0)
-                        @foreach ($schools as $school)
+                @if(session('schools') != null)
+                    @if(count(session('schools')) > 0)
+                        @foreach (session('schools') as $school)
                             <div class="card">
                                 <div class="card-body">
                                     <h2>{{$school->schoolname}}</h2>
@@ -32,7 +32,15 @@
                                             @csrf
                                             <input type="hidden" name="schoolid" value="{{$school->id}}">
                                             <div class="form-group">
-                                                <select class="form-control" name="section">
+                                                <select class="form-control" name="feetype">
+                                                    <option selected>-- select fee type --</option>
+                                                    @foreach ($school->feetype as $fee)
+                                                        <option value="{{$fee->id}}">{{$fee->feename}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select class="form-control" name="section" id="section">
                                                     <option value="">-- select section --</option>
                                                     <option value="SECONDARY">SECONDARY</option>
                                                     <option value="PRIMARY">PRIMARY</option>
@@ -43,7 +51,7 @@
                                             <div class="form-group">
                                                 <select class="form-control" name="session">
                                                     <option selected>-- select session --</option>
-                                                    @foreach ($sessiondetails as $unique)
+                                                    @foreach (session('sessiondetails') as $unique)
                                                         <option value="{{$unique->sessionname}}">{{$unique->sessionname}}</option>
                                                     @endforeach
                                                 </select>
@@ -59,12 +67,22 @@
                                             <div class="form-group">
                                                 <select class="form-control" name="class">
                                                     <option selected>-- select class --</option>
-                                                    <option value="SS 3">SSS 3</option>
-                                                    <option value="SS 2">SSS 2</option>
-                                                    <option value="SS 1">SSS 1</option>
-                                                    <option value="JSS 3">JSS 3</option>
-                                                    <option value="JSS 2">JSS 2</option>
-                                                    <option value="JSS 1">JSS 1</option>
+                                                    <option class="secondary-option" value="SS 3">SSS 3</option>
+                                                    <option class="secondary-option" value="SS 2">SSS 2</option>
+                                                    <option class="secondary-option" value="SS 1">SSS 1</option>
+                                                    <option class="secondary-option" value="JSS 3">JSS 3</option>
+                                                    <option class="secondary-option" value="JSS 2">JSS 2</option>
+                                                    <option class="secondary-option" value="JSS 1">JSS 1</option>
+                                                    <option class="primary-option" value="PRIMARY 6">PRIMARY 6</option>
+                                                    <option class="primary-option" value="PRIMARY 5">PRIMARY 5</option>
+                                                    <option class="primary-option" value="PRIMARY 4">PRIMARY 4</option>
+                                                    <option class="primary-option" value="PRIMARY 3">PRIMARY 3</option>
+                                                    <option class="primary-option" value="PRIMARY 2">PRIMARY 2</option>
+                                                    <option class="primary-option" value="PRIMARY 1">PRIMARY 1</option>
+                                                    <option class="nursery-option" value="NURSERY 3">NURSERY 3</option>
+                                                    <option class="nursery-option" value="NURSERY 2">NURSERY 2</option>
+                                                    <option class="nursery-option" value="NURSERY 1">NURSERY 1</option>
+                                                    <option class="creche-option" value="CRECHE">CRECHE</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -88,10 +106,46 @@
                         <strong>Oops!</strong> No search was made. Click the button below to go back.
                     </div>
                     <a href="{{ route('user.dashboard') }}" class="btn btn-sm btn-primary">Go Home</a>
-                @endisset
+                @endif
             </section>
         </div>
       </div>
     </div>
+
+    {{-- show classes select box based on section selected --}}
+    <script>
+        $("#section").change(function() {
+            var section = $("#section option:selected").val();
+            showClass(section);
+        });
+
+        function showClass(section) {
+
+            if (section == "SECONDARY") {
+                $('.secondary-option').show();
+                $('.primary-option').hide();
+                $('.nursery-option').hide();
+                $('.creche-option').hide();
+            }
+            if (section == "PRIMARY") {
+                $('.secondary-option').hide();
+                $('.primary-option').show();
+                $('.nursery-option').hide();
+                $('.creche-option').hide();
+            }
+            if (section == "NURSERY") {
+                $('.secondary-option').hide();
+                $('.primary-option').hide();
+                $('.nursery-option').show();
+                $('.creche-option').hide();
+            }
+            if (section == "CRECHE") {
+                $('.secondary-option').hide();
+                $('.primary-option').hide();
+                $('.nursery-option').hide();
+                $('.creche-option').show();
+            }
+        }
+    </script>
 
 @endsection

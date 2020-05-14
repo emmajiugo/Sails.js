@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Traits\PaymentGateway;
+use App\Traits\SchoolBase;
 
 use App\Invoice;
 use App\SchoolDetail;
@@ -11,7 +12,7 @@ use App\Feesbreakdown;
 
 class InvoiceController extends Controller
 {
-    use PaymentGateway;
+    use PaymentGateway; use SchoolBase;
 
     /**
      * Create a new controller instance.
@@ -30,7 +31,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::where('user_id', auth()->user()->id)->get();
+        $invoices = Invoice::where('user_id', auth()->user()->id)->orderBy("created_at", "desc")->get();
 
         return view('user.transaction')->with('invoices', $invoices);
     }
@@ -66,6 +67,7 @@ class InvoiceController extends Controller
     public function invoicePayment(Request $request)
     {
         $this->validate($request, [
+            "type" => "required",
             "grand_total" => "required",
             "invoice_reference" => "required",
             "school" => "required",
@@ -91,23 +93,13 @@ class InvoiceController extends Controller
         $txref = $request->txref;
         $flwref = $request->flwref;
 
-        //verify the transaction using transaction ref passed
-        $status = $this->flutterwaveVerifyTransaction($txref);
-        return $status;
-
-        if($status['data']['status'] == 'successful' && $status['data']['chargecode'] == '00'){
-            // the transaction was successful, you can deliver value
-            //update
-            $invoice = Invoice::where('invoice_reference', $txref)->first();
-            $invoice->status = 'PAID';
-            $invoice->payment_reference = $flwref;
-            $invoice->save();
-
+        if ($this->updateInvoice($txref, $flwref)) {
             //return to invoice page
-            echo $invoiceid;
+            return \redirect(route("user.invoice"))->with("success", "Payment successful.");
 
-        }else{
-            //Invalid request, return with an error
+        } else {
+            //Payment failure, return with an error
+            return \redirect(route("user.invoice"))->with("error", "Payment failed. \nIf you were debited, please reach out to us with the Invoice ID and we will sort out immediately.");
         }
 
     }

@@ -42,11 +42,11 @@ class TransactionController extends Controller
 
             //get the latest payments for the user
             $invoices = Invoice::where([
-                ['school_detail_id', '=', $id],
+                ['school_detail_id', '=', $school->id],
                 ['status', '=', 'PAID'],
             ])->orderBy('updated_at', 'DESC')->get();
 
-            return view('school.history')->with(['invoices' => $invoices, 'schools' => $schools, 'banknames' => $banknames]);
+            return view('school.history')->with(['school' => $school, 'invoices' => $invoices, 'schools' => $schools, 'banknames' => $banknames]);
         } else {
             return redirect(route('school.dashboard'));
         }

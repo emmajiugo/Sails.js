@@ -39,6 +39,7 @@ Route::prefix('home')->group(function() {
 
     // route to implement search
     Route::post('/ajax-search', 'UserSearchController@ajaxSearch');//index ajax search
+    Route::get('/search', 'UserSearchController@getSearch')->name('user.search');
     Route::post('/search', 'UserSearchController@postSearch')->name('user.search.post');
     Route::post('/search/school', 'UserSearchController@postSchool')->name('user.school.post');
     Route::post('/search/school-continue', 'UserSearchController@postForInvoice')->name('user.invoice.post');
@@ -114,5 +115,5 @@ Route::post('/gateway/get_acctname', 'BankDetailsController@getAcctName');
 
 // webhook
 Route::prefix('webhooks')->group(function () {
-    Route::post('flutterwave/handle', 'Webhook/FlutterwaveWebhookProcessor@handle');
+    Route::post('flutterwave/handle', 'Webhook\FlutterwaveWebhookProcessor@handle');
 });

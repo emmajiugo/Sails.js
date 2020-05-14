@@ -47,6 +47,11 @@ class UserSearchController extends Controller
         }
     }
 
+    public function getSearch()
+    {
+        return view('user.school');
+    }
+
     //posting search to get school
     public function postSearch(Request $request)
     {
@@ -62,13 +67,12 @@ class UserSearchController extends Controller
         //get the school searched
         $school = SchoolDetail::where('schoolname', 'LIKE', '%'.$request->schoolname.'%')->get();
 
-        return view('user.school')->with(['schools' => $school, 'sessiondetails' => $sessiondetails]);
+        return redirect(route('user.search'))->with(['schools' => $school, 'sessiondetails' => $sessiondetails]);
     }
 
     //post school to fill in details for invoice
     public function postSchool(Request $request)
     {
-
         //get setup for the option chosen
         $feesetup = Feesetup::where([
             'school_detail_id' => $request->schoolid,
@@ -76,6 +80,7 @@ class UserSearchController extends Controller
             'session' => $request->session,
             'term' => $request->term,
             'class' => $request->class,
+            'feetype_id' => $request->feetype,
         ])->first();
 
         //check with the record in db
@@ -83,20 +88,23 @@ class UserSearchController extends Controller
             // get the school
             $school = SchoolDetail::findOrFail($request->schoolid);
 
+            //fee type
+            $feetype = $feesetup->feetype->feename;
+
             //feesetup id
             $feesetupid = $feesetup->id;
 
             //get the sum of the feesbreakdown for the particular setup
             $feesum = $feesetup->feesbreakdown->sum('amount');
 
-            return view('user.data-collect')->with(['data' => $request->all(), 'feesum' => $feesum, 'feesetupid' => $feesetupid, 'school'=>$school]);
+            return view('user.data-collect')->with(['data' => $request->all(), 'feesum' => $feesum, 'feesetupid' => $feesetupid, 'feetype' => $feetype, 'school'=>$school]);
         } else {
             //get user
-            $user = School::where('id', $request->userid)->get();
+            $schools = SchoolDetail::where('id', $request->schoolid)->get();
             //get session
             $sessiondetails = Session::all();
 
-            return redirect(route('user.search.school'))->with(['schools' => $user, 'sessiondetails' => $sessiondetails, 'no_record' => 'No record found for the search index. Contact the school to setup the fee structure for the search index.']);
+            return redirect(route('user.search'))->with(['schools' => $schools, 'sessiondetails' => $sessiondetails, 'error' => 'No record found for the search index. Contact the school to setup the fee structure for the search index.']);
         }
 
     }

@@ -18,7 +18,7 @@
             </div>
             <div class="card-bottom">
               <p>Schools are registered and verified</p>
-              <small>Couldn't find your child's school?! Tell the principal about us to make life easy for yourself.</small>
+              <small>Couldn't find your child's school? Tell the principal/headmistress about us to make life easy for yourself.</small>
             </div>
           </div>
         </div>
@@ -30,19 +30,17 @@
             <br>
 
             <div class="">
-              <form action="{{ route('user.search.post') }}" method="POST" autocomplete="off">
-                @csrf
-                <div class="input-group">
-                  <input type="text" class="form-control" list="schoolList" id="schoolname" name="schoolname" placeholder="Search school by name" autofocus>
-                  <div class="input-group-btn">
-                    <button class="btn btn-primary" type="submit">
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </form>
+                <form action="{{ route('user.search.post') }}" method="POST" autocomplete="off">
+                    @csrf
+                    <div class="input-group">
+                        <input type="text" class="form-control" list="schoolList" id="schoolname" name="schoolname" placeholder="Search school by name" autofocus>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
 
-              <datalist id="schoolList"></datalist>
+                <datalist id="schoolList"></datalist>
 
             </div>
 
@@ -50,7 +48,7 @@
 
             <div class="user">
 
-              <a href="button" class="btn mw-md btn-success btn-block" data-toggle="modal" data-target="#invoiceModal">I Have Unpaid Invoice</a>
+                <a href="{{ route('user.invoice') }}" class="btn mw-md btn-success btn-block">I Have Unpaid Invoice</a>
 
             </div>
 
@@ -58,105 +56,62 @@
         </div>
       </div>
       <!-- end user -->
-      <!-- start user -->
-      <div class="col-lg-6">
-        <div class="users">
-          <div class="card">
-            <h1 class="head">Latest Transactions</h1>
-            <div class="user">
-              <!-- <div class="uImg"><img src="img/act/5.jpg" alt=""></div> -->
-              <div class="info">
-                <h1>Josephine Walker</h1>
-                <p>Apple Iwork 08 Review</p>
-              </div>
-              <div class="type">
-                <div class="btn btn-primary">read</div>
-              </div>
+        <!-- start user -->
+        <div class="col-lg-6">
+            <div class="users">
+                <div class="card">
+                    <h1 class="head">Unpaid Invoices</h1>
+                    @if (count($unpaidInvoices) > 0)
+                        @foreach ($unpaidInvoices as $invoice)
+                            <div class="user">
+                                <div class="info">
+                                    <h1>{{ $invoice->studentname }}</h1>
+                                    <p>#{{ $invoice->invoice_reference }} | &#8358;{{ $invoice->amount }}</p>
+                                </div>
+                                <div class="type">
+                                    <div class="btn btn-danger">unpaid</div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="user">
+                            <div class="info">
+                                <h1>Hurray! All invoices are cleared.</h1>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
-            <div class="user">
-              <!-- <div class="uImg"><img src="img/act/6.jpg" alt=""></div> -->
-              <div class="info">
-                <h1>Josephine Walker</h1>
-                <p>Apple Iwork 08 Review</p>
-              </div>
-              <div class="type">
-                <div class="btn btn-primary">read</div>
-              </div>
+
+            <div class="users">
+                <div class="card">
+                    <h1 class="head">Latest Transactions</h1>
+                    @if (count($latestInvoices) > 0)
+                        @foreach ($latestInvoices as $trx)
+                            <div class="user">
+                                <div class="info">
+                                    <h1>{{ $trx->studentname }}</h1>
+                                    <p>#{{ $trx->invoice_reference }} | &#8358;{{ $trx->amount }}</p>
+                                </div>
+                                <div class="type">
+                                    <div class="btn btn-success">paid</div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="user">
+                            <div class="info">
+                                <h1>No latest transactions yet!</h1>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
-            <div class="user">
-              <!-- <div class="uImg"><img src="img/act/7.jpg" alt=""></div> -->
-              <div class="info">
-                <h1>Josephine Walker</h1>
-                <p>Apple Iwork 08 Review</p>
-              </div>
-              <div class="type">
-                <div class="btn btn-primary">read</div>
-              </div>
-            </div>
-            <div class="user">
-              <!-- <div class="uImg"><img src="img/act/8.jpg" alt=""></div> -->
-              <div class="info">
-                <h1>Josephine Walker</h1>
-                <p>Apple Iwork 08 Review</p>
-              </div>
-              <div class="type">
-                <div class="btn btn-primary">read</div>
-              </div>
-            </div>
-            <div class="user">
-              <!-- <div class="uImg"><img src="img/act/8.jpg" alt=""></div> -->
-              <div class="info">
-                <h1>Josephine Walker</h1>
-                <p>Apple Iwork 08 Review</p>
-              </div>
-              <div class="type">
-                <div class="btn btn-primary">read</div>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- end user -->
+        <!-- end user -->
 
     </div>
   </div>
   <!-- end the real content -->
-
-  <!-- Invoice Modal -->
-  <div class="modal fade" id="invoiceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Enter Invoice No.</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <form action="/school/index-invoice" method="POST">
-                  @csrf
-                  <div class="input-group">
-                      <div class="input-group-btn">
-                        <button class="btn btn-primary">
-                          #
-                        </button>
-                      </div>
-                      <input type="text" name="invoiceno" class="form-control" placeholder="123456">
-                  </div>
-
-                  <br>
-
-                  <div class="form-group">
-                      <input type="submit" class="btn btn-success btn-block" value="Get Invoice">
-                  </div>
-              </form>
-          </div>
-          <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-          </div> -->
-      </div>
-    </div>
-  </div>
 
 @endsection

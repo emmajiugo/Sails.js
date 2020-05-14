@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Webook;
+namespace App\Http\Controllers\Webhook;
+
+use App\Traits\SchoolBase;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class FlutterwaveWebhookProcessor extends Controller
 {
+    use SchoolBase;
     /**
      * Entry point to our webhook handler
      *
@@ -16,22 +20,18 @@ class FlutterwaveWebhookProcessor extends Controller
      */
     public function handle(Request $request)
     {
-        $this->validateFlutterwaveWebhook(env(''), $request);
-        Log::info($request->all());
+        $this->validateFlutterwaveWebhook($request);
+        // Log::info($request->header("verif-hash"));
     }
 
     /**
      * @return void
      */
-    public function validateFlutterwaveWebhook($secret_hash, Request $request)
+    public function validateFlutterwaveWebhook(Request $request)
     {
         try {
-
-            // Retrieve the request's body
-            $body = @file_get_contents("php://input");
-
             // retrieve the signature sent in the reques header's.
-            $signature = (isset($_SERVER['HTTP_VERIF_HASH']) ? $_SERVER['HTTP_VERIF_HASH'] : '');
+            $signature = ($request->header("verif-hash") !== null) ? $request->header("verif-hash") : '';
 
             /* It is a good idea to log all events received. Add code *
             * here to log the signature and body to db or file       */
@@ -42,24 +42,19 @@ class FlutterwaveWebhookProcessor extends Controller
             }
 
             // Store the same signature on your server as an env variable and check against what was sent in the headers
-            $local_signature = $secret_hash;
+            $local_signature = env('FLUTTERWAVE_VERIF_HASH');
 
             // confirm the event's signature
             if( $signature !== $local_signature ){
-            // silently forget this ever happened
-            exit();
+                // silently forget this ever happened
+                exit();
             }
 
-            http_response_code(200); // PHP 5.4 or greater
-            // parse event (which is json string) as object
-            // Give value to your customer but don't give any output
-            // Remember that this is a call from rave's servers and
-            // Your customer is not seeing the response here at all
-            $response = json_decode($body);
-            if ($response->status == 'successful') {
-                # code...
-                // TIP: you may still verify the transaction
-                        // before giving value.
+            http_response_code(200);
+
+            if ($request->status == 'successful') {
+                // Log::info(($request->txRef.' '.$request->flwRef));
+                $this->updateInvoice($request->txRef, $request->flwRef);
             }
             exit();
 

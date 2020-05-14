@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     @if(count($invoices) > 0)
-                        <table id="datatable-buttons" class="table table-striped table-bordered">
+                        <table id="datatable-buttons" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>Invoice #</th>
@@ -27,7 +27,7 @@
                             <tbody>
                                 @foreach($invoices as $invoice)
                                     <tr>
-                                        <td>#{{$invoice->trx_id}}</td>
+                                        <td>#{{$invoice->invoice_reference}}</td>
                                         <td>{{$invoice->session}}</td>
                                         <td>{{$invoice->term}}</td>
                                         <td>{{$invoice->studentname}}</td>
@@ -45,13 +45,13 @@
                         </div>
                     @endif
                 </div>
-            </div> 
+            </div>
             <!-- end row -->
 
         </section>
     </div>
     </div>
 
-            
+
 
 @endsection

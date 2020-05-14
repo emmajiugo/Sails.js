@@ -34,16 +34,26 @@ class AdvanceViewController extends Controller
      */
     public function index()
     {
-        //get user_id & user
+        //get school_id & school
         $id = auth()->user()->id;
-        $feesetup = Feesetup::orderBy('class', 'desc')->where('school_detail_id', $id)->get();
+        $school = $this->getSchoolInUsed($id);
 
-        // return schools tied to this account
-        $schools = $this->getSchoolsForTheAccount($id);
-        // get list of banks
-        $banknames = $this->getListOfBanks();
+        if($school) {
 
-        return view('school.advance-view')->with(['feesetup'=>$feesetup, 'schools'=>$schools, 'banknames' => $banknames]);
+            // get schools tied to the account & banks list
+            $feesetup = Feesetup::orderBy('created_at', 'desc')->where('school_detail_id', $school->id)->get();
+
+            // return schools tied to this account
+            $schools = $this->getSchoolsForTheAccount($id);
+            // get list of banks
+            $banknames = $this->getListOfBanks();
+
+        return view('school.advance-view')->with(['school' => $school, 'feesetup'=>$feesetup, 'schools'=>$schools, 'banknames' => $banknames]);
+
+        } else {
+            return redirect(route('school.dashboard'));
+        }
+
     }
 
     /**

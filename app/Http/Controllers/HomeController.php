@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Invoice;
+
 class HomeController extends Controller
 {
     /**
@@ -23,6 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        $userId = auth()->user()->id;
+
+        //unpaid invoice count
+        $unpaidInvoices = Invoice::where(['user_id' => $userId, 'status' => 'UNPAID'])->orderBy('created_at', 'desc')->limit(2)->get();
+
+        //invoice latest transaction limit 5
+        $latestInvoices = Invoice::where(['user_id' => $userId, 'status' => 'PAID'])->orderBy('updated_at', 'desc')->limit(3)->get();
+
+        return view('user.index')->with(['unpaidInvoices' => $unpaidInvoices, 'latestInvoices' => $latestInvoices]);
     }
 }

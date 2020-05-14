@@ -316,8 +316,9 @@
                                     <div class="row" id="creche-checkboxes">
                                         <div class="col-md-6">
                                             <div class="checkbox checkbox-dark">
-                                                <input name="classes[]" type="checkbox" value="CRECHE" checked>
-                                                <label for="pri1">CRECHE <small>(this has been selected for you)</small></label>
+                                                <input name="classes[]" type="checkbox" value="CRECHE" checked disabled>
+                                                <label for="creche">CRECHE</label>
+                                                <br><small>(we have selected this for you)</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6"></div>

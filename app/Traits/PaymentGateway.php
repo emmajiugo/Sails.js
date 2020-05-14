@@ -36,6 +36,13 @@ trait PaymentGateway
     {
         $publicKey = env('FLUTTERWAVE_PUBLIC_KEY');
 
+        //set reference passed
+        if($data->type == "multiple") {
+            $reference = implode("_", unserialize($data->invoice_reference));
+        } else {
+            $reference = $data->invoice_reference;
+        }
+
         $url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay";
 
         $client = new \GuzzleHttp\Client();
@@ -47,7 +54,7 @@ trait PaymentGateway
                 "PBFPubKey" => $publicKey,
                 "currency" => "NGN",
                 "payment_options" => "card",
-                "txref" => ($data->invoice_reference + time()),
+                "txref" => $reference,
                 "amount" => $data->grand_total,
                 "redirect_url" => request()->root()."/home/callback",
                 "customer_email" => $email,

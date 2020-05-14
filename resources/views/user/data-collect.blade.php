@@ -20,7 +20,7 @@
                                         <div class="card">
                                             <div class="card-body text-center" style="background-color:darkgreen; color:#fff">
                                                 <br><br>
-                                                <b>Tuition Fee:</b><br>
+                                                <h3>{{ strtoupper($feetype) }}:</h3>
                                                 <span style="font-size:2.5em; font-weight:bolder">&#8358; {{$feesum}}</span>
                                                 <br><br>
                                             </div>
@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="class">School Address:</label>
-                                            <textarea class="form-control" readonly>{{$school['schoolname']}}</textarea>
+                                            <textarea class="form-control" readonly>{{$school['schooladdress']}}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -75,7 +75,8 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <input type="submit" class="btn btn-success" value="Continue ">
+                                            <a href="{{ route('user.search') }}" class="btn btn-info"><i class="fa fa-angle-double-left"></i> Back</a> 
+                                            <button type="submit" class="btn btn-success">Continue</button>
                                         </div>
                                     </div>
                                 </div>
