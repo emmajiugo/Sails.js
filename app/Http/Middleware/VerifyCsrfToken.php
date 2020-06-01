@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/home/callback',
+        '/home/list-schools',
         '/webhooks/flutterwave/handle',
     ];
 }

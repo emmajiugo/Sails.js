@@ -22,20 +22,20 @@
 
       				<div class="panel-body">
       					<div class="row">
-      						<div class="col-sm-8 col-xs-6">
+      						<div class="col-md-8 col-sm-12">
       							<h4 class="fw-600">{{ $school->schoolname }}</h4>
       							<span>{{ $school->schooladdress }}</span><br>
                                 <span><b>School Email:</b> {{ $school->schoolemail }}</span><br>
                                 <span><b>School Phone:</b> {{ $school->schoolphone }}</span>
       						</div>
-      						<div class="col-sm-4 col-xs-6">
+      						<div class="col-md-4 col-sm-12">
       							<small class="text-right float-right">
-                                    <b>Invoice Date:</b> {{ date("jS F, Y", strtotime($invoice->created_at)) }}<br>
-                                    <b>Payment Date:</b> {{ date("jS F, Y", strtotime($invoice->updated_at)) }}
+                                    <b>Created:</b> {{ date("jS F, Y", strtotime($invoice->created_at)) }}<br>
+                                    {{-- <b>Payment Date:</b> {{ date("jS F, Y", strtotime($invoice->updated_at)) }} --}}
                                 </small>
                                 <br>
 
-      							<h4 class="m-t-lg fw-600 text-right details">Student Details:</h4>
+      							<h4 class="fw-600 text-right details">Student Details:</h4>
       							<div class="clearfix">
       								<span class="pull-left"><b>Student Name:</b></span>
       								<span class="pull-right">{{ $invoice->studentname }}</span>
@@ -51,7 +51,11 @@
       							<div class="clearfix">
       								<span class="pull-left"><b>Session:</b></span>
       								<span class="pull-right">{{ $invoice->session }}</span>
-      							</div>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="pull-left"><b>Fee Type:</b></span>
+                                    <span class="pull-right">{{ $invoice->feetype_name }}</span>
+                                </div>
       						</div>
       					</div>
 

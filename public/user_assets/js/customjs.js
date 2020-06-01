@@ -19,38 +19,29 @@ $('#schoolname').keyup(function() {
     }
 });
 
-$(document).on('click', '#list li', function() {
-    $('#schoolname').val($(this).text());
-    $('#schoolList').fadeOut();
+//select2 ajax select
+$(".search-for-school").select2({
+    theme: "bootstrap",
+    placeholder: 'Search for school',
+    minimumInputLength: 3,
+    ajax: {
+        dataType: 'json',
+        url: '/home/list-schools',
+        delay: 250,
+        data: function(params) {
+            return {
+                school: params.term
+            }
+        },
+        processResults: function (data) {
+            // console.log(data);
+            return {
+                results: data
+            };
+        },
+    }
 });
-// end of Ajax
 
-/*-------------------------------
-AJAX PAID STATUS FUNCTION
--------------------------------- */
-function ajaxPaid(invoiceid, trxref) {
-    //ajax
-    $.ajaxSetup({
-        headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $.ajax({
-        type: 'POST',
-        url: '/invoice/pay',
-        data: { invoiceid:invoiceid, trxref:trxref },
-        success: function (data) {
-        // console.log(data);
-        if (data == 400) {
-            window.location = '/invoice/failed'
-        } else {
-            window.location = '/invoice/success/' + data
-        }
-        }
-    });
-}
-// end of Ajax paid status
-// end container function for user dashboard
 
 /*----------------------------------
 SCHOOL DASHBOARD SECTION

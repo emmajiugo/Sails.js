@@ -121,6 +121,8 @@
                         @else
                             <p>No fee setup associated with your account.</p>
                         @endif
+                        <br><br>
+                        <div class="float-right">{{ $feesetup->links() }}</div>
                     </div>
                 </div>
                 <!-- end the population -->

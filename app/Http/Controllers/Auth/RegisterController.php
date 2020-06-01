@@ -69,7 +69,6 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
-            'api_token' => hash("sha512", "SKOOLEO".$data['email'])
         ]);
     }
 }

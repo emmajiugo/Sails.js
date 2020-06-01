@@ -44,7 +44,7 @@ class TransactionController extends Controller
             $invoices = Invoice::where([
                 ['school_detail_id', '=', $school->id],
                 ['status', '=', 'PAID'],
-            ])->orderBy('updated_at', 'DESC')->get();
+            ])->orderBy('updated_at', 'DESC')->paginate(25);
 
             return view('school.history')->with(['school' => $school, 'invoices' => $invoices, 'schools' => $schools, 'banknames' => $banknames]);
         } else {

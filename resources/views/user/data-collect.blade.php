@@ -32,6 +32,7 @@
                                         <input type="hidden" name="schoolid" value="{{$data['schoolid']}}">
                                         <input type="hidden" name="feesetupid" value="{{$feesetupid}}">
                                         <input type="hidden" name="amount" value="{{$feesum}}">
+                                        <input type="hidden" name="feetype" value="{{$feetype}}">
                                         <div class="form-group">
                                             <label for="session">Academic Session:</label>
                                             <input type="text" class="form-control" name="session" value="{{$data['session']}}" readonly>
@@ -75,7 +76,7 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <a href="{{ route('user.search') }}" class="btn btn-info"><i class="fa fa-angle-double-left"></i> Back</a> 
+                                            <a href="{{ route('user.search') }}" class="btn btn-info"><i class="fa fa-angle-double-left"></i> Back</a>
                                             <button type="submit" class="btn btn-success">Continue</button>
                                         </div>
                                     </div>

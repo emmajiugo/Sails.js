@@ -12,7 +12,7 @@
                 <div class="col-md-12">
                     <h4>
                         <u><b>{{ $ticket->subject }}</b></u>
-                        <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#replyModal">Send Reply</button>
+                        <button type="button" class="btn btn-success btn-sm float-right" data-toggle="modal" data-target="#replyModal">Reply</button>
                     </h4>
                     <br>
                     <hr>

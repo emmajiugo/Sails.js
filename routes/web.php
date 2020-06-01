@@ -38,7 +38,8 @@ Route::prefix('home')->group(function() {
     // Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings'); [coming soon]
 
     // route to implement search
-    Route::post('/ajax-search', 'UserSearchController@ajaxSearch');//index ajax search
+    Route::get('/list-schools', 'UserSearchController@listVerifiedSchool');
+    // Route::post('/ajax-search', 'UserSearchController@ajaxSearch');
     Route::get('/search', 'UserSearchController@getSearch')->name('user.search');
     Route::post('/search', 'UserSearchController@postSearch')->name('user.search.post');
     Route::post('/search/school', 'UserSearchController@postSchool')->name('user.school.post');

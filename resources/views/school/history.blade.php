@@ -14,7 +14,7 @@
                         <table id="datatable-buttons" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Invoice #</th>
+                                    <th>Invoice ID</th>
                                     <th>Academic Session</th>
                                     <th>Term</th>
                                     <th>Student Name</th>
@@ -44,6 +44,8 @@
                             <strong>Info!</strong> No payments made to your account yet.
                         </div>
                     @endif
+                    <br><br>
+                    <div class="float-right">{{ $invoices->links() }}</div>
                 </div>
             </div>
             <!-- end row -->

@@ -56,7 +56,9 @@
 
                                     @endisset
 
-								</table>
+                                </table>
+                                <br><br>
+                                <div class="float-right">{{ $invoices->links() }}</div>
 							</div>
 						</div><!-- .widget -->
 					</div><!-- END column -->

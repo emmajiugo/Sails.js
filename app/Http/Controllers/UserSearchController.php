@@ -22,29 +22,48 @@ class UserSearchController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['listVerifiedSchool']]);
     }
 
     //ajax search method
-    public function ajaxSearch(Request $request)
+    // public function ajaxSearch(Request $request)
+    // {
+    //     if ($request->get('query')) {
+    //         $query = $request->get('query');
+    //         $data = SchoolDetail::where([
+    //             ['schoolname', 'LIKE', '%'.$query.'%'],
+    //             ['verifystatus', '=', 1]
+    //         ])->take(5)->get();
+
+    //         $output = '';
+    //         foreach($data as $row) {
+    //             $output .= '<option value="'.$row->schoolname.'">';
+    //         }
+
+    //         echo $output;
+    //     }
+    // }
+
+    /**
+     * List verified school
+     */
+    public function listVerifiedSchool()
     {
-        if ($request->get('query')) {
-            $query = $request->get('query');
-            $data = SchoolDetail::where([
-                ['schoolname', 'LIKE', '%'.$query.'%'],
-                ['verifystatus', '=', 1]
-            ])->take(5)->get();
+        $schools = SchoolDetail::select('id', 'schoolname', 'schooladdress')->where([
+            ['schoolname', 'LIKE', '%'. request()->school .'%'],
+            ['verifystatus', '=', 1]
+        ])->take(5)->get();
 
-            // $output = '<ul id="list" style="display:block; position:relative; padding: 5px 10px 5px 10px">';
-            $output = '';
-            foreach($data as $row) {
-                // $output .= '<li ><a href="#">'.$row->schoolname.'</a><hr>';
-                $output .= '<option value="'.$row->schoolname.'">';
-            }
-            // $output .= '</ul>';
+        $data = [];
 
-            echo $output;
+        foreach($schools as $school) {
+            $data[] = array(
+                "id" => $school->id,
+                "text" => $school->schoolname." (".$school->schooladdress.")"
+            );
         }
+
+        return $data;
     }
 
     public function getSearch()
@@ -56,8 +75,7 @@ class UserSearchController extends Controller
     public function postSearch(Request $request)
     {
         // check for empty search
-        if ($request->schoolname == '') {
-            // return "Working Fine";
+        if ($request->schoolid == '') {
             return back()->with('error', 'Field is empty.');
         }
 
@@ -65,7 +83,7 @@ class UserSearchController extends Controller
         $sessiondetails = Session::all();
 
         //get the school searched
-        $school = SchoolDetail::where('schoolname', 'LIKE', '%'.$request->schoolname.'%')->get();
+        $school = SchoolDetail::where('id', $request->schoolid)->get();
 
         return redirect(route('user.search'))->with(['schools' => $school, 'sessiondetails' => $sessiondetails]);
     }
@@ -121,6 +139,7 @@ class UserSearchController extends Controller
         $invoice->invoice_reference = $this->generateTrxId();
         $invoice->school_detail_id = $request->schoolid;
         $invoice->feesetup_id = $request->feesetupid;
+        $invoice->feetype_name = $request->feetype;
         $invoice->section = $request->section;
         $invoice->class = $request->studentclass;
         $invoice->session = $request->session;

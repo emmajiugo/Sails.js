@@ -26,11 +26,11 @@
 
         <div class="users">
           <div class="card">
-            <h1 class="head">Search School</h1>
+            <h1 class="head">Search Desired School</h1>
             <br>
 
             <div class="">
-                <form action="{{ route('user.search.post') }}" method="POST" autocomplete="off">
+                {{-- <form action="{{ route('user.search.post') }}" method="POST" autocomplete="off">
                     @csrf
                     <div class="input-group">
                         <input type="text" class="form-control" list="schoolList" id="schoolname" name="schoolname" placeholder="Search school by name" autofocus>
@@ -40,11 +40,18 @@
                     </div>
                 </form>
 
-                <datalist id="schoolList"></datalist>
+                <datalist id="schoolList"></datalist> --}}
+
+                <form action="{{ route('user.search.post') }}" method="POST" autocomplete="off">
+                    @csrf
+                    <div class="form-group">
+                        <select name="schoolid" class="form-control search-for-school" required></select>
+                    </div>
+
+                    <button type="submit" class="btn mw-md btn-primary btn-block">Search School</button>
+                </form>
 
             </div>
-
-            <br>
 
             <div class="user">
 
