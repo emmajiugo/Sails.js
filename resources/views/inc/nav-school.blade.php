@@ -25,7 +25,7 @@
 
         <!-- transactions -->
         <li class="nav-item">
-            <a href="#menu4" class="nav-link collapsed {{ Request::is('school/report') || Request::is('school/history') ? 'active' : '' }}" data-toggle="collapse">
+            <a href="#menu4" class="nav-link collapsed {{ Request::is('school/report') || Request::is('school/history') || Request::is('school/withdraw-history') ? 'active' : '' }}" data-toggle="collapse">
                 <i class="fa fa-chart-bar"></i> Transactions
                 <span class="sub-ico">
                     <i class="fa fa-angle-down"></i>
@@ -36,6 +36,7 @@
         <li class="sub collapse" id="menu4">
             <a href="/school/report" class="nav-link" data-parent="#menu4">Report</a>
             <a href="{{ route('school.transaction.history') }}" class="nav-link" data-parent="#menu4">History</a>
+            <a href="{{ route('withdraw.history') }}" class="nav-link" data-parent="#menu4">Withdraw History</a>
         </li>
         <!-- end submenu -->
 

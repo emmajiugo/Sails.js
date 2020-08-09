@@ -165,3 +165,36 @@
 
     </div>
 </div>
+
+<!-- Withdrawal modal -->
+<div id="withdrawModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Withdrawal</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('wallet.withdraw') }}" method="post">
+                    @csrf
+
+                    <div class="form-group">
+                        <label for="amount-to-withdraw">Amount</label>
+                        <input type="number" name="amount" class="form-control" required>
+                    </div>
+
+                    <br>
+                    <b class="text-success">Withdrawal Fee: </b> &#8358;{{ \App\WebSettings::find(1)->withdrawal_fee }} <br>
+                    <b>NB:</b> Settlement will be made to the account provided to us.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Proceed</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -3,6 +3,7 @@ namespace App\Traits;
 
 trait PaymentGateway
 {
+    private $baseUrl = "https://api.flutterwave.com/v3/";
 
     public function getListOfBanks()
     {
@@ -34,68 +35,94 @@ trait PaymentGateway
 
     public function flutterwaveCheckoutForm(object $data, $email)
     {
-        $publicKey = env('FLUTTERWAVE_PUBLIC_KEY');
+        try {
+            $url = $this->baseUrl . "payments";
+            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
 
-        //set reference passed
-        if($data->type == "multiple") {
-            $reference = implode("_", unserialize($data->invoice_reference));
-        } else {
-            $reference = $data->invoice_reference;
+            //set reference passed
+            if($data->type == "multiple") {
+                $reference = implode("_", unserialize($data->invoice_reference));
+            } else {
+                $reference = $data->invoice_reference;
+            }
+
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request('POST', $url, [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $secretKey
+                ],
+                'json' => [
+                    "tx_ref" => $reference,
+                    "amount" => $data->grand_total,
+                    "currency" => "NGN",
+                    "redirect_url" => request()->root()."/home/callback",
+                    "payment_options" => "card",
+                    "customer" => [
+                        "email" => $email,
+                        "phonenumber" => $data->user_phone,
+                        "name" => $data->user_name
+                    ],
+                    "customizations" => [
+                        "title" => $data->school,
+                        "description" => "Tuition Fee Payment",
+                    ]
+                ]
+            ]);
+            $response = $res->getBody();
+
+            return json_decode($response, true);
+
+        } catch (\Throwable $th) {
+            return ["status"=>"error", "message"=>"An error occurred. Please contact support."];
         }
-
-        $url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/hosted/pay";
-
-        $client = new \GuzzleHttp\Client();
-        $res = $client->request('POST', $url, [
-            'headers' => [
-                'Content-Type'  => 'application/json'
-            ],
-            'json' => [
-                "PBFPubKey" => $publicKey,
-                "currency" => "NGN",
-                "payment_options" => "card",
-                "txref" => $reference,
-                "amount" => $data->grand_total,
-                "redirect_url" => request()->root()."/home/callback",
-                "customer_email" => $email,
-                "customer_phone" => $data->user_phone,
-                "customer_firstname" => $data->user_name,
-                "custom_title" => $data->school,
-            ]
-        ]);
-        $response = $res->getBody();
-
-        return json_decode($response, true);
     }
 
-    public function flutterwaveVerifyTransaction($txref)
+    public function flutterwaveVerifyTransaction($transferId)
     {
-        $secretKey = env('FLUTTERWAVE_SECRET_KEY');
+        try {
+            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
 
-        $url = "https://api.ravepay.co/flwv3-pug/getpaidx/api/v2/verify";
+            $url = $this->baseUrl . "transactions/" .$transferId. "/verify";
 
-        $client = new \GuzzleHttp\Client();
-        $res = $client->request('POST', $url, [
-            'headers' => [
-                'Content-Type'  => 'application/json'
-            ],
-            'json' => [
-                "SECKEY" => $secretKey,
-                "txref" => $txref,
-            ]
-        ]);
-        $response = $res->getBody();
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request('GET', $url, [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $secretKey
+                ]
+            ]);
+            $response = $res->getBody();
 
-        return json_decode($response, true);
+            return json_decode($response, true);
+
+        } catch (\Throwable $th) {
+            return ["status"=>"error", "message"=>"An error occurred. Please contact support."];
+        }
     }
 
-    // $client = new \GuzzleHttp\Client();
-    // $res = $client->request('GET', $url, ['headers' => [
-    //     'Authorization' => strtoupper($hashValue),
-    //     'email'         => $email
-    // ]]);
-    // $statusCode = $res->getStatusCode();
-    // $response = $res->getBody();
+    public function flutterwaveTransfer(array $data) {
+        try {
+            $url = $this->baseUrl . "transfers";
+
+            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
+
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request('POST', $url, [
+                'headers' => [
+                    'Content-Type'  => 'application/json',
+                    'Authorization' => 'Bearer ' . $secretKey
+                ],
+                'json' => $data
+            ]);
+            $response = $res->getBody();
+
+            return json_decode($response, true);
+
+        } catch (\Throwable $th) {
+            return ["status"=>"error", "message"=>"Transfer creation failed"];
+        }
+    }
 }
 
 

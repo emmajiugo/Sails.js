@@ -14,7 +14,7 @@
                     <div class="col-lg-12">
                         <div class="alert alert-warning" role="alert">
                             <i class="mdi mdi-information"></i>
-                            <strong>Notice!</strong> Your school is yet to be verified and cannot be visible to the public. If verification has exceeded 48hrs, please contact us at <b>hello@schoolpay.ng</b> or <b>07031056082</b>
+                            <strong>Notice!</strong> Your school is yet to be verified and cannot be visible to the public. If verification has exceeded 48hrs, please contact us at <b>{{ \App\WebSettings::find(1)->email }}</b> or <b>{{ \App\WebSettings::find(1)->phone }}</b>
                         </div>
                     </div>
                 @endif
@@ -23,30 +23,29 @@
                     <!-- avtive -->
                     <div class="activeMode">
                         <div class="card">
-                            <h1>Account Mode</h1>
+                            <h1>Account Status</h1>
 
                             @if ($verify_status == 0)
-                                <a href="" class="btn btn-warning">Not Verified</a>
+                                <button class="btn btn-warning">Not Verified</button>
                             @else
-                                <a href="" class="btn btn-success">Active</a>
+                                <button class="btn btn-success">Active</button>
                             @endif
                         </div>
                     </div>
                     <!-- end active -->
 
-                    <!-- Registered Users -->
+                    <!-- Available Funds -->
                     <div class="regsterUsers">
                         <div class="card">
-                        <div class="card-top">
-                            <h1>320</h1>
-                            <i class="fa fa-users"></i>
-                        </div>
-                        <div class="card-bottom">
-                            <p>Transactions This Month</p>
-                        </div>
+                            <div class="card-top">
+                                <h1>&#8358; {{ number_format($wallet) }}</h1>
+                            </div>
+                            <div class="card-bottom">
+                                <p><i class="fa fa-wallet"></i> Available Funds <button class="btn btn-secondary btn-sm float-right" type="button"  data-toggle="modal" data-target="#withdrawModal">Withdraw</button></p>
+                            </div>
                         </div>
                     </div>
-                    <!-- end  Registered Users-->
+                    <!-- end Available Funds -->
                 </div>
 
                 <div class="col-lg-8">
@@ -57,44 +56,32 @@
                     </div>
                 </div>
                 <!-- end head content -->
+
                 <!-- start analytics -->
                 <div class="col-lg-4">
-                <div class="analytics">
-                    <div class="card">
-                    <div class="icon"><i class="fa fa-video"></i></div>
-                    <div class="text">
-                        <h1>&#8358; {{number_format($amount)}}</h1>
-                        <p>Total Tuition</p>
+                    <div class="analytics">
+                        <div class="card">
+                            <div class="icon"><i class="fa fa-user-graduate"></i></div>
+                            <div class="text">
+                                <h1>{{ count($payments) }}</h1>
+                                <p>Students Paid</p>
+                            </div>
+                        </div>
                     </div>
+                    <div class="analytics">
+                        <div class="card">
+                            <div class="icon"><i class="fa fa-user-circle"></i></div>
+                            <div class="text">
+                                <h1>{{ count($schools) }}</h1>
+                                <p>Accounts</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                </div>
-                <div class="col-lg-4">
-                <div class="analytics">
-                    <div class="card">
-                    <div class="icon"><i class="fab fa-vimeo-v"></i></div>
-                    <div class="text">
-                        <h1>{{ count($payments) }}</h1>
-                        <p>Students Paid</p>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <div class="col-lg-4">
-                <div class="analytics">
-                    <div class="card">
-                    <div class="icon"><i class="fa fa-users"></i></div>
-                    <div class="text">
-                        <h1>32</h1>
-                        <p>Users</p>
-                    </div>
-                    </div>
-                </div>
                 </div>
                 <!-- end analytics -->
 
                 <!-- start Active Leads -->
-                <div class="col-lg-7">
+                <div class="col-lg-8">
                     <div id="leads">
                         <div class="card">
                         <h1 class="head">Latest Payments
@@ -118,7 +105,7 @@
                                     <!-- start rows -->
                                     @foreach($payments as $payment)
                                         <tr>
-                                            <td># {{ $payment->trx_id }}</td>
+                                            <td># {{ $payment->invoice_reference }}</td>
                                             <td>{{ $payment->studentname }}</td>
                                             <td>{{ $payment->class }}</td>
                                         </tr>
@@ -135,34 +122,9 @@
                     </div>
                 </div>
                 <!-- end Active Leads -->
-
-                <!-- start task card -->
-                <div class="col-lg-5">
-                    <div id="active">
-                        <div class="card">
-                        <p class="head">Active user right now</p>
-                        <div class="info">
-                            <div class="col">
-                            <h1>937</h1>
-                            <p>users</p>
-                            </div>
-                            <div class="col">
-                            <h1>82</h1>
-                            <p>guests</p>
-                            </div>
-                        </div>
-                        <p class="head">Page view per aria</p>
-                        <div class="aria">
-                            <p>22 from the United States of America</p>
-                            <p>96 from the egypt</p>
-                            <p>667 from the canada</p>
-                        </div>
-                        </div>
-                    </div>
-                </div>
             @else
                 <div class="col-lg-12 alert alert-warning text-center">
-                    <strong>Welcome to SKOOLEO!</strong> Create an account for your school and start enjoying our awesome services.<br><br>
+                    <strong>Welcome to Skooleo!</strong> Create an account for your school and start enjoying our awesome services.<br><br>
                     <button class="btn btn-info" data-toggle="modal" data-target="#newAccountModal">Create an account</button>
                 </div>
 

@@ -123,8 +123,8 @@
                         <div class="wantToWork-caption text-center">
                             <h2>Download our mobile app.</h2>
                             <p>Available on both Play-store and Apple-store.</p>
-                            <a href="#"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Play Store"></a>
-                            <a href="#"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="App Store"></a>
+                            <a href="{{ \App\WebSettings::find(1)->playstore_link }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Play Store"></a>
+                            <a href="{{ \App\WebSettings::find(1)->appstore_link }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="App Store"></a>
                         </div>
                     </div>
                 </div>
@@ -150,15 +150,14 @@
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
-                                        <p class="info1">221B Baker Street, P.O Box 353 Park <br> Road, USA - 215431</p>
-                                        <p class="info2">hello@skooleo.com</p>
+                                        <p class="info1">{{ \App\WebSettings::find(1)->address }}</p>
+                                        <p class="info2">{{ \App\WebSettings::find(1)->email }}</p>
                                     </div>
                                 </div>
                                 <div class="footer-social">
-                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fab fa-twitter"></i></a>
-                                    <a href="#"><i class="fas fa-globe"></i></a>
-                                    <a href="#"><i class="fab fa-behance"></i></a>
+                                    <a href="{{ \App\WebSettings::find(1)->facebook_link }}" target="blank"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="{{ \App\WebSettings::find(1)->twitter_link }}" target="blank"><i class="fab fa-twitter"></i></a>
+                                    <a href="{{ \App\WebSettings::find(1)->instagram_link }}" target="blank"><i class="fab fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -166,7 +165,7 @@
                         <div class="col-lg-2 col-md-4 col-sm-5">
                             <div class="single-footer-caption mb-50">
                                 <div class="footer-tittle">
-                                    <h4>Navigaation</h4>
+                                    <h4>Navigation</h4>
                                     <ul>
                                         <li><a href="about.html">How It Works</a></li>
                                         <li><a href="single-blog.html">Pricing</a></li>
@@ -192,8 +191,8 @@
                                 <div class="footer-tittle">
                                     <h4>Mobile Apps</h4>
                                     <ul>
-                                    <li><a href="#"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="App Store"></a></li>
-                                    <li><a href="#"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="App Store"></a></li>
+                                    <li><a href="{{ \App\WebSettings::find(1)->playstore_link }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Playstore"></a></li>
+                                    <li><a href="{{ \App\WebSettings::find(1)->appstore_link }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="Appstore"></a></li>
                                 </ul>
                                 </div>
                             </div>

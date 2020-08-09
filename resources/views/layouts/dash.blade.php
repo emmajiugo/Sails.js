@@ -43,14 +43,13 @@
         </div>
         <!-- end with head -->
 
-        <!-- start the list -->
         <!-- navbar -->
         @if(Auth::guard('web')->check())
             @include('inc.nav-user')
         @elseif(Auth::guard('school')->check())
             @include('inc.nav-school')
         @endif
-        <!-- end the list -->
+        <!-- end navbar -->
     </div>
     <!-- end sidebar -->
 

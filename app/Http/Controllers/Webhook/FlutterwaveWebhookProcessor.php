@@ -34,7 +34,7 @@ class FlutterwaveWebhookProcessor extends Controller
             $signature = ($request->header("verif-hash") !== null) ? $request->header("verif-hash") : '';
 
             /* It is a good idea to log all events received. Add code *
-            * here to log the signature and body to db or file       */
+            * here to log the signature and body to db or file */
 
             if (!$signature) {
                 // only a post with Flutterwave signature header gets our attention
@@ -52,10 +52,20 @@ class FlutterwaveWebhookProcessor extends Controller
 
             http_response_code(200);
 
-            if ($request->status == 'successful') {
-                // Log::info(($request->txRef.' '.$request->flwRef));
-                $this->updateInvoice($request->txRef, $request->flwRef);
+            if (array_key_exists("transfer", $request)) {
+
+                Log::info($request->transfer);
+                $this->updateTransfer($request->transfer);
+
+            } else {
+
+                if ($request->status == 'successful') {
+                    // Log::info(($request->txRef.' '.$request->flwRef));
+                    $this->updateInvoice($request->txRef, $request->flwRef);
+                }
+
             }
+
             exit();
 
         } catch (\Throwable $th) {

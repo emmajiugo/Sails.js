@@ -25,45 +25,19 @@
         <div class="container">
             <!-- Section-tittle -->
             <div class="row">
-                <div class="offset-lg-2 col-lg-4 col-md-6">
-                    <div class="generating-cap text-center">
-                        <h4>For Parents & Guardians</h4>
-                        <hr class="horizontal-line">
-                        <div class="space-10"></div>
-                    </div>
+                <div class="offset-md-3 col-md-6">
                     <div class="single-choose text-center mb-30">
                         <div class="do-icon">
                             <span  class="flaticon-growth"></span>
                         </div>
                         <div class="do-caption">
-                            <h4>$ 05.00</h4>
-                            <ul>
-                                <li>Increase traffic 50%</li>
-                                <li>Social Media Marketing</li>
-                                <li>10 Free Optimization</li>
-                                <li>24/7  support</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                 <div class="col-lg-4 col-md-6">
-                    <div class="generating-cap text-center">
-                        <h4>For Schools</h4>
-                        <hr class="horizontal-line">
-                        <div class="space-10"></div>
-                    </div>
-                    <div class="single-choose active text-center mb-30">
-                        <div class="do-icon">
-                            <span  class="flaticon-award"></span>
-                        </div>
-                        <div class="do-caption">
-                            <h4>$ 20.00</h4>
-                            <ul>
-                                <li>Increase traffic 50%</li>
-                                <li>Social Media Marketing</li>
-                                <li>10 Free Optimization</li>
-                                <li>24/7  support</li>
-                            </ul>
+                            <h4>&#8358; {{ \App\WebSettings::find(1)->transaction_fee }}</h4>
+                            <p>Transaction Fee for Parents.</p>
+                            <br>
+                            <h4>&#8358; {{ \App\WebSettings::find(1)->withdrawal_fee }}</h4>
+                            <p>Withdrawal Fee for Schools.</p>
+                            <p>Smart Dashboard for Schools.</p>
+                            <p>24/7 Support.</p>
                         </div>
                     </div>
                 </div>

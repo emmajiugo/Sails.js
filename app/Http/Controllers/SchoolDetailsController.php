@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\SchoolDetail;
+use App\Wallet;
 
 class SchoolDetailsController extends Controller
 {
@@ -51,6 +52,7 @@ class SchoolDetailsController extends Controller
             ['school_id', '=', $schoolid],
             ['is_used', '=', 1],
         ])->first();
+
         if ($school) {
             $school->is_used = 0;
             $school->save();
@@ -72,6 +74,12 @@ class SchoolDetailsController extends Controller
         $schoolDetails->save();
 
         if($schoolDetails->id) {
+
+            // create new wallet for school
+            $wallet = new Wallet;
+            $wallet->school_detail_id = $schoolDetails->id;
+            $wallet->save();
+
             return back()->with('success', 'Account created successfully');
         }
     }

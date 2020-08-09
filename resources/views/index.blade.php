@@ -17,7 +17,7 @@
                                 <!-- Hero-btn -->
                                 <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s">
                                     <br>
-                                    <a href="#" class="btn hero-btn">Watch Demo!</a>
+                                    <a href="{{ \App\WebSettings::find(1)->demo_link }}" target="blank" class="btn hero-btn">Watch Demo!</a>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="do-caption">
                             <h4>Excellent Support</h4>
-                            <p>24/7 support to help if any need arise. All you need is to <strong>Say Hello</strong> and every inquiry or issues will be resolved.</p>
+                            <p>24/7 support to help if any need arise. <strong>Say Hello</strong> and every inquiry or issues will be resolved.</p>
                         </div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                                 </tr>
                                 <tr>
                                     <td><i class="far fa-check-square"></i></td>
-                                    <td class="text">Select the section, class and term depending on the process. Fill in your child details.</td>
+                                    <td class="text">Select the section, class and term depending on the process. Fill in your child's details.</td>
                                 </tr>
                                 <tr>
                                     <td><i class="far fa-check-square"></i></td>
@@ -181,7 +181,7 @@
                                 </tr>
                                 <tr>
                                     <td><i class="far fa-check-square"></i></td>
-                                    <td class="text">Once payment is made, invoice is sent to school and you can have prove of payment on your app.</td>
+                                    <td class="text">Once payment is made, invoice is sent to school and you have proof of payment on your app.</td>
                                 </tr>
                             </table>
                         </div>
@@ -251,34 +251,34 @@
                                 <div class="single-testimonial text-center">
                                     <div class="testimonial-caption ">
                                         <div class="testimonial-top-cap">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
+                                            <p>Skooleo is a wonderful platform. Using their platform has increased the number of students that pay their fees even before resumption.</p>
                                         </div>
                                         <!-- founder -->
                                         <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                            <div class="founder-img">
+                                            {{-- <div class="founder-img">
                                                 <img src="assets/img/testmonial/testimonial.png" alt="">
+                                            </div> --}}
+                                            <div class="founder-text">
+                                                <span>Rev. Fr. Charles Onwumelu</span>
+                                                <p>All Hallows Seminary, Onitsha.</p>
                                             </div>
-                                        <div class="founder-text">
-                                            <span>Oliva jems</span>
-                                            <p>UIX designer</p>
-                                        </div>
                                         </div>
                                     </div>
                                 </div><!-- Single Testimonial -->
                                 <div class="single-testimonial text-center">
                                     <div class="testimonial-caption ">
                                         <div class="testimonial-top-cap">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis. </p>
+                                            <p>I love the way this platform makes it simple for our school to setup our fees and receive payments easily from parents and students.</p>
                                         </div>
                                         <!-- founder -->
                                         <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                            <div class="founder-img">
+                                            {{-- <div class="founder-img">
                                                 <img src="assets/img/testmonial/testimonial.png" alt="">
+                                            </div> --}}
+                                            <div class="founder-text">
+                                                <span>Mrs. Anyawu (Proprietor)</span>
+                                                <p>Julipass College, Lagos.</p>
                                             </div>
-                                        <div class="founder-text">
-                                            <span>Oliva jems</span>
-                                            <p>UIX designer</p>
-                                        </div>
                                         </div>
                                     </div>
                                 </div>

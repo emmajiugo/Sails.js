@@ -11,9 +11,9 @@ class SchoolDetail extends Model
         return $this->belongsTo('App\School');
     }
 
-    // public function bankdetail() {
-    //     return $this->hasOne('App\BankDetail');
-    // }
+    public function wallet() {
+        return $this->hasOne('App\Wallet');
+    }
 
     public function feesetup() {
         return $this->hasMany('App\Feesetup');
@@ -25,6 +25,9 @@ class SchoolDetail extends Model
 
     public function paymenthistory() {
         return $this->hasMany('App\PaymentHistory');
+    }
+    public function withdrawalhistory() {
+        return $this->hasMany('App\WithdrawalHistory');
     }
 
     public function supportticket() {

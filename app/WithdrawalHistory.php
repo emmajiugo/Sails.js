@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Invoice extends Model
+class WithdrawalHistory extends Model
 {
     //
     public function schooldetail() {

@@ -33,13 +33,13 @@ class SchoolController extends Controller
     public function index()
     {
         //define arrays
-        $invoices = []; $bankdetail = []; $totalAmount = []; $banknames= []; $verifyStatus = []; $schools = [];
+        $invoices = []; $totalAmount = []; $bankNames = []; $verifyStatus = []; $schools = [];
 
         $id = auth()->user()->id;
         $school = $this->getSchoolInUsed($id);
 
         //get list of banks from API
-        $banknames = $this->getListOfBanks();
+        $bankNames = $this->getListOfBanks();
 
         // get all school details if there is one
         if ($school) {
@@ -50,19 +50,16 @@ class SchoolController extends Controller
             //get the verification status
             $verifyStatus = $school->verifystatus;
 
-            //get total amount remitted for the school
-            $totalAmount = Invoice::where([
-                ['school_detail_id', '=', $school->id],
-                ['status', '=', 'PAID'],
-            ])->sum('amount');
+            //get school wallet
+            $totalAmount = $school->wallet->total_amount;
 
             //get the latest payments for the school
             $invoices = Invoice::where([
                 ['school_detail_id', '=', $school->id],
                 ['status', '=', 'PAID'],
-            ])->orderBy('updated_at', 'DESC')->take(8)->get();
+            ])->orderBy('updated_at', 'DESC')->take(8)->get(["invoice_reference", "studentname", "class"]);
         }
 
-        return view('school.index')->with(['school_detail' => $school, 'schools' => $schools, 'payments' => $invoices, 'bank' => $bankdetail, 'amount' => $totalAmount, 'banknames' => $banknames, 'verify_status' => $verifyStatus]);
+        return view('school.index')->with(['schools' => $schools, 'payments' => $invoices, 'wallet' => $totalAmount, 'banknames' => $bankNames, 'verify_status' => $verifyStatus]);
     }
 }

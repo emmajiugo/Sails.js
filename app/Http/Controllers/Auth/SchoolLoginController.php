@@ -41,9 +41,9 @@ class SchoolLoginController extends Controller
         {
             // if successful, then redirect to their intended location
             return redirect()->intended(route('school.dashboard'));
-        }        
+        }
 
         // if unsuccessful, then redirect back to login with form data
-        return redirect()->back()->withInput($request->only('email', 'remember'));
+        return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors(['error' => 'The credentials do not match our records']);
     }
 }

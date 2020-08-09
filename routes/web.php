@@ -64,6 +64,10 @@ Route::prefix('school')->group(function() {
     Route::get('/register', 'Auth\SchoolRegisterController@showRegisterForm')->name('school.register');
     Route::post('/register', 'Auth\SchoolRegisterController@register')->name('school.register.submit');
 
+    // Withdraw funds
+    Route::post('withdraw', 'WalletController@withdraw')->name('wallet.withdraw');
+    Route::get('withdraw-history', 'WalletController@history')->name('withdraw.history');
+
     // create a new account
     Route::post('/create', 'SchoolDetailsController@create')->name('school.account.create');
     Route::post('/switch-account', 'SchoolDetailsController@switch')->name('school.account.switch');

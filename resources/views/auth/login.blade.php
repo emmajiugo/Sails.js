@@ -10,7 +10,7 @@
             <div class="col-lg-8">
                 <div class="section-tittle text-center mb-80">
                     <h2>Login</h2>
-                    <span>Parents & Guardians</span>
+                    {{-- <span>Parents & Guardians</span> --}}
                 </div>
             </div>
         </div>
@@ -41,30 +41,27 @@
                 </div>
 
                 <div class="login">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="section-tittle text-center mb-80">
+                                <span>Parents & Guardians</span>
+                            </div>
+                        </div>
+
+                        @include('inc.messages')
+                    </div>
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
                         <div class="form-group">
                             <label for="">Email or Phone:</label>
-                            <input id="email_phone" type="text" placeholder="Email or Phone" class="single-input {{ $errors->has('email_phone') ? ' is-invalid' : '' }}" name="email_phone" value="{{ old('email_phone') }}" required autofocus>
-
-                            @if ($errors->has('email_phone'))
-                                <p class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('email_phone') }}</strong>
-                                </p>
-                            @endif
+                            <input type="text" placeholder="Email or Phone" class="single-input" name="email_phone" value="{{ old('email_phone') }}" required autofocus>
                         </div>
 
                         <div class="form-group">
                             <label for="">Password:</label>
-                            <input id="password" type="password" placeholder="Password" class="single-input {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                            @if ($errors->has('password'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
+                            <input type="password" placeholder="Password" class="single-input" name="password" required>
                         </div>
 
                         <div class="space-20"></div>

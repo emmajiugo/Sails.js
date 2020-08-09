@@ -71,5 +71,12 @@ class LoginController extends Controller
     {
         return $this->username;
     }
-    
+
+    /**
+     * Custom Error Message
+     */
+    protected function getFailedLoginMessage()
+    {
+        return 'The credentials do not match our records';
+    }
 }

@@ -7,6 +7,7 @@ use App\Traits\PaymentGateway;
 use App\SchoolDetail;
 use App\Feesbreakdown;
 use App\Invoice;
+use App\WithdrawalHistory;
 
 /**
  * Methods that are used across all controllers are put here
@@ -65,6 +66,20 @@ trait SchoolBase
         return $trxid;
     }
 
+    //generate transfer reference
+    public function transferReference()
+    {
+        $reference = "";
+        do {
+            //generate 8 different random numbers and concat them
+            for ($i = 0; $i < 8; $i++) {
+                $reference .= mt_rand(1, 9);
+            }
+        } while (!empty(WithdrawalHistory::where('reference', $reference)->first()));
+
+        return $reference;
+    }
+
     //update invoice transaction
     public function updateInvoice($txref, $flwref)
     {
@@ -90,6 +105,15 @@ trait SchoolBase
         } else {
             return false;
         }
+    }
+
+    // update transfer
+    public function updateTransfer($response) {
+
+        $history = WithdrawalHistory::where('reference', $response->reference)->first();
+        $history->status = $response->status;
+        $history->message = $response->complete_message;
+        $history->save();
     }
 
 }
