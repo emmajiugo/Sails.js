@@ -28,10 +28,16 @@ class HomeController extends Controller
         $userId = auth()->user()->id;
 
         //unpaid invoice count
-        $unpaidInvoices = Invoice::where(['user_id' => $userId, 'status' => 'UNPAID'])->orderBy('created_at', 'desc')->limit(2)->get();
+        $unpaidInvoices = Invoice::where(['user_id' => $userId, 'status' => 'UNPAID'])
+                                    ->orderBy('created_at', 'desc')
+                                    ->limit(2)
+                                    ->get(['studentname', 'invoice_reference', 'amount']);
 
         //invoice latest transaction limit 5
-        $latestInvoices = Invoice::where(['user_id' => $userId, 'status' => 'PAID'])->orderBy('updated_at', 'desc')->limit(3)->get();
+        $latestInvoices = Invoice::where(['user_id' => $userId, 'status' => 'PAID'])
+                                    ->orderBy('updated_at', 'desc')
+                                    ->limit(3)
+                                    ->get(['studentname', 'invoice_reference', 'amount']);
 
         return view('user.index')->with(['unpaidInvoices' => $unpaidInvoices, 'latestInvoices' => $latestInvoices]);
     }

@@ -31,6 +31,7 @@
                                     <tr>
                                         <th>Reference</th>
                                         <th>Amount</th>
+                                        <th>Fee</th>
                                         <th>Balance Before</th>
                                         <th>Balance After</th>
                                         <th>Status</th>
@@ -43,6 +44,7 @@
                                         <tr>
                                             <td>#{{$data->reference}}</td>
                                             <td>&#8358;{{$data->amount}}</td>
+                                            <td>&#8358;{{$data->skooleo_fee}}</td>
                                             <td>&#8358;{{$data->balance_before}}</td>
                                             <td>&#8358;{{$data->balance_after}}</td>
                                             <td>
@@ -50,9 +52,9 @@
                                                     if ($data->status === "PENDING") {
                                                         echo "<button class='btn btn-sm btn-warning'>". $data->status ."</button>";
                                                     } else if ($data->status === "FAILED") {
-                                                        echo "<button class='btn btn-sm btn-danger'>". $data->status ."</button>";
-                                                    } else if ($data->status === "SUCCESS") {
-                                                        echo "<button class='btn btn-sm btn-success'>". $data->status ."</button>";
+                                                        echo "<button class='btn btn-sm btn-danger' data-toggle='popover' data-content='". $data->message ."'>". $data->status ."</button>";
+                                                    } else if ($data->status === "SUCCESSFUL") {
+                                                        echo "<button class='btn btn-sm btn-success'>SUCCESS</button>";
                                                     }
                                                 @endphp
                                             </td>

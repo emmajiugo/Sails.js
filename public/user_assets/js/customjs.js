@@ -46,6 +46,30 @@ $(".search-for-school").select2({
 /*----------------------------------
 SCHOOL DASHBOARD SECTION
 ----------------------------------- */
+$(document).ready(function () {
+    $('[data-toggle="popover"]').popover();
+});
+
+//withdrawal button
+$("#withdraw-btn").on("click", function () {
+
+    var amount = $("#withdraw-amount").val();
+
+    if (amount != "") {
+        $("#withdraw-btn").hide();
+        $(".withdraw-loader").addClass('withdraw-loader-display');
+    }
+
+});
+
+//pay-now button
+$("#pay-now").on("click", function () {
+
+    $("#pay-now").hide();
+    $(".withdraw-loader").addClass('withdraw-loader-display');
+
+});
+
 //add or remove textbox dynamically
 $("#setupModal").on('shown.bs.modal', function () {
 

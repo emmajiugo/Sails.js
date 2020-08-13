@@ -31,7 +31,6 @@
       						<div class="col-md-4 col-sm-12">
       							<small class="text-right float-right">
                                     <b>Created:</b> {{ date("jS F, Y", strtotime($invoice->created_at)) }}<br>
-                                    {{-- <b>Payment Date:</b> {{ date("jS F, Y", strtotime($invoice->updated_at)) }} --}}
                                 </small>
                                 <br>
 
@@ -78,14 +77,11 @@
                                     <form action="{{ route('user.invoice.payment') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="type" value="single">
-                                        <input type="hidden" name="grand_total" value="{{ $feesum + $transaction_fee }}">
-                                        <input type="hidden" name="invoice_reference" value="{{ $invoice->invoice_reference }}">
-                                        <input type="hidden" name="school" value="{{ $school->schoolname }}">
-                                        <input type="hidden" name="user_name" value="{{ auth()->user()->fullname }}">
-                                        <input type="hidden" name="user_phone" value="{{ auth()->user()->phone }}">
+                                        <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
 
                                         @if ($invoice->status=='UNPAID')
-                                            <button type="submit" class="btn btn-md btn-primary m-r-lg"><i class="fa fa-credit-card"></i> Pay Now</button>
+                                            <button type="submit" id="pay-now" class="btn btn-md btn-primary m-r-lg"><i class="fa fa-credit-card"></i> Pay Now</button>
+                                            <img src="{{ asset('user_assets/img/loader1.gif') }}" class="withdraw-loader" alt="Loader">
                                         @endif
                                         <a href="{{ route('user.dashboard') }}" class="btn btn-md btn-secondary"><i class="fa fa-plus"></i> Add Another Student</a>
                                     </form>

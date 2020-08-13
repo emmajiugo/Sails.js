@@ -30,7 +30,7 @@ class FlutterwaveWebhookProcessor extends Controller
     public function validateFlutterwaveWebhook(Request $request)
     {
         try {
-            // retrieve the signature sent in the reques header's.
+            // retrieve the signature sent in the request header's.
             $signature = ($request->header("verif-hash") !== null) ? $request->header("verif-hash") : '';
 
             /* It is a good idea to log all events received. Add code *
@@ -52,16 +52,17 @@ class FlutterwaveWebhookProcessor extends Controller
 
             http_response_code(200);
 
-            if (array_key_exists("transfer", $request)) {
+            if ($request['event.type'] === 'Transfer') {
 
-                Log::info($request->transfer);
-                $this->updateTransfer($request->transfer);
+                $this->updateTransfer($request['data']['reference'],
+                                        $request['data']['status'],
+                                        $request['data']['complete_message']);
 
             } else {
 
-                if ($request->status == 'successful') {
-                    // Log::info(($request->txRef.' '.$request->flwRef));
-                    $this->updateInvoice($request->txRef, $request->flwRef);
+                if ($request['data']['status'] == 'successful') {
+                    // Log::info(($request->flwRef));
+                    $this->updateInvoice($request['data']['tx_ref'], $request['data']['id']);
                 }
 
             }

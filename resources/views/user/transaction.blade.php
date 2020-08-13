@@ -94,8 +94,6 @@
                             @php
                                 $totalAmount = 0;
                                 $totalFee = 0;
-                                $grandTotal = 0;
-                                $invoiceRefs = [];
                             @endphp
 
                             @isset($invoices)
@@ -103,14 +101,12 @@
                                     @if ($invoice->status == "UNPAID")
                                         @php
                                             $totalAmount += $invoice->amount;
-                                            $totalFee += 300;
-                                            $grandTotal += ($invoice->amount + 300);
-                                            $invoiceRefs[] = $invoice->invoice_reference;
+                                            $totalFee += \App\WebSettings::find(1)->transaction_fee;
                                         @endphp
                                         <tr>
                                             <td>#{{ $invoice->invoice_reference }}</td>
                                             <td>&#8358;{{ number_format($invoice->amount) }}</td>
-                                            <td>&#8358;300</td>
+                                            <td>&#8358;{{ \App\WebSettings::find(1)->transaction_fee }}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -122,7 +118,7 @@
                                 </tr>
                                 <tr style="background-color: #e2e0e0">
                                     <td><b>Grand Total:</b></td>
-                                    <td colspan="2" class="text-right"><b>&#8358;{{ number_format($grandTotal) }}</b></td>
+                                    <td colspan="2" class="text-right"><b>&#8358;{{ number_format(($totalAmount + $totalFee)) }}</b></td>
                                 </tr>
                             @endisset
                         </table>
@@ -131,11 +127,6 @@
                     <form action="{{ route('user.invoice.payment') }}" method="POST">
                         @csrf
                         <input type="hidden" name="type" value="multiple">
-                        <input type="hidden" name="grand_total" value="{{ $grandTotal }}">
-                        <input type="hidden" name="invoice_reference" value="{{ serialize($invoiceRefs) }}">
-                        <input type="hidden" name="school" value="SKOOLEO INC.">
-                        <input type="hidden" name="user_name" value="{{ auth()->user()->fullname }}">
-                        <input type="hidden" name="user_phone" value="{{ auth()->user()->phone }}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

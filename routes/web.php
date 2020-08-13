@@ -49,7 +49,7 @@ Route::prefix('home')->group(function() {
     Route::get('/invoices', 'InvoiceController@index')->name('user.invoice');
     Route::get('/invoice/{reference}', 'InvoiceController@getInvoice')->name('user.invoice.id');
     Route::post('/invoice', 'InvoiceController@invoicePayment')->name('user.invoice.payment');
-    Route::post('/callback', 'InvoiceController@invoiceStatus');
+    Route::get('/callback', 'InvoiceController@invoiceStatus');
 
     // route for user dashboard
     Route::get('/', 'HomeController@index')->name('user.dashboard');

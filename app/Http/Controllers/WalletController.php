@@ -48,13 +48,14 @@ class WalletController extends Controller
 
         $wallet = $school->wallet;
         $fee = \App\WebSettings::find(1)->withdrawal_fee;
-        $totalWithdrawal = $request->amount + $fee;
+        $amount = $request->amount;
+        $totalWithdrawal = $amount + $fee;
 
         if ($totalWithdrawal > $wallet->total_amount)
-            return back()->with('error', 'Not a enough balance in your Available Funds');
+            return back()->with('error', 'Not a enough balance in your Available Funds. Fee should be included.');
 
         // generate reference
-        $reference = $this->transferReference();
+        $reference = $this->transferReference(); //."_PMCKDU_1";
 
         // save withdrawal in History
         $history = new WithdrawalHistory;
@@ -62,7 +63,8 @@ class WalletController extends Controller
         $history->reference = $reference;
         $history->balance_before = $wallet->total_amount;
         $history->currency = "NGN";
-        $history->amount = $totalWithdrawal;
+        $history->amount = $amount;
+        $history->skooleo_fee = $fee;
         $history->account_number = $school->corporate_acctno;
         $history->fullname = $school->corporate_acctname;
         $history->bank_code = $school->bankname;
@@ -74,10 +76,11 @@ class WalletController extends Controller
 
         if ($wallet->save()) {
 
+            // send request to gateway
             $payload = [
                 "account_bank" => $school->bankname,
                 "account_number" => $school->corporate_acctno,
-                "amount" => $totalWithdrawal,
+                "amount" => $amount,
                 "narration" => "Payout to ". $school->schoolname,
                 "currency" => "NGN",
                 "reference" => $reference,

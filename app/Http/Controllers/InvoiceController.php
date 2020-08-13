@@ -14,6 +14,8 @@ class InvoiceController extends Controller
 {
     use PaymentGateway; use SchoolBase;
 
+    private $transactionFee;
+
     /**
      * Create a new controller instance.
      *
@@ -22,6 +24,8 @@ class InvoiceController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->transactionFee = \App\WebSettings::find(1)->transaction_fee;
     }
 
     /**
@@ -41,21 +45,21 @@ class InvoiceController extends Controller
     public function getInvoice($reference)
     {
         //get the invoice details
-        $invoicedetails = Invoice::where([
+        $invoiceDetails = Invoice::where([
             'invoice_reference'=> $reference,
             'user_id'=> auth()->user()->id]
         )->first();
 
-        if ($invoicedetails) {
+        if ($invoiceDetails) {
             //get school details also
-            $school = SchoolDetail::find($invoicedetails->school_detail_id);
+            $school = SchoolDetail::find($invoiceDetails->school_detail_id);
             //get the breakdown for the fee setup
-            $feesbreakdown = Feesbreakdown::where('feesetup_id', $invoicedetails->feesetup_id)->get();
-            //get the sum of all feesbrakdown
+            $feesbreakdown = Feesbreakdown::where('feesetup_id', $invoiceDetails->feesetup_id)->get();
+            //get the sum of all fees breakdown
             $feesum = $feesbreakdown->sum('amount');
 
             //redirect to the invoice page
-            return view('user.invoice')->with(['invoice' => $invoicedetails, 'feesbreakdown' => $feesbreakdown, 'school' => $school, 'feesum' => $feesum, 'transaction_fee'=>300]);
+            return view('user.invoice')->with(['invoice' => $invoiceDetails, 'feesbreakdown' => $feesbreakdown, 'school' => $school, 'feesum' => $feesum, 'transaction_fee'=> $this->transactionFee]);
         } else {
             //redirect to the invoice page
             return redirect(route('user.invoice'))->with('error', 'Invoice reference not found for this user!');
@@ -66,21 +70,44 @@ class InvoiceController extends Controller
     //direct user to payment checkout form
     public function invoicePayment(Request $request)
     {
-        $this->validate($request, [
-            "type" => "required",
-            "grand_total" => "required",
-            "invoice_reference" => "required",
-            "school" => "required",
-            "user_name" => "required",
-            "user_phone" => "required"
-        ]);
+        if ($request->type === 'single') {
+            $this->validate($request, [
+                "type" => "required",
+                "invoice_id" => "required"
+            ]);
 
-        $email = auth()->user()->email;
+            $invoice = Invoice::findOrFail($request->invoice_id);
+            $grandTotal = ($invoice->amount + $this->transactionFee);
+            $reference = $invoice->invoice_reference;
+
+        } else {
+            $this->validate($request, [
+                "type" => "required",
+            ]);
+
+            $invoices = Invoice::where('user_id', auth()->user()->id)->where('status', 'UNPAID')->get(['amount', 'invoice_reference']);
+            $grandTotal = ($invoices->sum('amount') + (count($invoices) * $this->transactionFee));
+            $reference = $invoices->implode('invoice_reference', '_');
+        }
+
+        $payload = [
+            'type'      =>  $request->type,
+            'reference' =>  $reference,
+            'amount'    =>  $grandTotal,
+            'email'     =>  auth()->user()->email,
+            'user_phone'=>  auth()->user()->phone,
+            'user_name' =>  auth()->user()->fullname
+        ];
 
         //send to payment gateway to charge
-        $paymentLink = $this->flutterwaveCheckoutForm($request, $email);
+        $paymentLink = $this->flutterwaveCheckoutForm($payload);
+        // return $paymentLink;
 
-        return redirect($paymentLink['data']['link']);
+        if ($paymentLink['status'] === 'success') {
+            return redirect($paymentLink['data']['link']);
+        } else {
+            return \redirect(route("user.invoice"))->with("error", $paymentLink['message']);
+        }
     }
 
     /**
@@ -90,10 +117,12 @@ class InvoiceController extends Controller
      */
     public function invoiceStatus(Request $request)
     {
-        $txref = $request->txref;
-        $flwref = $request->flwref;
+        $txRef = $request->tx_ref;
+        $transactionId = $request->transaction_id;
 
-        if ($this->updateInvoice($txref, $flwref)) {
+        $status = $this->updateInvoice($txRef, $transactionId);
+
+        if ($status) {
             //return to invoice page
             return \redirect(route("user.invoice"))->with("success", "Payment successful.");
 

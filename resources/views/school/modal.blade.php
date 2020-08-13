@@ -182,7 +182,7 @@
 
                     <div class="form-group">
                         <label for="amount-to-withdraw">Amount</label>
-                        <input type="number" name="amount" class="form-control" required>
+                        <input type="number" id="withdraw-amount" name="amount" class="form-control" required>
                     </div>
 
                     <br>
@@ -191,7 +191,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Proceed</button>
+                <button type="submit" id="withdraw-btn" class="btn btn-primary">Proceed</button>
+                <img src="{{ asset('user_assets/img/loader1.gif') }}" class="withdraw-loader" alt="Loader">
                 </form>
             </div>
         </div>

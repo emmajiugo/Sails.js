@@ -24,3 +24,13 @@
 .card-container {
     padding: 2px 16px;
 }
+
+.withdraw-loader {
+    max-width: 10%;
+    height: auto;
+    display: none;
+}
+
+.withdraw-loader-display {
+    display: block;
+}
