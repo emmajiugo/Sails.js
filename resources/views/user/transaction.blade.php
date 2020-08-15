@@ -12,7 +12,7 @@
 					<div class="col-md-12">
 						<div class="widget p-lg">
 							<h4 class="m-b-lg">
-                                Invoice
+                                Invoices
                                 <button class="btn btn-warning float-right"  data-toggle="modal" data-target="#payAllModal">
                                     <i class="fa fa-credit-card"></i> Pay All
                                 </button>

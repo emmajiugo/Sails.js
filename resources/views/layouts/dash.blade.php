@@ -134,6 +134,9 @@
 {{-- select2 script --}}
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
+{{-- Userlike JS script --}}
+@include('inc.userlike-script')
+
 {{-- custom js code --}}
 <script src="{{asset('user_assets/js/customjs.js') }}"></script>
 <!-- end scripting -->

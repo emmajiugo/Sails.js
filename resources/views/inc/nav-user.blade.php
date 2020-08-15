@@ -22,11 +22,11 @@
                 <i class="fa fa-user"></i> Profile
             </a>
         </li>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a href="{{ route('user.support') }}" class="nav-link {{ Request::is('home/support') || Request::is('home/support/*') ? 'active' : '' }}">
                 <i class="fa fa-phone-alt"></i> Support
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link" href="{{ route('logout') }}"
                 onclick="event.preventDefault();

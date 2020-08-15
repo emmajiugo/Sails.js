@@ -77,6 +77,10 @@ Route::prefix('school')->group(function() {
         'index'=>'school.setup.fees'
     ]);
 
+    // fees collected
+    Route::get('/fees-collected', 'FeesCollectedController@index')->name('school.fees.collected');
+    Route::put('/fees-collected/{id}', 'FeesCollectedController@update')->name('school.fees.collected.update');
+
     // view setup fees
     Route::get('/view-setup/{section}', 'ViewSetupsController@index');
     Route::post('/view-setup', 'ViewSetupsController@search')->name('setup.search');
@@ -88,10 +92,6 @@ Route::prefix('school')->group(function() {
     Route::resource('/advance-view', 'AdvanceViewController')->names([
         'index' => 'school.advance.view'
     ]);
-
-    // feedback
-    Route::get('/feedback', 'FeedBackController@index')->name('school.feedback');
-    Route::post('/feedback', 'FeedBackController@postFeedback')->name('school.feedback.submit');
 
     // transaction history & report
     Route::get('/history', 'TransactionController@index')->name('school.transaction.history');

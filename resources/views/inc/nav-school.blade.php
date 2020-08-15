@@ -23,9 +23,16 @@
         </li>
         <!-- end submenu -->
 
+        <!-- fees collected -->
+        <li class="nav-item">
+            <a href="{{ route('school.fees.collected') }}" class="nav-link {{ Request::is('school/fees-collected') ? 'active' : '' }}">
+                <i class="fa fa-list-ul"></i> Fees Collected
+            </a>
+        </li>
+
         <!-- transactions -->
         <li class="nav-item">
-            <a href="#menu4" class="nav-link collapsed {{ Request::is('school/report') || Request::is('school/history') || Request::is('school/withdraw-history') ? 'active' : '' }}" data-toggle="collapse">
+            <a href="#menu4" class="nav-link collapsed {{ Request::is('school/report') || Request::is('school/history') ? 'active' : '' }}" data-toggle="collapse">
                 <i class="fa fa-chart-bar"></i> Transactions
                 <span class="sub-ico">
                     <i class="fa fa-angle-down"></i>
@@ -36,22 +43,21 @@
         <li class="sub collapse" id="menu4">
             <a href="/school/report" class="nav-link" data-parent="#menu4">Report</a>
             <a href="{{ route('school.transaction.history') }}" class="nav-link" data-parent="#menu4">History</a>
-            <a href="{{ route('withdraw.history') }}" class="nav-link" data-parent="#menu4">Withdraw History</a>
         </li>
         <!-- end submenu -->
 
 
         <li class="nav-item">
-            <a href="{{ route('school.support.ticket') }}" class="nav-link {{ Request::is('school/support-ticket') || Request::is('school/support-ticket/*') ? 'active' : '' }}">
-                <i class="fa fa-phone-alt"></i> Support Ticket
+            <a href="{{ route('withdraw.history') }}" class="nav-link {{ Request::is('school/withdraw-history') ? 'active' : '' }}">
+                <i class="fa fa-money-check"></i> Withdraws
             </a>
         </li>
 
-        <li class="nav-item">
-            <a href="{{ route('school.feedback') }}" class="nav-link {{ Request::is('school/feedback') ? 'active' : '' }}">
-                <i class="fa fa-comment-dots"></i> Feedback
+        {{-- <li class="nav-item">
+            <a href="{{ route('school.support.ticket') }}" class="nav-link {{ Request::is('school/support-ticket') || Request::is('school/support-ticket/*') ? 'active' : '' }}">
+                <i class="fa fa-phone-alt"></i> Support Ticket
             </a>
-        </li>
+        </li> --}}
 
         <li class="nav-item">
             <a href="{{ route('school.settings') }}" class="nav-link {{ Request::is('school/settings') ? 'active' : '' }}">

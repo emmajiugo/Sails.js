@@ -42,13 +42,7 @@ class SettingsController extends Controller
             $schools = $this->getSchoolsForTheAccount($id);
             $banknames = $this->getListOfBanks();
 
-            //get fees collected
-            $fees = Feetype::where([
-                ['school_detail_id', '=', $id],
-                ['del_status', '=', 0],
-            ])->get();
-
-            return view('school.settings')->with(['school' => $school, 'fees' => $fees, 'schools' => $schools, 'banknames' => $banknames]);
+            return view('school.settings')->with(['school' => $school, 'schools' => $schools, 'banknames' => $banknames]);
 
         } else {
             return redirect(route('school.dashboard'));
@@ -102,31 +96,6 @@ class SettingsController extends Controller
 
                 return back()->with('success', 'Password updated successfully.');
             }
-        }
-
-        //update for fee type
-        if ($request->input == 'fees') {
-            //validate input
-            $this->validate($request, [
-                'feename' => 'required',
-            ]);
-
-            //update
-            $fee = Feetype::find($id);
-            $fee->feename = $request->feename;
-            $fee->save();
-
-            return back()->with('success', 'Fees updated successfully');
-        }
-
-        //update to change del_status column to 1
-        if ($request->input == 'delete') {
-            //update
-            $fee = Feetype::find($id);
-            $fee->del_status = '1';
-            $fee->save();
-
-            return back()->with('success', 'Record Deleted');
         }
     }
 }
