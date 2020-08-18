@@ -4,6 +4,7 @@ namespace App\Traits;
 use Illuminate\Support\Facades\Log;
 
 use App\Traits\PaymentGateway;
+
 use App\SchoolDetail;
 use App\Feesbreakdown;
 use App\Invoice;
