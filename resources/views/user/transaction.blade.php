@@ -13,9 +13,12 @@
 						<div class="widget p-lg">
 							<h4 class="m-b-lg">
                                 Invoices
-                                <button class="btn btn-warning float-right"  data-toggle="modal" data-target="#payAllModal">
-                                    <i class="fa fa-credit-card"></i> Pay All
-                                </button>
+
+                                @if (count($invoices) > 0)
+                                    <button class="btn btn-warning float-right"  data-toggle="modal" data-target="#payAllModal">
+                                        <i class="fa fa-credit-card"></i> Pay All
+                                    </button>
+                                @endif
                             </h4>
 							<span class="m-b-lg docs">
 								All payments are shown here. You can always create an invoice and pay later. To pay for all <code>UNPAID</code> invoice, click the <code>Pay All</code> button above. To view invoice details, click on <code>Open Invoice</code>.
