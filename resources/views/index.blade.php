@@ -13,10 +13,12 @@
                         <div class="col-lg-7 col-md-9 ">
                             <div class="hero__caption">
                                 <h1 data-animation="fadeInLeft" data-delay=".4s">Tuition Payment<br> Made Easy</h1>
-                                <h4 data-animation="fadeInLeft" data-delay=".6s">A simple and fast way to pay your kid's tuition fee without being in a queue and save time.</h4>
+                                <h4 data-animation="fadeInLeft" data-delay=".6s">- A reliable and easy way for schools to accept school fees of all types from students.</h4>
+                                <br>
+                                <h4 data-animation="fadeInLeft" data-delay=".9s">- A simple and fast way to pay your kid's tuition fee without being in a queue and save time.</h4>
+                                <br>
                                 <!-- Hero-btn -->
-                                <div class="hero__btn" data-animation="fadeInLeft" data-delay=".8s">
-                                    <br>
+                                <div class="hero__btn" data-animation="fadeInLeft" data-delay=".9s">
                                     <a href="{{ \App\WebSettings::find(1)->demo_link }}" target="blank" class="btn hero-btn">Watch Demo!</a>
                                 </div>
                             </div>
