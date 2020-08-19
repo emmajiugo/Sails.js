@@ -15,7 +15,7 @@
                                 <h1 data-animation="fadeInLeft" data-delay=".4s">Tuition Payment<br> Made Easy</h1>
                                 <h4 data-animation="fadeInLeft" data-delay=".6s">- A reliable and easy way for schools to accept school fees of all types from students.</h4>
                                 <br>
-                                <h4 data-animation="fadeInLeft" data-delay=".9s">- A simple and fast way to pay your kid's tuition fee without being in a queue and save time.</h4>
+                                <h4 data-animation="fadeInLeft" data-delay=".9s">- A simple and fast way for parents to pay their kids' tuition fee without being in a queue and saves time.</h4>
                                 <br>
                                 <!-- Hero-btn -->
                                 <div class="hero__btn" data-animation="fadeInLeft" data-delay=".9s">

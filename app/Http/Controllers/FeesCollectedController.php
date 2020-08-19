@@ -15,6 +15,9 @@ class FeesCollectedController extends Controller
 {
     use SchoolBase; use PaymentGateway;
 
+    private $userId;
+    private $schoolActivated;
+
     /**
      * Create a new controller instance.
      *
@@ -23,6 +26,14 @@ class FeesCollectedController extends Controller
     public function __construct()
     {
         $this->middleware('auth:school');
+
+        //get school_detail_id & user relationship
+        $this->middleware(function ($request, $next) {
+            $this->userId = auth()->user()->id;
+            $this->schoolActivated = $this->getSchoolInUsed($this->userId);
+
+            return $next($request);
+        });
     }
 
     /**
@@ -32,22 +43,19 @@ class FeesCollectedController extends Controller
      */
     public function index()
     {
-        //get school details
-        $id = auth()->user()->id;
-        $school = $this->getSchoolInUsed($id);
 
-        if($school) {
+        if($this->schoolActivated) {
             // get schools tied to the account & banks list
-            $schools = $this->getSchoolsForTheAccount($id);
+            $schools = $this->getSchoolsForTheAccount($this->userId);
             $bankNames = $this->getListOfBanks();
 
             //get fees collected
             $fees = Feetype::where([
-                ['school_detail_id', '=', $id],
+                ['school_detail_id', '=', $this->schoolActivated->id],
                 ['del_status', '=', 0],
             ])->get();
 
-            return view('school.fees-collected')->with(['school' => $school, 'fees' => $fees, 'schools' => $schools, 'banknames' => $bankNames]);
+            return view('school.fees-collected')->with(['fees' => $fees, 'schools' => $schools, 'banknames' => $bankNames]);
 
         } else {
             return redirect(route('school.dashboard'));

@@ -18,6 +18,9 @@ class SetupFeesController extends Controller
 {
     use SchoolBase; use PaymentGateway;
 
+    private $userId;
+    private $schoolActivated;
+
     /**
      * Create a new controller instance.
      *
@@ -26,6 +29,15 @@ class SetupFeesController extends Controller
     public function __construct()
     {
         $this->middleware('auth:school');
+
+        //get school_detail_id & user relationship
+        $this->middleware(function ($request, $next) {
+            $this->userId = auth()->user()->id;
+            $this->schoolActivated = $this->getSchoolInUsed($this->userId);
+
+            return $next($request);
+        });
+
     }
 
     /**
@@ -35,24 +47,21 @@ class SetupFeesController extends Controller
      */
     public function index()
     {
-        //get school_detail_id & user relationship
-        $id = auth()->user()->id;
-        $school = $this->getSchoolInUsed($id);
 
-        if($school) {
+        if($this->schoolActivated) {
             // get schools tied to the account & banks list
-            $schools = $this->getSchoolsForTheAccount($id);
+            $schools = $this->getSchoolsForTheAccount($this->userId);
             $banknames = $this->getListOfBanks();
 
             //get the verification status
-            $verifyStatus = $school->verifystatus;
+            $verifyStatus = $this->schoolActivated->verifystatus;
 
             //get all academic sessions
             $sessiondetails = $this->getSessionDetails();
 
             //get fees collected by the school
             $fees = Feetype::where([
-                ['school_detail_id', '=', $school->id],
+                ['school_detail_id', '=', $this->schoolActivated->id],
                 ['del_status', '=', 0],
             ])->get();
 
@@ -83,10 +92,7 @@ class SetupFeesController extends Controller
     public function store(Request $request)
     {
         //for fees collected by schools
-        if ($request->formtype == 'fees collected')
-        {
-            //get user
-            $id = auth()->user()->id;
+        if ($request->formtype == 'fees collected') {
 
             //validate data
             $this->validate($request, [
@@ -100,15 +106,15 @@ class SetupFeesController extends Controller
             foreach ($feetypes as $feetype) {
 
                 //insert into feetypes table
-                $this->insertFeeTypes($feetype, $id);
+                $this->insertFeeTypes($feetype, $this->schoolActivated->id);
             }
 
             return back()->with('success', 'Fees collected was successfully saved.');
         }
 
         //for fee setup
-        if ($request->formtype == 'setup fees')
-        {
+        if ($request->formtype == 'setup fees') {
+
             //validate data
             $this->validate($request, [
                 'section' => 'required',
@@ -132,13 +138,10 @@ class SetupFeesController extends Controller
             //make sure at least one class is checked
             if (!empty($classes)) {
 
-                //get school_detail_id
-                $id = auth()->user()->id;
-
                 //loop through the classes
                 foreach ($classes as $classname) {
                     //insert into feesetup table and return last inserted id
-                    $feesetupid = $this->insertFeeSetup($id, $section_name, $session_name, $termname, $classname, $feename);
+                    $feesetupid = $this->insertFeeSetup($this->schoolActivated->id, $section_name, $session_name, $termname, $classname, $feename);
 
                     //loop throup the breakdown fees for each class
                     foreach ($descriptions as $key => $desc) {
@@ -151,10 +154,10 @@ class SetupFeesController extends Controller
 
                 }
 
-                return redirect('/school/setup-fees')->with('success', 'Fees created successfully for each classes.');
+                return redirect(route('school.setup.fees'))->with('success', 'Fees created successfully for each classes.');
 
             } else {
-                return redirect('/school/setup-fees')->with('error', 'You need to select at least one class that has the fee structure!');
+                return redirect(route('school.setup.fees'))->with('error', 'You need to select at least one class that has the fee structure!');
             }
         }
     }
@@ -173,11 +176,11 @@ class SetupFeesController extends Controller
     }
 
     //class table
-    public function insertFeeSetup($id, $section_name, $session_name, $termname, $classname, $feename)
+    public function insertFeeSetup($schoolDetailsId, $section_name, $session_name, $termname, $classname, $feename)
     {
         //insert
         $fees = new Feesetup;
-        $fees->school_detail_id = $id;
+        $fees->school_detail_id = $schoolDetailsId;
         $fees->section = $section_name;
         $fees->session = $session_name;
         $fees->term = $termname;
@@ -196,11 +199,11 @@ class SetupFeesController extends Controller
     }
 
     //fee type ie fees collected by the school
-    public function insertFeeTypes($feetype, $id)
+    public function insertFeeTypes($feetype, $schoolDetailsId)
     {
         //insert
         $fees = new Feetype;
-        $fees->school_detail_id = $id;
+        $fees->school_detail_id = $schoolDetailsId;
         $fees->feename = $feetype;
         $fees->save();
     }

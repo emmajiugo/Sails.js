@@ -17,6 +17,9 @@ class AdvanceViewController extends Controller
 {
     use SchoolBase; use PaymentGateway;
 
+    private $userId;
+    private $schoolActivated;
+
     /**
      * Create a new controller instance.
      *
@@ -25,6 +28,15 @@ class AdvanceViewController extends Controller
     public function __construct()
     {
         $this->middleware('auth:school');
+
+        //get school_detail_id & user relationship
+        $this->middleware(function ($request, $next) {
+            $this->userId = auth()->user()->id;
+            $this->schoolActivated = $this->getSchoolInUsed($this->userId);
+
+            return $next($request);
+        });
+
     }
 
     /**
@@ -34,21 +46,18 @@ class AdvanceViewController extends Controller
      */
     public function index()
     {
-        //get school_id & school
-        $id = auth()->user()->id;
-        $school = $this->getSchoolInUsed($id);
 
-        if($school) {
+        if($this->schoolActivated) {
 
             // get schools tied to the account & banks list
-            $feesetup = Feesetup::orderBy('created_at', 'desc')->where('school_detail_id', $school->id)->paginate(10);
+            $feesetup = Feesetup::orderBy('created_at', 'desc')->where('school_detail_id', $this->schoolActivated->id)->paginate(10);
 
             // return schools tied to this account
-            $schools = $this->getSchoolsForTheAccount($id);
+            $schools = $this->getSchoolsForTheAccount($this->userId);
             // get list of banks
             $banknames = $this->getListOfBanks();
 
-            return view('school.advance-view')->with(['school' => $school, 'feesetup'=>$feesetup, 'schools'=>$schools, 'banknames' => $banknames]);
+            return view('school.advance-view')->with(['feesetup'=>$feesetup, 'schools'=>$schools, 'banknames' => $banknames]);
 
         } else {
             return redirect(route('school.dashboard'));

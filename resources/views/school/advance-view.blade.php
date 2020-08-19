@@ -119,7 +119,11 @@
                                 </tbody>
                             </table>
                         @else
-                            <p>No fee setup associated with your account.</p>
+                            <br><br>
+                            <div class="alert alert-warning" role="alert">
+                                <i class="mdi mdi-information"></i>
+                                <strong>Notice!</strong> You are yet to setup fees for different classes and sections. Click <a href="{{ route('school.setup.fees') }}">here</a> to setup fees mapped for each section and class.
+                            </div>
                         @endif
                         <br><br>
                         <div class="float-right">{{ $feesetup->links() }}</div>

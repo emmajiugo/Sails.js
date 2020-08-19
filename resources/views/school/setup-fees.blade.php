@@ -108,7 +108,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
 
-                        <form action='/school/setup-fees' method='POST' >
+                        <form action="{{ route('school.fees.store') }}" method='POST' >
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group">
@@ -144,7 +144,7 @@
                 </div>
             </div>
 
-            <!-- modal here -->
+            <!-- Fess Setup modal here -->
             <div id="setupModal" class="modal fade" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -153,7 +153,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
 
-                        <form action='/school/setup-fees' method='POST'>
+                        <form action="{{ route('school.fees.store') }}" method='POST'>
                             @csrf
                             <div class="modal-body">
                                 <input type="hidden" name="formtype" value="setup fees">

@@ -74,7 +74,8 @@ Route::prefix('school')->group(function() {
 
     // fee structure
     Route::resource('/setup-fees', 'SetupFeesController')->names([
-        'index'=>'school.setup.fees'
+        'index' => 'school.setup.fees',
+        'store' => 'school.fees.store'
     ]);
 
     // fees collected
