@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-lg-5">
                             <div class="hero__img d-none d-lg-block" data-animation="fadeInRight" data-delay="1s">
-                                <img src="assets/img/children.png" alt="">
+                                <img src="{{ asset('assets/img/children.png') }}" alt="">
                             </div>
                         </div>
                     </div>

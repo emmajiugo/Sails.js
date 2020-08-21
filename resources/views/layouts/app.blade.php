@@ -146,7 +146,7 @@
                             <div class="single-footer-caption mb-30">
                                 <!-- logo -->
                                 <div class="footer-logo">
-                                    <a href="index.html"><img src="{{ asset('assets/img/logo/skooleo-logo-footer.png') }}" alt="Skooleo"></a>
+                                    <a href="/"><img src="{{ asset('assets/img/logo/skooleo-logo-footer.png') }}" alt="Skooleo"></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
@@ -167,9 +167,9 @@
                                 <div class="footer-tittle">
                                     <h4>Navigation</h4>
                                     <ul>
-                                        <li><a href="about.html">How It Works</a></li>
-                                        <li><a href="single-blog.html">Pricing</a></li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="{{ url('/#how_it_works') }}">How It Works</a></li>
+                                        <li><a href="{{ route('pricing') }}">Pricing</a></li>
+                                        <li><a href="{{ route('contact') }}">Contact</a></li>
                                     </ul>
                                 </div>
                             </div>

@@ -15,6 +15,7 @@ class InvoiceController extends Controller
     use PaymentGateway; use SchoolBase;
 
     private $transactionFee;
+    private $userId;
 
     /**
      * Create a new controller instance.
@@ -25,7 +26,12 @@ class InvoiceController extends Controller
     {
         $this->middleware('auth');
 
-        $this->transactionFee = \App\WebSettings::find(1)->transaction_fee;
+        $this->middleware(function ($request, $next) {
+            $this->userId = auth()->user()->id;
+            $this->transactionFee = \App\WebSettings::find(1)->transaction_fee;
+
+            return $next($request);
+        });
     }
 
     /**
@@ -35,19 +41,21 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::where('user_id', auth()->user()->id)->orderBy("created_at", "desc")->paginate(10);
+        $invoices = Invoice::where('user_id', $this->userId)->orderBy("created_at", "desc")->paginate(10);
 
         return view('user.transaction')->with('invoices', $invoices);
     }
 
 
     //open invoice to view full details
-    public function getInvoice($reference)
+    public function getInvoice(Request $request, $reference)
     {
+        //$reference = $request->tx_ref ?? $reference;
+
         //get the invoice details
         $invoiceDetails = Invoice::where([
             'invoice_reference'=> $reference,
-            'user_id'=> auth()->user()->id]
+            'user_id'=> $this->userId]
         )->first();
 
         if ($invoiceDetails) {
@@ -60,6 +68,7 @@ class InvoiceController extends Controller
 
             //redirect to the invoice page
             return view('user.invoice')->with(['invoice' => $invoiceDetails, 'feesbreakdown' => $feesbreakdown, 'school' => $school, 'feesum' => $feesum, 'transaction_fee'=> $this->transactionFee]);
+
         } else {
             //redirect to the invoice page
             return redirect(route('user.invoice'))->with('error', 'Invoice reference not found for this user!');
@@ -85,7 +94,7 @@ class InvoiceController extends Controller
                 "type" => "required",
             ]);
 
-            $invoices = Invoice::where('user_id', auth()->user()->id)->where('status', 'UNPAID')->get(['amount', 'invoice_reference']);
+            $invoices = Invoice::where('user_id', $this->userId)->where('status', 'UNPAID')->get(['amount', 'invoice_reference']);
             $grandTotal = ($invoices->sum('amount') + (count($invoices) * $this->transactionFee));
             $reference = $invoices->implode('invoice_reference', '_');
         }
@@ -117,10 +126,15 @@ class InvoiceController extends Controller
      */
     public function invoiceStatus(Request $request)
     {
+        #http://127.0.0.1:8001/home/callback?status=successful&tx_ref=54257367&transaction_id=1480705
+
+        if ($request->status == "cancelled") return redirect(route('user.invoice'));
+
         $txRef = $request->tx_ref;
         $transactionId = $request->transaction_id;
 
         $status = $this->updateInvoice($txRef, $transactionId);
+        // return $status;
 
         if ($status) {
             //return to invoice page
@@ -128,7 +142,7 @@ class InvoiceController extends Controller
 
         } else {
             //Payment failure, return with an error
-            return \redirect(route("user.invoice"))->with("error", "Payment failed. \nIf you were debited, please reach out to us with the Invoice ID and we will sort out immediately.");
+            return \redirect(route("user.invoice"))->with("error", "Payment failed. \nIf you were debited, please reach out to us with the Invoice ID and we'll sort it out immediately.");
         }
 
     }

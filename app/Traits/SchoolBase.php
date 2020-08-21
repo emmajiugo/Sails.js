@@ -90,8 +90,9 @@ trait SchoolBase
         // Log::info($txRef);
         //verify the transaction using transaction ref passed
         $status = $this->flutterwaveVerifyTransaction($transactionId);
+        // return $status;
 
-        if($status['data']['status'] === 'successful'){
+        if ($status['data']['status'] === 'successful'){
             //explode the reference passed to be able to handle multiple payments
             $refs = explode("_", $txRef);
 
@@ -105,7 +106,7 @@ trait SchoolBase
                 $invoice->skooleo_fee = $transactionFee;
                 $invoice->save();
 
-                if ($invoice->settled === 0) {
+                if ($invoice->settled == 0) {
                     // update wallet and settled to true
                     $wallet = Wallet::where('school_detail_id', $invoice->school_detail_id)->first();
                     $wallet->total_amount += $invoice->amount;
