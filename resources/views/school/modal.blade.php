@@ -182,7 +182,7 @@
 
                     <div class="form-group">
                         <label for="amount-to-withdraw">Amount</label>
-                        <input type="number" id="withdraw-amount" name="amount" class="form-control" required>
+                        <input type="number" id="withdraw-amount" name="amount" class="form-control" min="0" oninput="this.value = Math.abs(this.value)" required>
                     </div>
 
                     <br>
