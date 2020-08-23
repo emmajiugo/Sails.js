@@ -16,6 +16,9 @@ class SettingsController extends Controller
 {
     use SchoolBase; use PaymentGateway;
 
+    private $userId;
+    private $schoolActivated;
+
     /**
      * Create a new controller instance.
      *
@@ -24,6 +27,14 @@ class SettingsController extends Controller
     public function __construct()
     {
         $this->middleware('auth:school');
+
+        //get school_detail_id & user relationship
+        $this->middleware(function ($request, $next) {
+            $this->userId = auth()->user()->id;
+            $this->schoolActivated = $this->getSchoolInUsed($this->userId);
+
+            return $next($request);
+        });
     }
 
     /**
@@ -33,16 +44,13 @@ class SettingsController extends Controller
      */
     public function index()
     {
-        //get school details
-        $id = auth()->user()->id;
-        $school = $this->getSchoolInUsed($id);
 
-        if($school) {
+        if($this->schoolActivated) {
             // get schools tied to the account & banks list
-            $schools = $this->getSchoolsForTheAccount($id);
-            $banknames = $this->getListOfBanks();
+            $schools = $this->getSchoolsForTheAccount($this->userId);
+            $bankNames = $this->getListOfBanks();
 
-            return view('school.settings')->with(['school' => $school, 'schools' => $schools, 'banknames' => $banknames]);
+            return view('school.settings')->with(['school' => $this->schoolActivated, 'schools' => $schools, 'banknames' => $bankNames]);
 
         } else {
             return redirect(route('school.dashboard'));
@@ -90,7 +98,7 @@ class SettingsController extends Controller
             } else {
 
                 //update
-                $school = School::find(auth()->user()->id);
+                $school = School::find($this->userId);
                 $school->password = Hash::make($request->newpassword);
                 $school->save();
 

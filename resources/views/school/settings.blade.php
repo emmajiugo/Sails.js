@@ -29,6 +29,11 @@
                         Change Password
                     </a>
 
+                    <a class="list-group-item" href="#" id="settlement-account-button" onclick="showSettings('settlement-account')">
+                        <i class="m-r-sm fa fa-piggy-bank"></i>
+                        Settlement Account
+                    </a>
+
                     <a class="list-group-item" href="#" id="how-it-works-button" onclick="showSettings('how-it-works')">
                         <i class="m-r-sm fa fa-puzzle-piece"></i>
                         How it works!
@@ -126,6 +131,28 @@
                                             <input type="submit" class="btn btn-success" value="Update Password">
                                         </div>
                                     </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default" id="settlement-account">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Settlement Account</h4>
+                            <i class="fa acc-switch"></i>
+                        </div>
+                        <div>
+                            <div class="panel-body">
+                                <div class="col-md-10">
+                                    <p>If there is need to change this account, please reach out to support via the chat system on the bottom right of this page.</p>
+                                    <div class="form-group">
+                                        <label for="">Acount Name:</label>
+                                        <input type="text" class="form-control" value="{{ $school->corporate_acctname }}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Account Number:</label>
+                                        <input type="text" class="form-control" value="{{ $school->corporate_acctno }}" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>

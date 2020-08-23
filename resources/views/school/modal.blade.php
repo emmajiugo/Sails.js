@@ -182,12 +182,12 @@
 
                     <div class="form-group">
                         <label for="amount-to-withdraw">Amount</label>
-                        <input type="number" id="withdraw-amount" name="amount" class="form-control" min="0" oninput="this.value = Math.abs(this.value)" required>
+                        <input type="number" id="withdraw-amount" name="amount" class="form-control" min="100" oninput="this.value = Math.abs(this.value)" required>
                     </div>
 
                     <br>
                     <b class="text-success">Withdrawal Fee: </b> &#8358;{{ \App\WebSettings::find(1)->withdrawal_fee }} <br>
-                    <b>NB:</b> Settlement will be made to the account provided to us.
+                    <b>NB:</b> Settlement will be made to the account provided to us on registration.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

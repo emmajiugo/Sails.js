@@ -224,13 +224,13 @@ function showSettings(section) {
         $('#change-password-button').addClass('settings-button');
         $('#edit-profile-button, #fees-collected-button, #how-it-works-button').removeClass('settings-button');
 
-    } else if (section == 'fees-collected') {
+    } else if (section == 'settlement-account') {
         // hide to show
-        $('#fees-collected').show();
+        $('#settlement-account').show();
         $('#change-password, #edit-profile, #how-it-works').hide();
 
         // add or remove class
-        $('#fees-collected-button').addClass('settings-button');
+        $('#settlement-account-button').addClass('settings-button');
         $('#change-password-button, #edit-profile-button, #how-it-works-button').removeClass('settings-button');
 
     } else if (section == 'how-it-works') {
