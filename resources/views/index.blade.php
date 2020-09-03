@@ -278,8 +278,8 @@
                                                 <img src="assets/img/testmonial/testimonial.png" alt="">
                                             </div> --}}
                                             <div class="founder-text">
-                                                <span>Mrs. Anyawu (Proprietor)</span>
-                                                <p>Julipass College, Lagos.</p>
+                                                <span>Mrs. Ajayi (Proprietor)</span>
+                                                <p>Eternal College, Ogun State.</p>
                                             </div>
                                         </div>
                                     </div>
