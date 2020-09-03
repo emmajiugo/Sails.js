@@ -279,7 +279,7 @@
                                             </div> --}}
                                             <div class="founder-text">
                                                 <span>Mrs. Ajayi (Proprietor)</span>
-                                                <p>Eternal College, Ogun State.</p>
+                                                <p>Eternal Knowledge College, Ogun State.</p>
                                             </div>
                                         </div>
                                     </div>
