@@ -130,7 +130,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="we-create-cap">
                         <h3>What You Need To Know About Us.</h3>
-                        <p>Skoole is a platform that aids both school owners or proprietors, parents or guardians to collect or pay their students' tuition fees without any hassle with the bank. It saves time and energy for parents or guardians, and also gives the school easy way of reconciling payments made for each student without having the parents or guardian visiting the school. All detailed records of payments are made available on the dashboard.</p>
+                        <p>Skooleo is a platform that aids both school owners or proprietors, parents or guardians to collect or pay their students' tuition fees without any hassle with the bank. It saves time and energy for parents or guardians, and also gives the school easy way of reconciling payments made for each student without having the parents or guardian visiting the school. All detailed records of payments are made available on the dashboard.</p>
                         <a href="{{ route('register') }}" class="genric-btn primary radius">Signup as Parent</a> <a href="{{ route('school.register') }}" class="genric-btn info radius">Signup as School</a>
                     </div>
                 </div>
