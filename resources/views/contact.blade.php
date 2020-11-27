@@ -61,20 +61,20 @@
                         <span class="contact-info__icon"><i class="ti-home"></i></span>
                         <div class="media-body">
                             <h3>Address:</h3>
-                            <p>{{ \App\WebSettings::find(1)->address }}</p>
+                            <p>{{ $webSettings->address }}</p>
                         </div>
                     </div>
                     <div class="media contact-info">
                         <span class="contact-info__icon"><i class="ti-tablet"></i></span>
                         <div class="media-body">
-                            <h3>{{ \App\WebSettings::find(1)->phone }}</h3>
+                            <h3>{{ $webSettings->phone }}</h3>
                             <p>Mon to Fri 9am to 6pm</p>
                         </div>
                     </div>
                     <div class="media contact-info">
                         <span class="contact-info__icon"><i class="ti-email"></i></span>
                         <div class="media-body">
-                            <h3>{{ \App\WebSettings::find(1)->email }}</h3>
+                            <h3>{{ $webSettings->email }}</h3>
                             <p>Send us your query anytime!</p>
                         </div>
                     </div>

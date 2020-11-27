@@ -75,7 +75,7 @@ $("#setupModal").on('shown.bs.modal', function () {
 
     var counter = 2;
 
-    $("#addButton").click(function () {
+    $("#addButton").on("click", function () {
 
         var newTextBoxDiv = $(document.createElement('div'))
             .attr("id", 'TextBoxDiv' + counter);
@@ -102,7 +102,7 @@ $("#addModal").on('shown.bs.modal', function () {
 
     var counter = 2;
 
-    $("#addButton").click(function () {
+    $("#addButton").on("click", function () {
 
         var newTextBoxDiv = $(document.createElement('div'))
             .attr("id", 'TextBoxDiv' + counter);
@@ -116,7 +116,7 @@ $("#addModal").on('shown.bs.modal', function () {
         counter++;
     });
 
-    $("#removeButton").click(function () {
+    $("#removeButton").on("click", function () {
         if (counter > 2) {
             counter--;
             $("#TextBoxDiv" + counter).remove();
@@ -129,7 +129,7 @@ $("#feetypeModal").on('shown.bs.modal', function () {
 
     var counter = 2;
 
-    $("#addButtonx").click(function () {
+    $("#addButtonx").on("click", function () {
 
         var newTextBoxDiv = $(document.createElement('div'))
             .attr("id", 'TextBoxDivx' + counter);
@@ -143,7 +143,7 @@ $("#feetypeModal").on('shown.bs.modal', function () {
         counter++;
     });
 
-    $("#removeButtonx").click(function () {
+    $("#removeButtonx").on("click", function () {
         if (counter > 2) {
             counter--;
             $("#TextBoxDivx" + counter).remove();
@@ -164,12 +164,14 @@ function flipFunction() {
 bank details using Paystack API
 */
 $('#loader').hide();//hide the loader
-$('#acctno').keyup(function () {
+$('#acctno').on("keyup", function () {
     var acctno = $(this).val();
     var bankcode = $('#bank').val();
 
+    $('#bankname').val($('#bank').find('option:selected').text());
+
     var data = {'Account Number' : acctno, 'Bank Code' : bankcode};
-    console.log(data)
+    // console.log(data)
 
     if (acctno != '' && bankcode != '') {
         if ((acctno.toString().length) == 10) {

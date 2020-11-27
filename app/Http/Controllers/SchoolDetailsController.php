@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Wallet;
 
 use App\SchoolDetail;
-use App\Wallet;
+use App\Traits\SchoolBase;
+use Illuminate\Http\Request;
+use JD\Cloudder\Facades\Cloudder;
 
 class SchoolDetailsController extends Controller
 {
-    //
+    use SchoolBase;
+
     public function __construct()
     {
         $this->middleware('auth:school');
@@ -27,23 +30,24 @@ class SchoolDetailsController extends Controller
             'registeredby' => 'required',
             'registrarstatus' => 'required',
             'bankname' => 'required',
+            'bankcode' => 'required',
             'acctname' => 'required',
             'acctno' => 'required',
             'govtdoc' => 'required|image|max:1999',
         ]);
 
-        //handle file uploads
+        // generate school number
+        $schoolNumber = $this->schoolNumber();
+
+        //handle file uploads to Cloudinary
         if ($request->hasFile('govtdoc')) {
-            $filenameWithExt = $request->file('govtdoc')->getClientOriginalName();
-            //get just filename
-            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-            //get filename with ext
-            $extension = $request->file('govtdoc')->getClientOriginalExtension();
-            //file to store
-            $filenameToStore = $filename.'_'.time().'.'.$extension;
-            //upload image
-            $path = $request->file('govtdoc')->storeAs('public/govt_docs', $filenameToStore);
+
+            $image_path = $request->file('govtdoc')->getRealPath();
+            Cloudder::upload($image_path, $schoolNumber, array("folder" => env('CLOUDINARY_UPLOAD_FOLDER'), "overwrite" => TRUE, "resource_type" => "image"));
+
+            $uploadedUrl = Cloudder::getResult()['url'];
         }
+
 
         $schoolid = auth()->user()->id;
 
@@ -60,6 +64,7 @@ class SchoolDetailsController extends Controller
 
         $schoolDetails = new SchoolDetail;
         $schoolDetails->school_id = $schoolid;
+        $schoolDetails->school_number = $schoolNumber;
         $schoolDetails->schoolname = $request->schoolname;
         $schoolDetails->schooladdress = $request->schooladdr;;
         $schoolDetails->schoolphone = $request->schoolphone;;
@@ -68,12 +73,13 @@ class SchoolDetailsController extends Controller
         $schoolDetails->registrarstatus = $request->registrarstatus;
         $schoolDetails->corporate_acctname = $request->acctname;
         $schoolDetails->corporate_acctno = $request->acctno;
-        $schoolDetails->bankname = $request->bankname;
-        $schoolDetails->govt_doc = $filenameToStore;
+        $schoolDetails->bankname = strtoupper($request->bankname);
+        $schoolDetails->bankcode = $request->bankcode;
+        $schoolDetails->govt_doc = $uploadedUrl;
         $schoolDetails->is_used = 1;
         $schoolDetails->save();
 
-        if($schoolDetails->id) {
+        if ($schoolDetails->id) {
 
             // create new wallet for school
             $wallet = new Wallet;

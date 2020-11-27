@@ -19,7 +19,7 @@
                                 <br>
                                 <!-- Hero-btn -->
                                 <div class="hero__btn" data-animation="fadeInLeft" data-delay=".9s">
-                                    <a href="{{ \App\WebSettings::find(1)->demo_link }}" target="blank" class="btn hero-btn">Watch Demo!</a>
+                                    <a href="{{ $webSettings->demo_link }}" target="blank" class="btn hero-btn">Watch Demo!</a>
                                 </div>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                     <div class="we-create-cap">
                         <h3>What You Need To Know About Us.</h3>
                         <p>Skooleo is a platform that aids both school owners or proprietors, parents or guardians to collect or pay their students' tuition fees without any hassle with the bank. It saves time and energy for parents or guardians, and also gives the school easy way of reconciling payments made for each student without having the parents or guardian visiting the school. All detailed records of payments are made available on the dashboard.</p>
-                        <a href="{{ route('register') }}" class="genric-btn primary radius">Signup as Parent</a> <a href="{{ route('school.register') }}" class="genric-btn info radius">Signup as School</a>
+                        <a href="{{ route('auth.parents') }}" class="genric-btn primary radius">Parents & Guardians</a> <a href="{{ route('auth.schools') }}" class="genric-btn info radius">Schools</a>
                     </div>
                 </div>
             </div>

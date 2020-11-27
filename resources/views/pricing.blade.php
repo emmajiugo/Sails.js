@@ -31,10 +31,10 @@
                             <span  class="flaticon-growth"></span>
                         </div>
                         <div class="do-caption">
-                            <h4>&#8358; {{ \App\WebSettings::find(1)->transaction_fee }}</h4>
+                            <h4>&#8358; {{ $webSettings->transaction_fee }}</h4>
                             <p>Transaction Fee for Parents.</p>
                             <br>
-                            <h4>&#8358; {{ \App\WebSettings::find(1)->withdrawal_fee }}</h4>
+                            <h4>&#8358; {{ $webSettings->withdrawal_fee }}</h4>
                             <p>Withdrawal Fee for Schools.</p>
                             <p>Smart Dashboard for Schools.</p>
                             <p>24/7 Support.</p>

@@ -10,11 +10,6 @@ use App\School;
 
 class SchoolRegisterController extends Controller
 {
-    // show the register form
-    public function showRegisterForm()
-    {
-        return view('auth.school-register');
-    }
 
     // register the school
     public function register(Request $request)
@@ -32,7 +27,7 @@ class SchoolRegisterController extends Controller
         $school->password = Hash::make($request->password);
         $school->save();
 
-        return redirect(route('school.login'))->with('success', 'Registration successful. Please login.');
+        return redirect(route('auth.schools'))->with('success', 'Registration successful. Please login.');
 
     }
 }

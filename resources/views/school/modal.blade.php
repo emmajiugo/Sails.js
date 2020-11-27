@@ -40,7 +40,6 @@
 
     </div>
 </div>
-<!-- end task card -->
 
 <!-- Add New Account Modal -->
 <div id="newAccountModal" class="modal fade" role="dialog">
@@ -127,7 +126,7 @@
 
                     <div class="form-group">
                         <label for="bank name">Select Bank</label>
-                        <select id="bank" name="bankname" class="form-control">
+                        <select id="bank" name="bankcode" class="form-control">
                             <option value="">-- select bank --</option>
                             @if (count($banknames) > 0)
                                 @foreach ($banknames as $bankname)
@@ -135,6 +134,7 @@
                                 @endforeach
                             @endif
                         </select>
+                        <input type="hidden" id="bankname" name="bankname">
                     </div>
 
                     <div class="form-group">

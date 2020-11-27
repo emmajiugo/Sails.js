@@ -15,12 +15,6 @@ class SchoolLoginController extends Controller
         $this->middleware('guest:school');
     }
 
-    // show login form
-    public function showLoginForm()
-    {
-        return view('auth.school-login');
-    }
-
     // perform actual login
     public function login(Request $request)
     {

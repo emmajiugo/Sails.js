@@ -70,7 +70,9 @@ CUSTOM CSS
     background: #f8d8e4;
     padding: 90px 70px;
     border-radius: 5px;
+    margin-left: 20px;
 }
+
 label {
     color: #402c83;
     font-size: 14px;
@@ -78,6 +80,36 @@ label {
     letter-spacing: 2px;
 }
 
+.padding-0 {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.register-body {
+    background: #f8d8e4;
+    padding: 75px 45px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    margin-left: 20%;
+    -webkit-box-shadow: 10px 10px 30px 5px rgba(191, 189, 191, 1);
+    -moz-box-shadow: 10px 10px 30px 5px rgba(191, 189, 191, 1);
+    box-shadow: 10px 10px 30px 5px rgba(191, 189, 191, 1);
+}
+
+.login-body {
+    padding: 55px 45px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-box-shadow: 10px 10px 30px 5px rgba(191, 189, 191, 1);
+    -moz-box-shadow: 10px 10px 30px 5px rgba(191, 189, 191, 1);
+    box-shadow: 10px 10px 30px 5px rgba(191, 189, 191, 1);
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    width: 80%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
 
 @media screen and (max-width: 600px) {
     .login,

@@ -70,7 +70,7 @@ class FlutterwaveWebhookProcessor extends Controller
             exit();
 
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::error(($th->getMessage()));
         }
     }
 }

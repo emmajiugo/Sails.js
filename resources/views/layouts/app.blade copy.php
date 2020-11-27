@@ -69,18 +69,30 @@
                                         <li><a href="{{ route('pricing') }}">Pricing</a></li>
                                         <li><a href="{{ route('contact') }}">Contact Us</a></li>
 
-                                        @if(Auth::guard('school')->check())
+                                        @if(Auth::guard('web')->check())
+                                            <li>
+                                                <a href="{{ route('user.dashboard') }}">
+                                                    <span class="signup-btn">User Dashboard</span>
+                                                </a>
+                                            </li>
+                                        @elseif(Auth::guard('school')->check())
                                             <li>
                                                 <a href="{{ route('school.dashboard') }}">
-                                                    <span class="signup-btn">Dashboard</span>
+                                                    <span class="signup-btn">School Dashboard</span>
                                                 </a>
                                             </li>
                                         @else
-                                            <li>
-                                                <a href="{{ route('auth.schools') }}"><span class="signup-btn">Schools</span></a>
+                                            <li><a href="#"><span class="login-btn">Login</span></a>
+                                                <ul class="submenu">
+                                                    <li><a href="{{ route('login') }}">Parents/Guardian</a></li>
+                                                    <li><a href="{{ route('school.login') }}">Schools</a></li>
+                                                </ul>
                                             </li>
-                                            <li>
-                                                <a href="{{ route('auth.parents') }}"><span class="login-btn">Parents & Guardians</span></a>
+                                            <li><a href="#"><span class="signup-btn">Sign Up</span></a>
+                                                <ul class="submenu">
+                                                    <li><a href="{{ route('register') }}">Parents/Guardian</a></li>
+                                                    <li><a href="{{ route('school.register') }}">Schools</a></li>
+                                                </ul>
                                             </li>
                                         @endif
                                     </ul>
@@ -110,7 +122,7 @@
                     <div class="col-12">
                         <div class="wantToWork-caption text-center">
                             <h2>Download our mobile app.</h2>
-                            <p>Available on both Playstore and Apple-store.</p>
+                            <p>Available on both Play-store and Apple-store.</p>
                             <a href="{{ \App\WebSettings::find(1)->playstore_link }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Play Store"></a>
                             <a href="{{ \App\WebSettings::find(1)->appstore_link }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="App Store"></a>
                         </div>
