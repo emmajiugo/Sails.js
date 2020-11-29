@@ -160,8 +160,8 @@ function flipFunction() {
     $("#flipdiv").flip('toggle');
 }
 
-/** ajax function to fill the account name from the provided
-bank details using Paystack API
+/**
+ * ajax function to fill the account name from the providedbank details using Paystack API
 */
 $('#loader').hide();//hide the loader
 $('#acctno').on("keyup", function () {
@@ -171,29 +171,28 @@ $('#acctno').on("keyup", function () {
     $('#bankname').val($('#bank').find('option:selected').text());
 
     var data = {'Account Number' : acctno, 'Bank Code' : bankcode};
-    // console.log(data)
 
     if (acctno != '' && bankcode != '') {
         if ((acctno.toString().length) == 10) {
             var _token = $('input[name= "_token"]').val();
 
+            // console.log(data)
+
             $.ajax({
-                url: "/gateway/get_acctname",
+                url: "/gateway/resolve-account",
                 method: "POST",
                 data: { acctno: acctno, bankcode: bankcode, _token: _token },
                 beforeSend: function () {
-                    // $('#loader').html('');
-                    // var gif = "<img width='auto' height='50' src=\"{{asset('dashboard/assets/images/loader1.gif')}}\" >";
-                    // $('#loader').html(gif);
                     $('#loader').show();
-                },
-                success: function (data) {
-                    // console.log(data);
-                    $('#acctname').val('');
-                    $('#acctname').val(data.account_name);
-                    $('#loader').hide();
                 }
-            })
+            }).done(function (data) {
+                // console.log(data);
+                if (data.data != null) $('#acctname').val('').val(data.data.account_name);
+                $('#account-fetched').text('').text(data.message);
+                $('#loader').hide();
+            }).fail(function (res) {
+                console.log(res);
+            });
         }
     }
 });

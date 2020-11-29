@@ -14,7 +14,7 @@
                     <div class="col-lg-12">
                         <div class="alert alert-warning" role="alert">
                             <i class="mdi mdi-information"></i>
-                            <strong>Notice!</strong> Your school is yet to be verified and cannot be visible to the public. If verification has exceeded 48hrs, please contact us at <b>{{ \App\WebSettings::find(1)->email }}</b> or <b>{{ \App\WebSettings::find(1)->phone }}</b>
+                            <strong>Notice!</strong> Your school is yet to be verified and cannot be visible to the public. If verification has exceeded 48hrs, please contact us at <b>{{ $webSettings->email }}</b> or <b>{{ $webSettings->phone }}</b>
                         </div>
                     </div>
                 @endif

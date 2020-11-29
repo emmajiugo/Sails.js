@@ -1,8 +1,12 @@
 <?php
 namespace App\Traits;
 
+use App\Traits\HttpRequest;
+
 trait PaymentGateway
 {
+    use HttpRequest;
+
     private $baseUrl = "https://api.flutterwave.com/v3/";
 
     public function getListOfBanks()
@@ -10,23 +14,36 @@ trait PaymentGateway
         $result = array();
 
         try {
-            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
-
             $url = $this->baseUrl . 'banks/NG';
 
-            $client = new \GuzzleHttp\Client();
-            $res = $client->request('GET', $url, [
-                'headers' => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $secretKey
-                ]
-            ]);
-            $response = $res->getBody();
+            $response = $this->get($url);
 
-            return json_decode($response, true)['data'];
+            $bankDetails = json_decode($response, true)['data'];
+
+            $banks = array();
+
+            foreach($bankDetails as $bank) {
+                $banks[$bank['code']] = $bank['name'];
+            }
+
+            return $banks;
 
         } catch (\Throwable $th) {
             return array();
+        }
+    }
+
+    public function accountResolve(array $data)
+    {
+        try {
+            $url = $this->baseUrl . "accounts/resolve";
+
+            $response = $this->post($url, $data);
+
+            return json_decode($response, true);
+
+        } catch (\Throwable $th) {
+            return ["status" => "error", "message" => "Error: account number could not be validated.", "data" => null];
         }
     }
 
@@ -34,33 +51,25 @@ trait PaymentGateway
     {
         try {
             $url = $this->baseUrl . "payments";
-            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
 
-            $client = new \GuzzleHttp\Client();
-            $res = $client->request('POST', $url, [
-                'headers' => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $secretKey
+            $payload = [
+                "tx_ref" => $data['reference'],
+                "amount" => $data['amount'],
+                "currency" => "NGN",
+                "redirect_url" => request()->root() . "/home/callback",
+                "payment_options" => "card",
+                "customer" => [
+                    "email" => $data['email'],
+                    "phonenumber" => $data['user_phone'],
+                    "name" => $data['user_name']
                 ],
-                'json' => [
-                    "tx_ref" => $data['reference'],
-                    "amount" => $data['amount'],
-                    "currency" => "NGN",
-                    "redirect_url" => request()->root()."/home/callback",
-                    "payment_options" => "card",
-                    "customer" => [
-                        "email" => $data['email'],
-                        "phonenumber" => $data['user_phone'],
-                        "name" => $data['user_name']
-                    ],
-                    "customizations" => [
-                        "title" => "Skooleo",
-                        "description" => "Tuition Fee Payment",
-                    ]
+                "customizations" => [
+                    "title" => "Skooleo",
+                    "description" => "Tuition Fee Payment",
                 ]
-            ]);
+            ];
 
-            $response = $res->getBody();
+            $response = $this->post($url, $payload);
 
             return json_decode($response, true);
 
@@ -72,18 +81,9 @@ trait PaymentGateway
     public function flutterwaveVerifyTransaction($transactionId)
     {
         try {
-            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
-
             $url = $this->baseUrl . "transactions/" .$transactionId. "/verify";
 
-            $client = new \GuzzleHttp\Client();
-            $res = $client->request('GET', $url, [
-                'headers' => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $secretKey
-                ]
-            ]);
-            $response = $res->getBody();
+            $response = $this->get($url);
 
             return json_decode($response, true);
 
@@ -96,17 +96,7 @@ trait PaymentGateway
         try {
             $url = $this->baseUrl . "transfers";
 
-            $secretKey = env('FLUTTERWAVE_SECRET_KEY');
-
-            $client = new \GuzzleHttp\Client();
-            $res = $client->request('POST', $url, [
-                'headers' => [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Bearer ' . $secretKey
-                ],
-                'json' => $data
-            ]);
-            $response = $res->getBody();
+            $response = $this->post($url, $data);
 
             return json_decode($response, true);
 

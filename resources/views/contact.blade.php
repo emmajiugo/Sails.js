@@ -28,7 +28,7 @@
                     <p>Preferably, use the chat system at the right bottom of the page for instant response from our support staff.</p>
                 </div>
                 <div class="col-lg-7">
-                    <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                    <form class="form-contact contact_form" action="#" method="post" id="contactForm" novalidate="novalidate">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">

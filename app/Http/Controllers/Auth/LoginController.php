@@ -40,43 +40,43 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-        $this->username = $this->findUsername();
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except('logout');
+    //     $this->username = $this->findUsername();
+    // }
 
     /**
      * Get the login username to be used by the controller.
      *
      * @return string
      */
-    public function findUsername()
-    {
-        $login = request()->input('email_phone');
+    // public function findUsername()
+    // {
+    //     $login = request()->input('email_phone');
 
-        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+    //     $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-        request()->merge([$fieldType => $login]);
+    //     request()->merge([$fieldType => $login]);
 
-        return $fieldType;
-    }
+    //     return $fieldType;
+    // }
 
     /**
      * Get username property.
      *
      * @return string
      */
-    public function username()
-    {
-        return $this->username;
-    }
+    // public function username()
+    // {
+    //     return $this->username;
+    // }
 
     /**
      * Custom Error Message
      */
-    protected function getFailedLoginMessage()
-    {
-        return 'The credentials do not match our records';
-    }
+    // protected function getFailedLoginMessage()
+    // {
+    //     return 'The credentials do not match our records';
+    // }
 }

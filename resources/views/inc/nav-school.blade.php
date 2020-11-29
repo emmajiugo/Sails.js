@@ -53,12 +53,6 @@
             </a>
         </li>
 
-        {{-- <li class="nav-item">
-            <a href="{{ route('school.support.ticket') }}" class="nav-link {{ Request::is('school/support-ticket') || Request::is('school/support-ticket/*') ? 'active' : '' }}">
-                <i class="fa fa-phone-alt"></i> Support Ticket
-            </a>
-        </li> --}}
-
         <li class="nav-item">
             <a href="{{ route('school.settings') }}" class="nav-link {{ Request::is('school/settings') ? 'active' : '' }}">
                 <i class="fa fa-cogs"></i> Settings

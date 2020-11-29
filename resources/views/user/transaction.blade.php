@@ -104,12 +104,12 @@
                                     @if ($invoice->status == "UNPAID")
                                         @php
                                             $totalAmount += $invoice->amount;
-                                            $totalFee += \App\WebSettings::find(1)->transaction_fee;
+                                            $totalFee += $webSettings->transaction_fee;
                                         @endphp
                                         <tr>
                                             <td>#{{ $invoice->invoice_reference }}</td>
                                             <td>&#8358;{{ number_format($invoice->amount) }}</td>
-                                            <td>&#8358;{{ \App\WebSettings::find(1)->transaction_fee }}</td>
+                                            <td>&#8358;{{ $webSettings->transaction_fee }}</td>
                                         </tr>
                                     @endif
                                 @endforeach

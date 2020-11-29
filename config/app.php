@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         'Barryvdh\Debugbar\ServiceProvider',
         JD\Cloudder\CloudderServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
 
     ],
 

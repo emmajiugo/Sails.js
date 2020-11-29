@@ -129,8 +129,8 @@
                         <select id="bank" name="bankcode" class="form-control">
                             <option value="">-- select bank --</option>
                             @if (count($banknames) > 0)
-                                @foreach ($banknames as $bankname)
-                                    <option value="{{$bankname['code']}}">{{$bankname['name']}}</option>
+                                @foreach ($banknames as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -139,12 +139,13 @@
 
                     <div class="form-group">
                         <label for="account number">Account Number</label>
-                        <input type="text" class="form-control" id="acctno" name="acctno" placeholder="0023976543">
+                        <input type="text" class="form-control" id="acctno" name="acctno" placeholder="0690000032">
                     </div>
 
                     <div class="form-group">
                         <label for="account name">Account Name</label>
                         <input type="text" class="form-control" id="acctname" name="acctname" placeholder="Account Name" readonly>
+                        <small id="account-fetched" style="color: green"></small>
                         <div id="loader"><img width='35px' height='35px' src="{{asset('user_assets/img/loader1.gif')}}" ></div>
                     </div>
 
@@ -186,7 +187,7 @@
                     </div>
 
                     <br>
-                    <b class="text-success">Withdrawal Fee: </b> &#8358;{{ \App\WebSettings::find(1)->withdrawal_fee }} <br>
+                    <b class="text-success">Withdrawal Fee: </b> &#8358;{{ $webSettings->withdrawal_fee }} <br>
                     <b>NB:</b> Settlement will be made to the account provided to us on registration.
             </div>
             <div class="modal-footer">

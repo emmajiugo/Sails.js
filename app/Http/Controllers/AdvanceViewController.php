@@ -50,7 +50,7 @@ class AdvanceViewController extends Controller
         if($this->schoolActivated) {
 
             // get schools tied to the account & banks list
-            $feesetup = Feesetup::orderBy('created_at', 'desc')->where('school_detail_id', $this->schoolActivated->id)->paginate(10);
+            $feesetup = Feesetup::with(['feesbreakdown', 'feetype'])->orderBy('created_at', 'desc')->where('school_detail_id', $this->schoolActivated->id)->paginate(10);
 
             // return schools tied to this account
             $schools = $this->getSchoolsForTheAccount($this->userId);

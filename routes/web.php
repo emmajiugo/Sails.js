@@ -22,7 +22,7 @@ Route::get('/authenticate/schools', function () {
     return view('auth.schools-auth');
 })->name('auth.schools');
 
-// Available because of the logout function
+// Available because of the logout/reset password function
 Auth::routes();
 
 // routes for the school dashboard
@@ -84,7 +84,7 @@ Route::prefix('school')->group(function() {
 
 
 // get account name from bank details, used for ajax call
-Route::post('/gateway/get_acctname', 'BankDetailsController@getAcctName');
+Route::post('/gateway/resolve-account', 'BankDetailsController@resolveAccountName');
 
 // webhook
 Route::prefix('webhooks')->group(function () {

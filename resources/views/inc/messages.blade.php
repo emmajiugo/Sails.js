@@ -33,3 +33,11 @@
         </div>
     </div>
 @endif
+
+@if(session('status'))
+    <div class="col-sm-12">
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    </div>
+@endif

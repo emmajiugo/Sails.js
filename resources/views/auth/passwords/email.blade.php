@@ -8,10 +8,13 @@
         <!-- Section-tittle -->
         <div class="row d-flex justify-content-center">
             <div class="col-lg-8">
-                <div class="section-tittle text-center mb-80">
-                    <h2>Reset Password</h2>
-                    <span>Parents & Guardians</span>
+                <div class="section-tittle text-center mb-40">
+                    <h2>School Reset Password</h2>
                 </div>
+
+                @include('inc.messages')
+
+                <div class="space-20"></div>
             </div>
         </div>
     </div>
@@ -23,14 +26,7 @@
     <div class="container">
         <div class="row">
             <div class="offset-lg-3 col-lg-6">
-
-                @if(session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                    <div class="space-20"></div>
-                @endif
-
+                
                 <div class="login">
 
                     <form method="POST" action="{{ route('password.email') }}">
