@@ -37,7 +37,7 @@ class WithdrawalRequestListener implements ShouldQueue
         // init
         $school = $event->school;
         $wallet = $event->wallet;
-        $reference = $event->reference . (env('APP_DEBUG') ? '_PMCKDU_1' : '');
+        $reference = $event->reference;
         $amount = $event->amount;
         $totalWithdrawal = $event->totalWithdrawal;
         $balanceBefore = $event->balanceBefore;

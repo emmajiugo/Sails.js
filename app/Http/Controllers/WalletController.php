@@ -63,7 +63,7 @@ class WalletController extends Controller
             return back()->with('error', 'Not a enough balance in your Available Funds. Fee should be included.');
 
         // generate reference
-        $reference = $this->transferReference(); //."_PMCKDU_1";
+        $reference = $this->transferReference() . (env('APP_DEBUG') ? '_PMCKDU_1' : '');
 
         // save withdrawal in History
         $history = new WithdrawalHistory;
