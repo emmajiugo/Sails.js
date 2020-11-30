@@ -49,7 +49,7 @@ class WithdrawalRequestListener implements ShouldQueue
 
             // send request to gateway
             $payload = [
-                "account_bank" => $school->bankname,
+                "account_bank" => $school->bankcode,
                 "account_number" => $school->corporate_acctno,
                 "amount" => $amount,
                 "narration" => "Payout to " . $school->schoolname,
