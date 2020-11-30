@@ -126,7 +126,7 @@
 
                     <div class="form-group">
                         <label for="bank name">Select Bank</label>
-                        <select id="bank" name="bankcode" class="form-control">
+                        <select id="bank" name="bankcode" class="form-control" required>
                             <option value="">-- select bank --</option>
                             @if (count($banknames) > 0)
                                 @foreach ($banknames as $key => $value)
@@ -139,12 +139,12 @@
 
                     <div class="form-group">
                         <label for="account number">Account Number</label>
-                        <input type="text" class="form-control" id="acctno" name="acctno" placeholder="0690000032">
+                        <input type="text" class="form-control" id="acctno" name="acctno" placeholder="0690000032" required>
                     </div>
 
                     <div class="form-group">
                         <label for="account name">Account Name</label>
-                        <input type="text" class="form-control" id="acctname" name="acctname" placeholder="Account Name" readonly>
+                        <input type="text" class="form-control" id="acctname" name="acctname" placeholder="Account Name" readonly required>
                         <small id="account-fetched" style="color: green"></small>
                         <div id="loader"><img width='35px' height='35px' src="{{asset('user_assets/img/loader1.gif')}}" ></div>
                     </div>
@@ -153,7 +153,7 @@
                     <div class="form-group">
                         <label for="">Upload Govt. Approved Document (Image Only)</label><br>
                         <small>(eg. CAC Document or Ministry of Education Document. Max-Size: 2MB)</small>
-                        <input type="file" class="form-control" name="govtdoc">
+                        <input type="file" class="form-control" name="govtdoc" required>
                     </div>
 
             </div>

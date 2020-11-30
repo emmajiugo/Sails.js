@@ -14,7 +14,7 @@
                 </div>
 
                 @include('inc.messages')
-                
+
                 <div class="space-20"></div>
 
             </div>
