@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,8 +26,8 @@ Route::get('/authenticate/schools', function () {
 Auth::routes();
 
 // overiding login and register routes
-Route::get('login',  function() { return redirect(route('auth.schools')); });
-Route::get('register',  function () { return redirect(route('auth.schools')); });
+Route::get('login',  function() { return redirect(route('auth.schools')); })->name('login');
+Route::get('register',  function () { return redirect(route('auth.schools')); })->name('register');
 
 // routes for the school dashboard
 Route::prefix('school')->group(function() {
