@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\WebSettings;
+use App\Mail\ContactMail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class FrontEndController extends Controller
 {
@@ -28,5 +30,22 @@ class FrontEndController extends Controller
     public function contact()
     {
         return view('contact');
+    }
+
+    public function contactPost(Request $request)
+    {
+        $this->validate($request, [
+            'subject' => 'required',
+            'name' => 'required',
+            'email' => 'required|email',
+            'message' => 'required',
+        ]);
+
+        // send mail to skooleo support
+        $supportEmail = env('SUPPORT_EMAIL');
+        
+        Mail::to($supportEmail)->send(new ContactMail($request->subject, $request->name, $request->email, $request->message));
+
+        return back()->with('message', 'Email sent successfully. We will reach out to you within the hour.');
     }
 }

@@ -55,21 +55,7 @@ trait SchoolBase
         $feebreakdown->save();
     }
 
-    //generate transaction id
-    public function generateTrxId()
-    {
-        $trxId = "";
-        do {
-            //generate 8 different random numbers and concat them
-            for ($i = 0; $i < 8; $i++) {
-                $trxId .= mt_rand(1, 9);
-            }
-        } while (!empty(Invoice::where('invoice_reference', $trxId)->first()));
-
-        return $trxId;
-    }
-
-    //generate transaction id
+    //generate school number
     public function schoolNumber()
     {
         $schoolNumber = "";
@@ -83,18 +69,37 @@ trait SchoolBase
         return $schoolNumber;
     }
 
+    //generate invoice reference
+    public function generateTrxId()
+    {
+        $reference = $this->getYearMonth();
+        do {
+            //generate 4 different random numbers and concat them
+            for ($i = 0; $i < 4; $i++) {
+                $reference .= mt_rand(1, 9);
+            }
+        } while (!empty(Invoice::where('invoice_reference', $reference)->first()));
+
+        return $reference;
+    }
+
     //generate transfer reference
     public function transferReference()
     {
-        $reference = "";
+        $reference = $this->getYearMonth();
         do {
-            //generate 8 different random numbers and concat them
-            for ($i = 0; $i < 8; $i++) {
+            //generate 4 different random numbers and concat them
+            for ($i = 0; $i < 4; $i++) {
                 $reference .= mt_rand(1, 9);
             }
         } while (!empty(WithdrawalHistory::where('reference', $reference)->first()));
 
         return $reference;
+    }
+
+    protected function getYearMonth()
+    {
+        return date("Y") . date("m");
     }
 
     //update invoice transaction

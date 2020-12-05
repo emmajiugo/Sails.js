@@ -26,10 +26,10 @@
     <div class="container">
         <div class="row">
             <div class="offset-lg-3 col-lg-6">
-                
+
                 <div class="login">
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('school.password.email') }}">
                         @csrf
 
                         <div class="form-group">

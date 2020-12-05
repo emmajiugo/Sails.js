@@ -14,6 +14,9 @@ class UpdateInvoiceWebhook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 5;
+    public $timeout = 30;
+
     private $txRef;
     private $res;
 

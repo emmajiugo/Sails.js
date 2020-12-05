@@ -14,6 +14,9 @@ class UpdateTransferWebhook implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $tries = 5;
+    public $timeout = 30;
+
     private $reference;
     private $status;
     private $message;

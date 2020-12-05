@@ -105,8 +105,8 @@
                             {{ __('Login') }}
                         </button>
 
-                        @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" style="color:#402c83">
+                        @if (Route::has('school.password.request'))
+                            <a href="{{ route('school.password.request') }}" style="color:#402c83">
                                 {{ __('Forgot Your Password?') }}
                             </a>
                         @endif

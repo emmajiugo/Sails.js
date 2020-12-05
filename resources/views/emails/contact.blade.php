@@ -1,9 +1,7 @@
-<h3>Email From Contact Form</h3>
-
 <div>
-    <h4>Hi,</h4>
-    <h4>My name is {{$name}}.</h4>
-    <p>{{$bodymessage}}</p>
+    <p>Hi,</p>
+    <p>My name is {{ $name }}.</p>
+    <p>{{ $messageBody }}</p>
 </div>
 
-<p>Sent via: {{$email}}</p>
+<p>Sender email: {{ $email }}</p>
