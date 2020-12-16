@@ -72,14 +72,6 @@ Route::prefix('school')->group(function() {
     Route::get('/history', 'TransactionController@index')->name('school.transaction.history');
     Route::view('/report', 'school.report')->middleware('auth:school');
 
-    // support ticket
-    Route::resource('/support-ticket', 'SupportTicketController')->names([
-        'index' => 'school.support.ticket',
-        'store' => 'school.support.post',
-        'show'  => 'school.ticket.show',
-    ]);
-    Route::post('support-reply/{id}', 'SupportTicketController@supportReplyPost')->name('school.reply.post');
-
     // settings
     Route::resource('/settings', 'SettingsController')->names([
         'index' => 'school.settings'
