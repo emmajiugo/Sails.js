@@ -111,8 +111,8 @@
                         <div class="wantToWork-caption text-center">
                             <h2>Download our mobile app.</h2>
                             <p>Available on both Playstore and Apple-store.</p>
-                            <a href="{{ $webSettings->playstore_link }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Play Store"></a>
-                            <a href="{{ $webSettings->appstore_link }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="App Store"></a>
+                            <a href="{{ $webSettings->playstore_link ?? '#' }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Play Store"></a>
+                            <a href="{{ $webSettings->appstore_link ?? '#' }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="App Store"></a>
                         </div>
                     </div>
                 </div>
@@ -138,14 +138,14 @@
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
-                                        <p class="info1">{{ $webSettings->address }}</p>
-                                        <p class="info2">{{ $webSettings->email }}</p>
+                                        <p class="info1">{{ $webSettings->address ?? '' }}</p>
+                                        <p class="info2">{{ $webSettings->email ?? '' }}</p>
                                     </div>
                                 </div>
                                 <div class="footer-social">
-                                    <a href="{{ $webSettings->facebook_link }}" target="blank"><i class="fab fa-facebook-f"></i></a>
-                                    <a href="{{ $webSettings->twitter_link }}" target="blank"><i class="fab fa-twitter"></i></a>
-                                    <a href="{{ $webSettings->instagram_link }}" target="blank"><i class="fab fa-instagram"></i></a>
+                                    <a href="{{ $webSettings->facebook_link ?? '#' }}" target="blank"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="{{ $webSettings->twitter_link ?? '#' }}" target="blank"><i class="fab fa-twitter"></i></a>
+                                    <a href="{{ $webSettings->instagram_link ?? '#' }}" target="blank"><i class="fab fa-instagram"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -179,8 +179,8 @@
                                 <div class="footer-tittle">
                                     <h4>Mobile Apps</h4>
                                     <ul>
-                                    <li><a href="{{ $webSettings->playstore_link }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Playstore"></a></li>
-                                    <li><a href="{{ $webSettings->appstore_link }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="Appstore"></a></li>
+                                    <li><a href="{{ $webSettings->playstore_link ?? '#' }}" target="blank"><img src="{{ asset('assets/img/playstore.png') }}" class="img-responsive" alt="Playstore"></a></li>
+                                    <li><a href="{{ $webSettings->appstore_link ?? '#' }}" target="blank"><img src="{{ asset('assets/img/applestore.png') }}" class="img-responsive" alt="Appstore"></a></li>
                                 </ul>
                                 </div>
                             </div>

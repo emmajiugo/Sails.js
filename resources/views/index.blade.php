@@ -19,7 +19,7 @@
                                 <br>
                                 <!-- Hero-btn -->
                                 <div class="hero__btn" data-animation="fadeInLeft" data-delay=".9s">
-                                    <a href="{{ $webSettings->demo_link }}" target="blank" class="btn hero-btn">Watch Demo!</a>
+                                    <a href="{{ $webSettings->demo_link ?? '' }}" target="blank" class="btn hero-btn">Watch Demo!</a>
                                 </div>
                             </div>
                         </div>
