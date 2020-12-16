@@ -75,7 +75,7 @@ $("#setupModal").on('shown.bs.modal', function () {
 
     var counter = 2;
 
-    $("#addButton").click(function () {
+    $("#addButton").on("click", function () {
 
         var newTextBoxDiv = $(document.createElement('div'))
             .attr("id", 'TextBoxDiv' + counter);
@@ -102,7 +102,7 @@ $("#addModal").on('shown.bs.modal', function () {
 
     var counter = 2;
 
-    $("#addButton").click(function () {
+    $("#addButton").on("click", function () {
 
         var newTextBoxDiv = $(document.createElement('div'))
             .attr("id", 'TextBoxDiv' + counter);
@@ -116,7 +116,7 @@ $("#addModal").on('shown.bs.modal', function () {
         counter++;
     });
 
-    $("#removeButton").click(function () {
+    $("#removeButton").on("click", function () {
         if (counter > 2) {
             counter--;
             $("#TextBoxDiv" + counter).remove();
@@ -129,7 +129,7 @@ $("#feetypeModal").on('shown.bs.modal', function () {
 
     var counter = 2;
 
-    $("#addButtonx").click(function () {
+    $("#addButtonx").on("click", function () {
 
         var newTextBoxDiv = $(document.createElement('div'))
             .attr("id", 'TextBoxDivx' + counter);
@@ -143,7 +143,7 @@ $("#feetypeModal").on('shown.bs.modal', function () {
         counter++;
     });
 
-    $("#removeButtonx").click(function () {
+    $("#removeButtonx").on("click", function () {
         if (counter > 2) {
             counter--;
             $("#TextBoxDivx" + counter).remove();
@@ -160,38 +160,39 @@ function flipFunction() {
     $("#flipdiv").flip('toggle');
 }
 
-/** ajax function to fill the account name from the provided
-bank details using Paystack API
+/**
+ * ajax function to fill the account name from the providedbank details using Paystack API
 */
 $('#loader').hide();//hide the loader
-$('#acctno').keyup(function () {
+$('#acctno').on("keyup", function () {
     var acctno = $(this).val();
     var bankcode = $('#bank').val();
 
+    $('#bankname').val($('#bank').find('option:selected').text());
+
     var data = {'Account Number' : acctno, 'Bank Code' : bankcode};
-    console.log(data)
 
     if (acctno != '' && bankcode != '') {
         if ((acctno.toString().length) == 10) {
             var _token = $('input[name= "_token"]').val();
 
+            // console.log(data)
+
             $.ajax({
-                url: "/gateway/get_acctname",
+                url: "/gateway/resolve-account",
                 method: "POST",
                 data: { acctno: acctno, bankcode: bankcode, _token: _token },
                 beforeSend: function () {
-                    // $('#loader').html('');
-                    // var gif = "<img width='auto' height='50' src=\"{{asset('dashboard/assets/images/loader1.gif')}}\" >";
-                    // $('#loader').html(gif);
                     $('#loader').show();
-                },
-                success: function (data) {
-                    // console.log(data);
-                    $('#acctname').val('');
-                    $('#acctname').val(data.account_name);
-                    $('#loader').hide();
                 }
-            })
+            }).done(function (data) {
+                // console.log(data);
+                if (data.data != null) $('#acctname').val('').val(data.data.account_name);
+                $('#account-fetched').text('').text(data.message);
+                $('#loader').hide();
+            }).fail(function (res) {
+                console.log(res);
+            });
         }
     }
 });

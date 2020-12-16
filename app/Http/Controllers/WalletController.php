@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Traits\SchoolBase;
-use App\Traits\PaymentGateway;
-
 use App\WithdrawalHistory;
+
+use Illuminate\Http\Request;
+use App\Traits\PaymentGateway;
+use App\Events\WithdrawalRequestEvent;
 
 class WalletController extends Controller
 {
@@ -63,7 +63,7 @@ class WalletController extends Controller
             return back()->with('error', 'Not a enough balance in your Available Funds. Fee should be included.');
 
         // generate reference
-        $reference = $this->transferReference(); //."_PMCKDU_1";
+        $reference = $this->transferReference() . (env('APP_DEBUG') ? '_PMCKDU_1' : '');
 
         // save withdrawal in History
         $history = new WithdrawalHistory;
@@ -79,57 +79,9 @@ class WalletController extends Controller
         $history->bank_code = $this->school->bankname;
         $history->save();
 
+        // withdrawal event WithdrawalRequestEvent
+        event(new WithdrawalRequestEvent($this->school, $wallet, $amount, $totalWithdrawal, $reference, $history->balance_before));
 
-        // deplete funds from wallet and add to history
-        $wallet->total_amount -= $totalWithdrawal;
-
-        if ($wallet->save()) {
-
-            // send request to gateway
-            $payload = [
-                "account_bank" => $this->school->bankname,
-                "account_number" => $this->school->corporate_acctno,
-                "amount" => $amount,
-                "narration" => "Payout to ". $this->school->schoolname,
-                "currency" => "NGN",
-                "reference" => $reference,
-                "callback_url" => "",
-                "debit_currency" => "NGN"
-            ];
-
-            $response = $this->flutterwaveTransfer($payload);
-
-            // get record from db
-            $withdrawRecord = WithdrawalHistory::where('reference', $reference)->first();
-
-            if ($response['status'] === 'error') {
-                //refund user
-                $wallet->total_amount += $totalWithdrawal;
-                $wallet->save();
-
-                // update record
-                $withdrawRecord->gateway_id = "000000";
-                $withdrawRecord->balance_after = $wallet->total_amount;
-                $withdrawRecord->fee = "00";
-                $withdrawRecord->bank_name = "FAILED";
-                $withdrawRecord->status = "FAILED";
-                $withdrawRecord->message = $response['message'];
-                $withdrawRecord->save();
-
-                return back()->with('error', 'Transfer error, please try again.');
-            }
-
-            // update withdrawal history record
-            $withdrawRecord->gateway_id = $response['data']['id'];
-            // $withdrawRecord->balance_after = $wallet->total_amount;
-            $withdrawRecord->fee = $response['data']['fee'];
-            $withdrawRecord->bank_name = $response['data']['bank_name'];
-            $withdrawRecord->save();
-
-            return redirect(route('withdraw.history'))->with('success', 'Withdrawal is being processed.');
-
-        }
-
-        return back()->with('error', 'Transfer error, please try again.');
+        return redirect(route('withdraw.history'))->with('success', 'Withdrawal is being processed.');
     }
 }

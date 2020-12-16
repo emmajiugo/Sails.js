@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddReplyTypeToSupportRepliesTable extends Migration
+class AddBankCodeToSchoolDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddReplyTypeToSupportRepliesTable extends Migration
      */
     public function up()
     {
-        Schema::table('support_replies', function (Blueprint $table) {
-            $table->string('reply_type');
+        Schema::table('school_details', function (Blueprint $table) {
+            $table->string('bankcode')->after('bankname')->nullable();
         });
     }
 
@@ -25,8 +25,8 @@ class AddReplyTypeToSupportRepliesTable extends Migration
      */
     public function down()
     {
-        Schema::table('support_replies', function (Blueprint $table) {
-            //
+        Schema::table('school_details', function (Blueprint $table) {
+            $table->dropColumn('bankcode');
         });
     }
 }

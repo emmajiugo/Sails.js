@@ -8,8 +8,9 @@ use App\Traits\PaymentGateway;
 use App\SchoolDetail;
 use App\Feesbreakdown;
 use App\Invoice;
+use App\Jobs\UpdateInvoiceWebhook;
+use App\Jobs\UpdateTransferWebhook;
 use App\WithdrawalHistory;
-use App\Wallet;
 
 /**
  * Methods that are used across all controllers are put here
@@ -54,27 +55,41 @@ trait SchoolBase
         $feebreakdown->save();
     }
 
-    //generate transaction id
-    public function generateTrxId()
+    //generate school number
+    public function schoolNumber()
     {
-        $trxId = "";
+        $schoolNumber = "";
         do {
             //generate 8 different random numbers and concat them
             for ($i = 0; $i < 8; $i++) {
-                $trxId .= mt_rand(1, 9);
+                $schoolNumber .= mt_rand(1, 9);
             }
-        } while (!empty(Invoice::where('invoice_reference', $trxId)->first()));
+        } while (!empty(SchoolDetail::where('school_number', $schoolNumber)->first()));
 
-        return $trxId;
+        return $schoolNumber;
+    }
+
+    //generate invoice reference
+    public function generateTrxId()
+    {
+        $reference = $this->getYearMonth();
+        do {
+            //generate 4 different random numbers and concat them
+            for ($i = 0; $i < 4; $i++) {
+                $reference .= mt_rand(1, 9);
+            }
+        } while (!empty(Invoice::where('invoice_reference', $reference)->first()));
+
+        return $reference;
     }
 
     //generate transfer reference
     public function transferReference()
     {
-        $reference = "";
+        $reference = $this->getYearMonth();
         do {
-            //generate 8 different random numbers and concat them
-            for ($i = 0; $i < 8; $i++) {
+            //generate 4 different random numbers and concat them
+            for ($i = 0; $i < 4; $i++) {
                 $reference .= mt_rand(1, 9);
             }
         } while (!empty(WithdrawalHistory::where('reference', $reference)->first()));
@@ -82,43 +97,24 @@ trait SchoolBase
         return $reference;
     }
 
+    protected function getYearMonth()
+    {
+        return date("Y") . date("m");
+    }
+
     //update invoice transaction
     public function updateInvoice($txRef, $transactionId)
     {
-        $transactionFee = \App\WebSettings::find(1)->transaction_fee;
 
         // Log::info($txRef);
         //verify the transaction using transaction ref passed
-        $status = $this->flutterwaveVerifyTransaction($transactionId);
-        // return $status;
+        $res = $this->flutterwaveVerifyTransaction($transactionId);
+        // $status = $res['data']['status'];
 
-        if ($status['data']['status'] === 'successful'){
-            //explode the reference passed to be able to handle multiple payments
-            $refs = explode("_", $txRef);
+        if ($res['data']['status'] === 'successful'){
 
-            //update
-            foreach($refs as $ref) {
-                $invoice = Invoice::where('invoice_reference', $ref)->first();
-                $invoice->status = 'PAID';
-                $invoice->payment_reference = $status['data']['flw_ref'];
-                $invoice->payment_id = $status['data']['id'];
-                $invoice->fee = $status['data']['app_fee'];
-                $invoice->skooleo_fee = $transactionFee;
-                $invoice->save();
+            UpdateInvoiceWebhook::dispatch($txRef, $res);
 
-                if ($invoice->settled == 0) {
-                    // update wallet and settled to true
-                    $wallet = Wallet::where('school_detail_id', $invoice->school_detail_id)->first();
-                    $wallet->total_amount += $invoice->amount;
-                    $wallet->save();
-
-                    // mark transaction as settled
-                    $invoice->settled = true;
-                    $invoice->save();
-                }
-            }
-
-            return true;
         } else {
             return false;
         }
@@ -127,29 +123,8 @@ trait SchoolBase
     // update transfer
     public function updateTransfer($reference, $status, $message) {
 
-        $history = WithdrawalHistory::where('reference', $reference)->first();
-
-        // refund user if transfer fails/ update balance_after
-        if ($status === "FAILED" && $history->status !== "FAILED") {
-            $wallet = Wallet::where('school_detail_id', $history->school_detail_id)->first();
-
-            $fee = $history->skooleo_fee;
-            $amount = $history->amount;
-            $totalWithdrawn = $fee + $amount;
-
-            // refund
-            $wallet->total_amount += $totalWithdrawn;
-            $wallet->save();
-
-            // update balance_after
-            $history->balance_after = $wallet->total_amount;
-
-        }
-
-        // update record
-        $history->status = $status;
-        $history->message = $message;
-        $history->save();
+        // dispatch job
+        UpdateTransferWebhook::dispatch($reference, $status, $message);
 
     }
 

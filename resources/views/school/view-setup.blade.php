@@ -27,11 +27,11 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="section" class="control-label">Section</label>
-                                    <input type="text" class="form-control" name="section" value="{{strtoupper($section)}}" readonly>
+                                    <input type="text" class="form-control" name="section" value="{{strtoupper($section)}}" readonly required>
                                 </div>
                                 <div class="form-group">
                                     <label for="session">Academic Session</label>
-                                    <select name="session" class="form-control">
+                                    <select name="session" class="form-control" required>
                                         <option value="">-- select academic session --</option>
                                         @if(count($sessiondetails) > 0)
                                             @foreach($sessiondetails as $value)
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="class">Class</label>
-                                    <select name="classes" class="form-control">
+                                    <select name="classes" class="form-control" required>
                                         <option value="">-- select class --</option>
                                         @if($section == 'secondary')
                                             <option value="JSS 1" {{ old('classes') == 'JSS 1' ? 'selected':'' }}>JSS 1</option>
@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="term">Academic Term</label>
-                                    <select name="term" class="form-control">
+                                    <select name="term" class="form-control" required>
                                         <option value="">-- select term --</option>
                                         <option value="1ST TERM" {{ old('term') == '1ST TERM' ? 'selected':'' }}>1ST TERM</option>
                                         <option value="2ND TERM" {{ old('term') == '2ND TERM' ? 'selected':'' }}>2ND TERM</option>
@@ -79,7 +79,7 @@
                                 <div class="form-group">
                                     <label for="fee-name" class="control-label">Fee Name</label>
                                     @if(count($fees) > 0)
-                                        <select name="feename" class="form-control">
+                                        <select name="feename" class="form-control" required>
                                             <option value="">-- select fee type --</option>
                                             @foreach($fees as $fee)
                                                 <option value="{{$fee->id}}" {{ old('feename') == $fee->id ? 'selected':'' }}>{{strtoupper($fee->feename)}}</option>

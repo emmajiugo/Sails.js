@@ -15,54 +15,28 @@
 Route::get('/', 'FrontEndController@index')->name('index');
 Route::get('/pricing', 'FrontEndController@pricing')->name('pricing');
 Route::get('/contact', 'FrontEndController@contact')->name('contact');
+Route::post('/contact', 'FrontEndController@contactPost')->name('contact.post');
+Route::get('/authenticate/parents', function() { return view('auth.parents-auth'); })->name('auth.parents');
+Route::get('/authenticate/schools', function () { return view('auth.schools-auth'); })->name('auth.schools');
 
-// Auth route for user
+// Available because of the logout/reset password function
 Auth::routes();
 
-// routes for the user dashboard
-Route::prefix('home')->group(function() {
-
-    // route for user profile
-    Route::get('/profile', 'UserProfileController@index')->name('user.profile');
-    Route::post('/profile', 'UserProfileController@update')->name('user.profile.post');
-
-    // route for user support
-    Route::resource('/support', 'UserSupportController')->names([
-        'index' => 'user.support',
-        'store' => 'user.support.post',
-        'show'  => 'user.ticket.show',
-    ]);
-    Route::post('support-reply/{id}', 'UserSupportController@supportReplyPost')->name('user.reply.post');
-
-    // route for savings plan
-    // Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings'); [coming soon]
-
-    // route to implement search
-    Route::get('/list-schools', 'UserSearchController@listVerifiedSchool');
-    // Route::post('/ajax-search', 'UserSearchController@ajaxSearch');
-    Route::get('/search', 'UserSearchController@getSearch')->name('user.search');
-    Route::post('/search', 'UserSearchController@postSearch')->name('user.search.post');
-    Route::post('/search/school', 'UserSearchController@postSchool')->name('user.school.post');
-    Route::post('/search/school-continue', 'UserSearchController@postForInvoice')->name('user.invoice.post');
-
-    // route to invoice
-    Route::get('/invoices', 'InvoiceController@index')->name('user.invoice');
-    Route::get('/invoice/{reference}', 'InvoiceController@getInvoice')->name('user.invoice.id');
-    Route::post('/invoice', 'InvoiceController@invoicePayment')->name('user.invoice.payment');
-    Route::get('/callback', 'InvoiceController@invoiceStatus');
-
-    // route for user dashboard
-    Route::get('/', 'HomeController@index')->name('user.dashboard');
-});
-
+// overiding login and register routes
+Route::get('login',  function() { return redirect(route('auth.schools')); })->name('login');
+Route::get('register',  function () { return redirect(route('auth.schools')); })->name('register');
 
 // routes for the school dashboard
 Route::prefix('school')->group(function() {
     // Auth route for school
-    Route::get('/login', 'Auth\SchoolLoginController@showLoginForm')->name('school.login');
     Route::post('/login', 'Auth\SchoolLoginController@login')->name('school.login.submit');
-    Route::get('/register', 'Auth\SchoolRegisterController@showRegisterForm')->name('school.register');
     Route::post('/register', 'Auth\SchoolRegisterController@register')->name('school.register.submit');
+
+    // Password reset routes
+    Route::post('/password/email', 'Auth\SchoolForgotPasswordController@sendResetLinkEmail')->name('school.password.email');
+    Route::get('/password/reset', 'Auth\SchoolForgotPasswordController@showLinkRequestForm')->name('school.password.request');
+    Route::post('/password/reset', 'Auth\SchoolResetPasswordController@reset')->name('school.password.update');;
+    Route::get('/password/reset/{token}', 'Auth\SchoolResetPasswordController@showResetForm')->name('school.password.reset');
 
     // Withdraw funds
     Route::post('withdraw', 'WalletController@withdraw')->name('wallet.withdraw');
@@ -117,9 +91,48 @@ Route::prefix('school')->group(function() {
 
 
 // get account name from bank details, used for ajax call
-Route::post('/gateway/get_acctname', 'BankDetailsController@getAcctName');
+Route::post('/gateway/resolve-account', 'BankDetailsController@resolveAccountName');
 
 // webhook
 Route::prefix('webhooks')->group(function () {
     Route::post('flutterwave/handle', 'Webhook\FlutterwaveWebhookProcessor@handle');
 });
+
+
+
+
+// routes for the user dashboard
+// Route::prefix('home')->group(function () {
+
+//     // route for user profile
+//     Route::get('/profile', 'UserProfileController@index')->name('user.profile');
+//     Route::post('/profile', 'UserProfileController@update')->name('user.profile.post');
+
+//     // route for user support
+//     Route::resource('/support', 'UserSupportController')->names([
+//         'index' => 'user.support',
+//         'store' => 'user.support.post',
+//         'show'  => 'user.ticket.show',
+//     ]);
+//     Route::post('support-reply/{id}', 'UserSupportController@supportReplyPost')->name('user.reply.post');
+
+//     // route for savings plan
+//     // Route::get('/savings-plan', 'UserSavingsController@index')->name('user.savings'); [coming soon]
+
+//     // route to implement search
+//     Route::get('/list-schools', 'UserSearchController@listVerifiedSchool');
+//     // Route::post('/ajax-search', 'UserSearchController@ajaxSearch');
+//     Route::get('/search', 'UserSearchController@getSearch')->name('user.search');
+//     Route::post('/search', 'UserSearchController@postSearch')->name('user.search.post');
+//     Route::post('/search/school', 'UserSearchController@postSchool')->name('user.school.post');
+//     Route::post('/search/school-continue', 'UserSearchController@postForInvoice')->name('user.invoice.post');
+
+//     // route to invoice
+//     Route::get('/invoices', 'InvoiceController@index')->name('user.invoice');
+//     Route::get('/invoice/{reference}', 'InvoiceController@getInvoice')->name('user.invoice.id');
+//     Route::post('/invoice', 'InvoiceController@invoicePayment')->name('user.invoice.payment');
+//     Route::get('/callback', 'InvoiceController@invoiceStatus');
+
+//     // route for user dashboard
+//     Route::get('/', 'HomeController@index')->name('user.dashboard');
+// });

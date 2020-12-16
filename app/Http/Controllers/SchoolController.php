@@ -40,6 +40,7 @@ class SchoolController extends Controller
 
         //get list of banks from API
         $bankNames = $this->getListOfBanks();
+        asort($bankNames);
 
         // get all school details if there is one
         if ($school) {

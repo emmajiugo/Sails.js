@@ -44,8 +44,8 @@
                   <hr class="m-0 m-b-md" style="border-color: #ddd;">
 
                   <div class="list-group">
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-envelope"></i>{{ \App\WebSettings::find(1)->email }}</a>
-                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-phone-alt"></i>{{ \App\WebSettings::find(1)->phone }}</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-envelope"></i>{{ $webSettings->email }}</a>
+                    <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-phone-alt"></i>{{ $webSettings->phone }}</a>
                     <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-calendar-alt"></i>Mon-Fri: 8am - 5pm</a>
                     <a href="javascript:void(0)" class="text-color list-group-item"><i class="m-r-sm fa fa-calendar-alt"></i>Sat-Sun: 10am - 3pm</a>
                 </div><!-- .list-group -->
@@ -74,7 +74,7 @@
                                         <div class="form-group">
                                             <label for="">School Name</label>
                                             <input type="text" class="form-control" name="schoolname" value="{{$school->schoolname}}" readonly>
-                                            <small style="color:blueviolet">You can't edit this from here. To edit, send us an email to <b>{{ \App\WebSettings::find(1)->email }}</b></small>
+                                            <small style="color:blueviolet">You can't edit this from here. To edit, send us an email to <b>{{ $webSettings->email }}</b></small>
                                         </div>
                                         <div class="form-group">
                                             <label for="">School Address</label>
@@ -165,7 +165,7 @@
                         </div>
                         <div>
                             <div class="panel-body how-it-works">
-                                <p>Watch our little demo of the Skooleo platform <a href="{{ \App\WebSettings::find(1)->demo_link }}">here</a></p>
+                                <p>Watch our little demo of the Skooleo platform <a href="{{ $webSettings->demo_link }}">here</a></p>
                                 <table>
                                     <tr>
                                         <td><i class="far fa-check-circle"></i></td>

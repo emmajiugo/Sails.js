@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserIdToSupportTicketTable extends Migration
+class AddEcommStoreToWebSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddUserIdToSupportTicketTable extends Migration
      */
     public function up()
     {
-        Schema::table('support_tickets', function (Blueprint $table) {
-            $table->string('school_detail_id')->default(0)->change();
-            $table->string('user_id')->default(0);
+        Schema::table('web_settings', function (Blueprint $table) {
+            $table->string('ecomm_store')->after('withdrawal_fee')->nullable();
         });
     }
 
@@ -26,8 +25,8 @@ class AddUserIdToSupportTicketTable extends Migration
      */
     public function down()
     {
-        Schema::table('supporttickets', function (Blueprint $table) {
-            //
+        Schema::table('web_settings', function (Blueprint $table) {
+            
         });
     }
 }

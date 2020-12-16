@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddMsgHashToSupportTicketsTable extends Migration
+class AddSchoolNumberToSchoolDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddMsgHashToSupportTicketsTable extends Migration
      */
     public function up()
     {
-        Schema::table('support_tickets', function (Blueprint $table) {
-            $table->string('msg_hash');
+        Schema::table('school_details', function (Blueprint $table) {
+            $table->string('school_number')->unique()->after('school_id');
         });
     }
 
@@ -25,8 +25,8 @@ class AddMsgHashToSupportTicketsTable extends Migration
      */
     public function down()
     {
-        Schema::table('support_tickets', function (Blueprint $table) {
-            //
+        Schema::table('school_details', function (Blueprint $table) {
+            $table->dropColumn('school_number');
         });
     }
 }

@@ -19,8 +19,8 @@
                                     <th>Term</th>
                                     <th>Student Name</th>
                                     <th>Class</th>
-                                    <th>Amount Paid</th>
-                                    <th>Date of Payment</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
 
@@ -33,7 +33,7 @@
                                         <td>{{$invoice->studentname}}</td>
                                         <td>{{$invoice->class}}</td>
                                         <td>&#8358;{{$invoice->amount}}</td>
-                                        <td>{{date("jS F, Y", strtotime($invoice->updated_at))}}</td>
+                                        <td>{{date("d-M-Y", strtotime($invoice->updated_at))}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
