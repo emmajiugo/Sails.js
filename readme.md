@@ -1,1 +1,1 @@
-## Schoolpay Core
+## Skooleo Web

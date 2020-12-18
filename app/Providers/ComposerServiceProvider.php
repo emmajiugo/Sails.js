@@ -24,7 +24,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(
-            ['index', 'contact', 'pricing', 'auth.*', 'auth.passwords.*'],
+            ['index', 'contact', 'pricing', 'live-chat', 'auth.*', 'auth.passwords.*'],
             'App\Http\ViewComposers\FrontendComposer'
         );
 

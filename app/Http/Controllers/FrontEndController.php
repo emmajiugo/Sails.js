@@ -43,9 +43,14 @@ class FrontEndController extends Controller
 
         // send mail to skooleo support
         $supportEmail = env('SUPPORT_EMAIL');
-        
+
         Mail::to($supportEmail)->send(new ContactMail($request->subject, $request->name, $request->email, $request->message));
 
         return back()->with('message', 'Email sent successfully. We will reach out to you within the hour.');
+    }
+
+    public function liveChat()
+    {
+        return view('live-chat');
     }
 }

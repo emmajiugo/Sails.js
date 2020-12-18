@@ -5,10 +5,9 @@
 <!-- Slider Area Start-->
 <div class="services-area">
     <div class="container">
-        <!-- Section-tittle -->
         <div class="row d-flex justify-content-center">
-            <div class="col-lg-8">
-                <div class="section-tittle text-center mb-80">
+            <div class="col-md-12">
+                <div class="section-tittle text-center">
                     <h2>Our Pricing Plan</h2>
                     <span>A Simple Plan For You</span>
                 </div>
@@ -20,10 +19,9 @@
 
 <main>
 
-    <!--Choose Best start-->
+    <!-- Pricing start-->
     <div class="choose-best choose-padding">
         <div class="container">
-            <!-- Section-tittle -->
             <div class="row">
                 <div class="offset-md-3 col-md-6">
                     <div class="single-choose text-center mb-30">
@@ -44,7 +42,7 @@
             </div>
         </div>
     </div>
-    <!-- Choose Best do End-->
+    <!-- Pricing End-->
 
 </main>
 
