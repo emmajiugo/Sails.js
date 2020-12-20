@@ -15,7 +15,12 @@
 
                 @include('inc.messages')
 
-                <div class="space-20"></div>
+                {{-- <div class="space-20"></div> --}}
+
+                <div class="mobile-warning text-center">
+                    <img src="{{ asset("assets/img/writing-emoticon.gif") }}" alt="smiley" width="40%">
+                    <p>For best experience, please login/register using a tablet, laptop, or desktop computer.</p>
+                </div>
 
             </div>
         </div>
