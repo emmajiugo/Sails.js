@@ -65,14 +65,6 @@ CUSTOM CSS
 }
 
 /* LOGIN & REGISTER */
-.login,
-.register {
-    background: #f8d8e4;
-    padding: 90px 70px;
-    border-radius: 5px;
-    margin-left: 20px;
-}
-
 label {
     color: #402c83;
     font-size: 14px;
@@ -111,9 +103,17 @@ label {
     transform: translateY(-50%);
 }
 
+.mobile-warning {
+    display: none;
+}
+
 @media screen and (max-width: 600px) {
-    .login,
-    .register {
-        padding: 50px 25px;
+    .login-body,
+    .register-body {
+        display: none;
+    }
+
+    .mobile-warning {
+        display: block;
     }
 }
