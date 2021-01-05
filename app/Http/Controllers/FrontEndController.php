@@ -53,4 +53,9 @@ class FrontEndController extends Controller
     {
         return view('live-chat');
     }
+
+    public function comingSoon()
+    {
+        return view('coming-soon');
+    }
 }

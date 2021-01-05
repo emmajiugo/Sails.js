@@ -17,6 +17,7 @@ Route::get('/pricing', 'FrontEndController@pricing')->name('pricing');
 Route::get('/contact', 'FrontEndController@contact')->name('contact');
 Route::post('/contact', 'FrontEndController@contactPost')->name('contact.post');
 Route::get('/live-chat', 'FrontEndController@liveChat')->name('live.chat');
+Route::get('/coming-soon', 'FrontEndController@comingSoon')->name('coming.soon');
 Route::get('/authenticate/parents', function() { return view('auth.parents-auth'); })->name('auth.parents');
 Route::get('/authenticate/schools', function () { return view('auth.schools-auth'); })->name('auth.schools');
 
