@@ -58,7 +58,7 @@
                                                     }
                                                 @endphp
                                             </td>
-                                            <td>{{date("d-M-Y", strtotime($data->created_at))}}</td>
+                                            <td>{{ date("d-M-Y", strtotime($data->created_at)) }}</td>
                                             {{-- <td>{{ $data->created_at->diffForHumans() }}</td> --}}
                                         </tr>
                                     @endforeach
