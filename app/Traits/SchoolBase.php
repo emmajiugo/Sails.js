@@ -89,7 +89,7 @@ trait SchoolBase
         $reference = $this->getYearMonth();
         do {
             //generate 4 different random numbers and concat them
-            for ($i = 0; $i < 4; $i++) {
+            for ($i = 0; $i < 6; $i++) {
                 $reference .= mt_rand(1, 9);
             }
         } while (!empty(WithdrawalHistory::where('reference', $reference)->first()));

@@ -34,3 +34,57 @@
 .withdraw-loader-display {
     display: block;
 }
+
+.withdraw .card {
+    background-image: -webkit-linear-gradient(0deg, rgb(123, 1, 233) 0%, rgb(174, 85, 255) 100%);
+    border: 0;
+    color: #fff;
+    padding: 30px 40px;
+}
+
+.withdraw-success .card {
+    background-image: -webkit-linear-gradient(0deg, rgb(3, 197, 12) 0%, rgb(133, 255, 85) 100%);
+    border: 0;
+    color: #fff;
+    padding: 30px 40px;
+}
+
+.withdraw-danger .card {
+    background-image: -webkit-linear-gradient(0deg, rgb(233, 36, 1) 0%, rgb(255, 105, 85) 100%);
+    border: 0;
+    color: #fff;
+    padding: 30px 40px;
+}
+
+.withdraw-success .card-top,
+.withdraw-danger .card-top,
+.withdraw .card-top {
+    display: flex;
+}
+
+.withdraw-success .card-top h1,
+.withdraw-danger .card-top h1,
+.withdraw .card-top h1 {
+    flex-grow: 1;
+    font-weight: 800;
+    font-size: 42px;
+}
+
+.withdraw-success .card-top .fa,
+.withdraw-danger .card-top .fa,
+.withdraw .card-top .fa {
+    font-size: 32px;
+}
+
+.withdraw-success .card-bottom,
+.withdraw-danger .card-bottom,
+.withdraw .card-bottom {
+    margin-top: 10px;
+}
+
+.withdraw-success .card-bottom p,
+.withdraw-danger .card-bottom p,
+.withdraw .card-bottom p {
+    font-size: 20px;
+    font-weight: 600;
+}

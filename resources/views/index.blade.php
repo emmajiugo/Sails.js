@@ -130,7 +130,7 @@
                 <div class="col-lg-6 col-md-12">
                     <div class="we-create-cap">
                         <h3>What You Need To Know About Us.</h3>
-                        <p>Skooleo is a platform that aids both school owners or proprietors, parents or guardians to collect or pay their students' tuition fees without any hassle with the bank. It saves time and energy for parents or guardians, and also gives the school easy way of reconciling payments made for each student without having the parents or guardian visiting the school. All detailed records of payments are made available on the dashboard.</p>
+                        <p>Skooleo is a platform that aids both school owners or proprietors, parents or guardians to collect or pay their students' tuition fees without any hassle with the bank. It saves time and energy for parents or guardians, and also gives the school an easy way of reconciling payments made for each student without having the parents or guardian visiting the school. All detailed records of payments are made available on the dashboard.</p>
                         <a href="{{ route('auth.parents') }}" class="genric-btn primary radius">Parents & Guardians</a> <a href="{{ route('auth.schools') }}" class="genric-btn info radius">Schools</a>
                     </div>
                 </div>
@@ -257,12 +257,9 @@
                                         </div>
                                         <!-- founder -->
                                         <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                            {{-- <div class="founder-img">
-                                                <img src="assets/img/testmonial/testimonial.png" alt="">
-                                            </div> --}}
                                             <div class="founder-text">
-                                                <span>Rev. Fr. Charles Onwumelu</span>
-                                                <p>All Hallows Seminary, Onitsha.</p>
+                                                <span>Emmanuel Ezejiugo</span>
+                                                <p>Software Engineer - Flutterwave</p>
                                             </div>
                                         </div>
                                     </div>
@@ -274,9 +271,6 @@
                                         </div>
                                         <!-- founder -->
                                         <div class="testimonial-founder d-flex align-items-center justify-content-center">
-                                            {{-- <div class="founder-img">
-                                                <img src="assets/img/testmonial/testimonial.png" alt="">
-                                            </div> --}}
                                             <div class="founder-text">
                                                 <span>Mrs. Ajayi (Proprietor)</span>
                                                 <p>Eternal Knowledge College, Ogun State.</p>

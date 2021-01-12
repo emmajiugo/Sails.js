@@ -9,19 +9,43 @@
             <!-- CONTENT -->
             <section class="app-content">
                 <div class="row">
-                    <div class="col-md-12">
-                        <!-- Available Funds -->
-                        <div class="regsterUsers">
+                    <div class="col-md-4">
+                        <div class="withdraw">
                             <div class="card">
                                 <div class="card-top">
                                     <h1>&#8358; {{ number_format($wallet) }}</h1>
                                 </div>
                                 <div class="card-bottom">
-                                    <p><i class="fa fa-wallet"></i> Available Funds <button class="btn btn-secondary float-right" type="button" data-toggle="modal" data-target="#withdrawModal">Withdraw</button></p>
+                                    <i class="fa fa-wallet"></i> Balance
+                                    <button class="btn btn-sm btn-secondary float-right" type="button" data-toggle="modal" data-target="#withdrawModal">Withdraw</button>
                                 </div>
                             </div>
                         </div>
-                        <!-- end Available Funds -->
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="withdraw-success">
+                            <div class="card">
+                                <div class="card-top">
+                                    <h1>&#8358; {{ number_format($total_paid_invoices) }}</h1>
+                                </div>
+                                <div class="card-bottom">
+                                    <i class="fa fa-file-invoice"></i> Total Paid Invoice
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="withdraw-danger">
+                            <div class="card">
+                                <div class="card-top">
+                                    <h1>&#8358; {{ number_format($total_successful_withdraws) }}</h1>
+                                </div>
+                                <div class="card-bottom">
+                                    <i class="fa fa-share-square"></i> Total Successful Withdraws
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-sm-12">

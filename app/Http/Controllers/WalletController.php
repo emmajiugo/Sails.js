@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Traits\PaymentGateway;
 use App\Events\WithdrawalRequestEvent;
 
+use DB;
+
 class WalletController extends Controller
 {
     use SchoolBase; use PaymentGateway;
@@ -43,7 +45,29 @@ class WalletController extends Controller
             //get school wallet
             $totalAmount = $this->school->wallet->total_amount;
 
-            return view('school.withdraw-history')->with(['school' => $this->school, 'history' => $history, 'wallet' => $totalAmount, 'schools' => $schools, 'banknames' => $banknames]);
+            // get total paid invoice
+            $totalPaidInvoices = $this->school->invoices->where('status', 'PAID')->sum('amount');
+
+            //get total successful withdraws
+            $totalSuccessfulWithdraws = DB::table('withdrawal_histories')
+                                            ->select([
+                                                'school_detail_id',
+                                                DB::raw("SUM(amount) as total_amount"),
+                                                DB::raw("SUM(skooleo_fee) as total_fee"),
+                                            ])
+                                            ->groupBy('school_detail_id')
+                                            ->where('status', 'SUCCESSFUL')
+                                            ->get();
+
+            return view('school.withdraw-history')->with([
+                'school' => $this->school,
+                'history' => $history,
+                'wallet' => $totalAmount,
+                'schools' => $schools,
+                'banknames' => $banknames,
+                'total_paid_invoices' => $totalPaidInvoices,
+                'total_successful_withdraws' => ($totalSuccessfulWithdraws[0]->total_amount + $totalSuccessfulWithdraws[0]->total_fee)
+            ]);
 
         } else {
             return redirect(route('school.dashboard'));

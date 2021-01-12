@@ -30,11 +30,7 @@ class SchoolDetail extends Model
         return $this->hasMany('App\WithdrawalHistory');
     }
 
-    public function supportticket() {
-        return $this->hasMany('App\SupportTicket');
-    }
-
-    public function invoice() {
+    public function invoices() {
         return $this->hasMany('App\Invoice');
     }
 }
