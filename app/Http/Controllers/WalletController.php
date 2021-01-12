@@ -56,8 +56,10 @@ class WalletController extends Controller
                                                 DB::raw("SUM(skooleo_fee) as total_fee"),
                                             ])
                                             ->groupBy('school_detail_id')
-                                            ->where('status', 'SUCCESSFUL')
+                                            ->where('status', 'SUCCESSFUL')->where('school_detail_id', $this->userId)
                                             ->get();
+
+            $totalSuccessfulWithdrawsValue = count($totalSuccessfulWithdraws) ? ($totalSuccessfulWithdraws[0]->total_amount + $totalSuccessfulWithdraws[0]->total_fee) : 0;
 
             return view('school.withdraw-history')->with([
                 'school' => $this->school,
@@ -66,7 +68,7 @@ class WalletController extends Controller
                 'schools' => $schools,
                 'banknames' => $banknames,
                 'total_paid_invoices' => $totalPaidInvoices,
-                'total_successful_withdraws' => ($totalSuccessfulWithdraws[0]->total_amount + $totalSuccessfulWithdraws[0]->total_fee)
+                'total_successful_withdraws' => $totalSuccessfulWithdrawsValue
             ]);
 
         } else {
