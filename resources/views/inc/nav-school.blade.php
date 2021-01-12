@@ -41,7 +41,7 @@
         </li>
         <!-- start submenu -->
         <li class="sub collapse" id="menu4">
-            <a href="/school/report" class="nav-link" data-parent="#menu4">Report</a>
+            {{-- <a href="/school/report" class="nav-link" data-parent="#menu4">Report</a> --}}
             <a href="{{ route('school.transaction.history') }}" class="nav-link" data-parent="#menu4">History</a>
         </li>
         <!-- end submenu -->
